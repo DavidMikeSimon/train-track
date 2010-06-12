@@ -1,4 +1,6 @@
 class User < ActiveRecord::Base
+  # This model represents a user of the app.
+  # It does *not* represent a participant at a workshop. See Person for that.
 
   hobo_user_model # Don't put anything above this
 

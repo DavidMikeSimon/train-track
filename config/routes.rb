@@ -1,7 +1,7 @@
 ActionController::Routing::Routes.draw do |map|
 
   map.site_search  'search', :controller => 'front', :action => 'search'
-  map.root :controller => 'front', :action => 'index'
+  map.root :controller => 'workshops', :action => 'index'
 
   Hobo.add_routes(map)
 
@@ -40,10 +40,4 @@ ActionController::Routing::Routes.draw do |map|
   # map.root :controller => "welcome"
 
   # See how all your routes lay out with "rake routes"
-
-  # Install the default routes as the lowest priority.
-  # Note: These default routes make all actions in every controller accessible via GET requests. You should
-  # consider removing or commenting them out if you're using named routes and resources.
-  map.connect ':controller/:action/:id'
-  map.connect ':controller/:action/:id.:format'
 end

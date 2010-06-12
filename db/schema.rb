@@ -9,7 +9,36 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100612171718) do
+ActiveRecord::Schema.define(:version => 20100612200322) do
+
+  create_table "institutions", :force => true do |t|
+    t.string   "name"
+    t.string   "school_code"
+    t.integer  "region"
+    t.text     "address"
+    t.string   "cell_number"
+    t.string   "landline_number"
+    t.string   "fax_number"
+    t.string   "email_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "people", :force => true do |t|
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "title"
+    t.string   "gender"
+    t.string   "cell_number"
+    t.string   "landline_number"
+    t.string   "fax_number"
+    t.string   "email_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "institution_id"
+  end
+
+  add_index "people", ["institution_id"], :name => "index_people_on_institution_id"
 
   create_table "users", :force => true do |t|
     t.string   "crypted_password",          :limit => 40
@@ -19,6 +48,16 @@ ActiveRecord::Schema.define(:version => 20100612171718) do
     t.string   "name"
     t.string   "email_address"
     t.boolean  "administrator",                           :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  create_table "workshops", :force => true do |t|
+    t.string   "title"
+    t.datetime "date"
+    t.string   "venue"
+    t.integer  "region"
+    t.string   "purpose"
     t.datetime "created_at"
     t.datetime "updated_at"
   end
