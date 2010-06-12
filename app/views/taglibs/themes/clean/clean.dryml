@@ -11,3 +11,10 @@
     </before-app-name:>
   </old-page>
 </extend>  
+
+<def tag="main-nav">
+  <navigation class="main-nav" merge-attrs param="default">
+    <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&User" if="&current_user.administrator?"><ht key="users.nav_item">Users</ht></nav-item>
+  </navigation>
+</def>
