@@ -6,5 +6,8 @@
       <theme-stylesheet name="rapid-ui"/>
       <stylesheet name="application" param="app-stylesheet"/>
     </stylesheets:>
+    <before-app-name:>
+       <img src="images/train-logo.png" id="train-logo"/>
+    </before-app-name:>
   </old-page>
 </extend>  
