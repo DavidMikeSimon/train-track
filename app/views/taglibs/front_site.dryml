@@ -1,0 +1,17 @@
+<include src="rapid" plugin="hobo"/>
+
+<include src="taglibs/auto/rapid/cards"/>
+<include src="taglibs/auto/rapid/pages"/>
+<include src="taglibs/auto/rapid/forms"/>
+
+<set-theme name="clean"/>
+
+<extend tag="page">
+  <old-page merge>
+    <footer:>
+      <a href="&admin_users_url" if="&current_user.administrator?">Admin</a>
+    </footer:>
+  </old-page>
+</extend>
+
+<def tag="app-name">Train Track</def>
