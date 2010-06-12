@@ -49,10 +49,9 @@ class User < ActiveRecord::Base
   # --- Permissions --- #
 
   def create_permitted?
-    # Only the initial admin user can be created, from there it's invite-only
-    User.count == 0
+    acting_user.administrator?
   end
-
+  
   def update_permitted?
     acting_user.administrator? || 
       (acting_user == self && only_changed?(:email_address, :crypted_password,
@@ -66,7 +65,7 @@ class User < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    true
+    acting_user.administrator? || acting_user == self
   end
 
 end

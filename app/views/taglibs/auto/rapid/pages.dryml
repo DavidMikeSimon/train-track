@@ -5,6 +5,7 @@
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&User"><ht key="users.nav_item">Users</ht></nav-item>
   </navigation>
 </def>
 
@@ -33,6 +34,9 @@
       </header>
 
       <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="users.actions.new">New User</ht>
+        </a>
 
         <page-nav param="top-page-nav"/>
 
@@ -40,13 +44,6 @@
 
         <page-nav param="bottom-page-nav"/>
 
-
-        <div param="new-form">
-          <h3 param="new-form-heading">
-            <ht key="users.form.new.heading">New User</ht>
-          </h3>
-          <form with="&@invalid_record || new_for_current_user(User)" param/>
-        </div>
 
       </section>
     </content:>
