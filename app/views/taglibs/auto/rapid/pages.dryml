@@ -97,7 +97,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="email_address, state" param/>
+            <field-list fields="email_address" param/>
           </section>
     </content:>
 
@@ -129,74 +129,5 @@
 </def>
 
 
-<def tag="invite-page" polymorphic/>
-<def tag="invite-page" for="User">
-  
-  <page title="#{ht 'users.invite.title', :default=>['Invite']}" merge>  
-
-    <body: class="lifecycle-start-page invite-page" param/>
-
-    <content: param>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="users.invite.heading">
-            Invite
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <invite-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
-
-<def tag="accept-invitation-page" polymorphic/>
-<def tag="accept-invitation-page" for="User">
-  <page title="#{ht 'users.accept_invitation.title', :default=>['Accept Invitation']}" merge>
-
-    <body: class="lifecycle-transition-page accept-invitation-page" param/>
-
-    <content:>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="users.accept_invitation.heading">
-            Accept Invitation
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <accept-invitation-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
-
-<def tag="reset-password-page" polymorphic/>
-<def tag="reset-password-page" for="User">
-  <page title="#{ht 'users.reset_password.title', :default=>['Reset Password']}" merge>
-
-    <body: class="lifecycle-transition-page reset-password-page" param/>
-
-    <content:>
-      <header param="content-header">
-        <h2 param="heading">
-          <ht key="users.reset_password.heading">
-            Reset Password
-          </ht>
-        </h2>
-      </header>
-
-      <section param="content-body">
-        <reset-password-form param="form"/>
-      </section>
-    </content:>
-
-  </page>
-</def>
 
 

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100612154844) do
+ActiveRecord::Schema.define(:version => 20100612171718) do
 
   create_table "users", :force => true do |t|
     t.string   "crypted_password",          :limit => 40
@@ -21,10 +21,6 @@ ActiveRecord::Schema.define(:version => 20100612154844) do
     t.boolean  "administrator",                           :default => false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "state",                                   :default => "invited"
-    t.datetime "key_timestamp"
   end
-
-  add_index "users", ["state"], :name => "index_users_on_state"
 
 end
