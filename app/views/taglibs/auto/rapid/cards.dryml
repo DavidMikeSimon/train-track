@@ -1,5 +1,13 @@
 <!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
 
+<def tag="card" for="Appointment">
+  <card class="appointment" param="default" merge>
+    <header: param>
+      <h4 param="heading"><a><name/></a></h4>
+    </header:>
+  </card>
+</def>
+
 <def tag="card" for="Institution">
   <card class="institution" param="default" merge>
     <header: param>
@@ -29,6 +37,11 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="trainer_appointments.collection.count" count="&this.trainer_appointments.size">
+         <count:trainer_appointments param/>
+      </ht>
+    </body:>
   </card>
 </def>
 

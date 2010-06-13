@@ -5,12 +5,166 @@
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item href="#{base_url}/">Home</nav-item>
+    <nav-item with="&Appointment"><ht key="appointments.nav_item">Appointments</ht></nav-item>
     <nav-item with="&Institution"><ht key="institutions.nav_item">Institutions</ht></nav-item>
     <nav-item with="&Person"><ht key="people.nav_item">People</ht></nav-item>
     <nav-item with="&User"><ht key="users.nav_item">Users</ht></nav-item>
     <nav-item with="&Workshop"><ht key="workshops.nav_item">Workshops</ht></nav-item>
   </navigation>
 </def>
+
+
+
+
+<!-- ====== Appointment Pages ====== -->
+
+<def tag="index-page" for="Appointment">
+  <page merge title="#{ht 'appointments.index.title', :default=>['Appointments'] }">
+    <body: class="index-page appointment" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="appointments.index.heading">
+            Appointments
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="appointments.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+        <a action="new" to="&model" param="new-link">
+          <ht key="appointments.actions.new">New Appointment</ht>
+        </a>
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Appointment">
+  <page merge title="#{ht 'appointments.new.title', :default=>[' New Appointment'] }">
+    <body: class="new-page appointment" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="appointments.new.heading">
+            New Appointment
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'appointments.actions.create', :default=>['Create Appointment']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Appointment">
+  <page merge title="#{ht 'appointments.show.title', :default=>['Appointment'] }">
+
+    <body: class="show-page appointment" param/>
+
+    <content: param>
+          <header param="content-header">
+            <a:workshop param="parent-link">&laquo; <ht key="appointments.actions.back" to="workshop"><name/></ht></a:workshop>
+            <h2 param="heading">
+              <ht key="appointments.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="appointments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Appointment
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="role, person" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Appointment">
+  <page merge title="#{ht 'appointments.edit.title', :default=>['Edit Appointment'] }">
+
+    <body: class="edit-page appointment" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="appointments.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'appointments.actions.delete', :default=>['Remove This Appointment']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+
+<def tag="new-for-workshop-page" polymorphic/>
+<def tag="new-for-workshop-page" for="Appointment">
+  <page merge title="#{ht 'appointments.new_for_owner.title', :default=>['New Appointment for']} #{name :with => @workshop}">
+    <body: class="new-for-owner-page  appointment" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="appointments.new_for_owner.heading">
+            New Appointment
+          </ht>
+        </h2>
+        <h3 param="subheading">
+          <ht key="appointments.new_for_owner.subheading">
+            For:
+          </ht>
+          <a with="&@workshop"/>
+        </h3>
+      </header>
+
+      <section param="content-body">
+        <form owner="workshop" method="post" param>
+          <field-list: skip="workshop"/>
+          <submit: label="#{ht 'appointments.actions.create', :default=>['Create Appointment']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
 
 
 
@@ -443,6 +597,8 @@
     <body: class="show-page workshop" param/>
 
     <content: param>
+      <section-group>
+        <section param="main-content">
           <header param="content-header">
             <h2 param="heading">
               <ht key="workshops.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
@@ -459,9 +615,37 @@
             </a>
           </header>
 
-          <section param="content-body">
-            <field-list fields="date, venue, region, purpose" param/>
+          <section param="content-body" with-flash-messages>
+            <field-list fields="first_day, last_day, venue, region, purpose" param/>
+            <section param="collection-section">
+              <h3 param="collection-heading">
+                <ht key="workshops.collection.heading.other" >
+                  Trainer Appointments
+                </ht>
+              </h3>
+
+              <collection:trainer_appointments param/>
+
+              <a:trainer_appointments action="new" if="&can_create?(@workshop.trainer_appointments)" param="new-link">
+                <ht key="trainer_appointments.actions.new">
+                  New Trainer Appointment
+                </ht>
+              </a:trainer_appointments>
+            </section>
           </section>
+        </section>
+
+        <aside param>
+          <section param="participant_appointments-collection-section">
+            <h3 param="participant_appointments-collection-heading">
+              <ht key="participant_appointments.collection.heading.other" >
+                Participant Appointments
+              </ht>
+            </h3>
+            <collection:participant_appointments  param="participant_appointments-collection"/>
+          </section>
+        </aside>
+      </section-group>
     </content:>
 
   </page>

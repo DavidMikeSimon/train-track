@@ -2,30 +2,44 @@ class Workshop < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
   
-  validates_numericality_of :region, :only_integer => true, :in => 1..APP_CONFIG["regions"]
+  validates_numericality_of(
+    :region,
+    :only_integer => true,
+    :allow_nil => true,
+    :greater_than_or_equal_to => 1,
+    :less_than_or_equal_to => APP_CONFIG["regions"]
+  )
   
   fields do
     title     :string, :required
-    date      :datetime, :required
+    first_day :date, :required
+    last_day  :date, :required
     venue     :string, :required
     region    :integer, :required
     purpose   :string
     timestamps
   end
   
-  has_many :trainers, :class_name => "Person"
-  has_many :participants, :class_name => "Person"
-
+  has_many :appointments, :dependent => :destroy
+  has_many :people, :through => :appointments
+  
+  has_many :participant_appointments, :class_name => "Appointment", :scope => { :role_is => :participant }
+  has_many :participants, :through => :participant_appointments, :source => :person
+  
+  has_many :trainer_appointments, :class_name => "Appointment", :scope => { :role_is => :participant }
+  has_many :trainers, :through => :participant_appointments, :source => :person
+  
+  
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.administrator?
+    acting_user.signed_up?
   end
 
   def update_permitted?
-    acting_user.administrator?
+    acting_user.signed_up?
   end
-
+  
   def destroy_permitted?
     acting_user.administrator?
   end

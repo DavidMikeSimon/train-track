@@ -20,17 +20,19 @@ class Person < ActiveRecord::Base
   end
   
   belongs_to :institution
-
+  
+  has_many :appointments, :dependent => :destroy
+  
   # --- Permissions --- #
 
   def create_permitted?
-    acting_user.administrator?
+    acting_user.signed_up?
   end
 
   def update_permitted?
-    acting_user.administrator?
+    acting_user.signed_up?
   end
-
+  
   def destroy_permitted?
     acting_user.administrator?
   end
