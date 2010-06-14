@@ -253,7 +253,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="school_code, region, address, parish, cell_number, landline_number, fax_number, email_address" param/>
+            <field-list fields="school_code, region, address, parish, telephone_numbers, fax_number, email_address, organization_type" param/>
           </section>
     </content:>
 

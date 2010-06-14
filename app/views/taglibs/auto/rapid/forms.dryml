@@ -15,7 +15,7 @@
 <def tag="form" for="Institution">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, school_code, region, address, parish, cell_number, landline_number, fax_number, email_address" param/>
+    <field-list fields="name, school_code, region, address, parish, telephone_numbers, fax_number, email_address, organization_type" param/>
     <div param="actions">
       <submit label="#{ht 'institutions.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

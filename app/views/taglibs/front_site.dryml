@@ -7,3 +7,39 @@
 <set-theme name="clean"/>
 
 <def tag="app-name">Train Track</def>
+
+<extend tag="page">
+  <old-page merge>
+    <before-app-name:>
+       <img src="/images/train-logo.png" id="train-logo"/>
+    </before-app-name:>
+  </old-page>
+</extend>
+
+<extend tag="index-page">
+  <old-index-page merge without-top-page-nav without-bottom-page-nav without-new-link>
+    <collection: replace>
+      <table-plus fields="this">
+        <prepend-header:>
+          <a action="new" to="&model" param="new-link" class="btn-link">Create New <%= model.name %></a>
+        </prepend-header:>
+      </table-plus>
+    </collection:>
+  </old-index-page>
+</extend>
+
+<extend tag="show-page">
+  <old-show-page merge>
+    <edit-link: class="btn-link"><param-content for="edit-link" /></edit-link:>
+  </old-show-page>
+</extend>
+
+<def tag="main-nav">
+  <navigation class="main-nav" merge-attrs param="default">
+    <nav-item name="Workshops" with="&Workshop">Home</nav-item>
+    <if test="&current_user.administrator?">
+      <nav-item name="Institutions" with="&Institution">Institutions</nav-item>
+      <nav-item name="Users" with="&User">Manage Users</nav-item>
+    </if>
+  </navigation>
+</def>
