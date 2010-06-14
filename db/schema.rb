@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100612220308) do
+ActiveRecord::Schema.define(:version => 20100614133537) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -33,7 +33,10 @@ ActiveRecord::Schema.define(:version => 20100612220308) do
     t.string   "email_address"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "parish"
   end
+
+  add_index "institutions", ["name"], :name => "index_institutions_on_name", :unique => true
 
   create_table "people", :force => true do |t|
     t.string   "first_name"

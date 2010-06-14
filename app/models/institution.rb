@@ -30,7 +30,7 @@ class Institution < ActiveRecord::Base
   )
   
   fields do
-    name            :string, :required
+    name            :string, :required, :index => true, :unique => true
     school_code     :string
     region          :integer, :required
     address         :text
@@ -42,8 +42,7 @@ class Institution < ActiveRecord::Base
     timestamps
   end
   
-  has_one :principal, :class_name => "Person", :dependent => :destroy
-  has_one :education_officer, :class_name => "Person", :dependent => :destroy
+  has_one :education_officer, :class_name => "Person"
   has_many :staff, :class_name => "Person", :dependent => :destroy
 
   # --- Permissions --- #

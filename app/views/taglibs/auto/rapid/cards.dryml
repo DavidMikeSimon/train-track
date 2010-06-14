@@ -37,11 +37,6 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
-    <body: param>
-      <ht key="trainer_appointments.collection.count" count="&this.trainer_appointments.size">
-         <count:trainer_appointments param/>
-      </ht>
-    </body:>
   </card>
 </def>
 
