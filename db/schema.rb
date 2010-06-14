@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100614133537) do
+ActiveRecord::Schema.define(:version => 20100614213626) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -27,16 +27,16 @@ ActiveRecord::Schema.define(:version => 20100614133537) do
     t.string   "school_code"
     t.integer  "region"
     t.text     "address"
-    t.string   "cell_number"
-    t.string   "landline_number"
+    t.string   "telephone_numbers"
     t.string   "fax_number"
     t.string   "email_address"
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "parish"
+    t.string   "organization_type", :default => "school"
   end
 
-  add_index "institutions", ["name"], :name => "index_institutions_on_name", :unique => true
+  add_index "institutions", ["name", "region"], :name => "index_institutions_on_name_and_region", :unique => true
 
   create_table "people", :force => true do |t|
     t.string   "first_name"
