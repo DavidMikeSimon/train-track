@@ -30,7 +30,7 @@
 
 <extend tag="show-page">
   <old-show-page merge>
-    <edit-link: class="btn-link"><param-content for="edit-link" /></edit-link:>
+    <edit-link: class="btn-link" style="top: 10px"><param-content for="edit-link" /></edit-link:>
   </old-show-page>
 </extend>
 
