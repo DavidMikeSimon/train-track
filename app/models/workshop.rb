@@ -45,7 +45,7 @@ class Workshop < ActiveRecord::Base
   end
 
   def view_permitted?(field)
-    true
+    acting_user.signed_up?
   end
 
 end

@@ -85,6 +85,7 @@
 
     <content: param>
           <header param="content-header">
+            <a:workshop param="parent-link">&laquo; <ht key="appointments.actions.back" to="workshop"><name/></ht></a:workshop>
             <h2 param="heading">
               <ht key="appointments.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
                 <name/>
@@ -101,7 +102,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="role, person, workshop" param/>
+            <field-list fields="role, person" param/>
           </section>
     </content:>
 
@@ -596,6 +597,8 @@
     <body: class="show-page workshop" param/>
 
     <content: param>
+      <section-group>
+        <section param="main-content">
           <header param="content-header">
             <h2 param="heading">
               <ht key="workshops.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
@@ -612,9 +615,37 @@
             </a>
           </header>
 
-          <section param="content-body">
+          <section param="content-body" with-flash-messages>
             <field-list fields="first_day, last_day, venue, region, purpose" param/>
+            <section param="collection-section">
+              <h3 param="collection-heading">
+                <ht key="workshops.collection.heading.other" >
+                  Participant Appointments
+                </ht>
+              </h3>
+
+              <collection:participant_appointments param/>
+
+              <a:participant_appointments action="new" if="&can_create?(@workshop.participant_appointments)" param="new-link">
+                <ht key="participant_appointments.actions.new">
+                  New Participant Appointment
+                </ht>
+              </a:participant_appointments>
+            </section>
           </section>
+        </section>
+
+        <aside param>
+          <section param="trainer_appointments-collection-section">
+            <h3 param="trainer_appointments-collection-heading">
+              <ht key="trainer_appointments.collection.heading.other" >
+                Trainer Appointments
+              </ht>
+            </h3>
+            <collection:trainer_appointments  param="trainer_appointments-collection"/>
+          </section>
+        </aside>
+      </section-group>
     </content:>
 
   </page>
