@@ -1,0 +1,8 @@
+<show-page>
+  <append-content-header:>
+    <%= h(this.organization_type).titleize %>
+  </append-content-header:>
+  <content-body:>
+    <field-list fields="school_code, region, address, parish, telephone_numbers, fax_number, email_address, principal, education_officer"/>
+  </content-body:>
+</show-page>

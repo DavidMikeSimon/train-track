@@ -100,7 +100,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="school_code, region, address, parish, telephone_numbers, fax_number, email_address, organization_type" param/>
+            <field-list fields="school_code, region, address, parish, telephone_numbers, fax_number, email_address, organization_type, principal, education_officer" param/>
           </section>
     </content:>
 
