@@ -16,6 +16,13 @@
   </old-page>
 </extend>
 
+<extend tag="card" for="Person">
+  <old-card merge without-actions>
+    <after-header:>
+    </after-header:>
+  </old-card>
+</extend>
+
 <extend tag="index-page">
   <old-index-page merge without-top-page-nav without-bottom-page-nav without-new-link>
     <collection: replace>
@@ -34,12 +41,20 @@
   </old-show-page>
 </extend>
 
+<extend tag="input-many">
+  <old-input-many merge>
+    <add-item:>Add</add-item:>
+    <remove-item:>Remove</remove-item:>
+  </old-input-many>
+</extend>
+
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
-    <nav-item name="Workshops" with="&Workshop">Home</nav-item>
+    <nav-item name="Workshops" with="&Workshop">Workshops</nav-item>
     <if test="&current_user.administrator?">
       <nav-item name="Institutions" with="&Institution">Institutions</nav-item>
-      <nav-item name="Users" with="&User">Manage Users</nav-item>
+      <nav-item name="People" with="&Person">People</nav-item>
+      <nav-item name="Users" with="&User">Manage System Users</nav-item>
     </if>
   </navigation>
 </def>

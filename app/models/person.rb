@@ -18,13 +18,16 @@ class Person < ActiveRecord::Base
     email_address   :email_address
     timestamps
   end
-  
-  belongs_to :institution
-  
+    
+  # This is just the last known institution that this person belongs to
+  # It determines which school's suggestion list they appear in when workshops are being set up...
+  # But the school they represented at the time of a given workshop is recorded in Appointment
+  belongs_to :institution, :class_name => "Institution"
   has_many :appointments, :dependent => :destroy
   
+  
   # --- Permissions --- #
-
+  
   def create_permitted?
     acting_user.signed_up?
   end
@@ -39,6 +42,10 @@ class Person < ActiveRecord::Base
 
   def view_permitted?(field)
     acting_user.signed_up?
+  end
+  
+  def name
+    "#{title} #{first_name} #{last_name}"
   end
 
 end

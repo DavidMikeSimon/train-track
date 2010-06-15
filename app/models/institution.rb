@@ -20,7 +20,7 @@ class Institution < ActiveRecord::Base
   
   OrganizationType = HoboFields::EnumString.for(:training_organization, :school)
   
-  validates_numericality_of :school_code, :only_integer => true, :allow_nil => true
+  validates_numericality_of :school_code, :only_integer => true, :allow_nil => true, :allow_blank => true
   validates_length_of :school_code, :minimum => 5, :allow_nil => true, :allow_blank => true
   
   validates_numericality_of(
@@ -41,13 +41,14 @@ class Institution < ActiveRecord::Base
     fax_number         :string
     email_address      :email_address
     organization_type  Institution::OrganizationType, :default => "school"
+    principal          :string
+    education_officer  :string
     timestamps
   end
   
   index [:name, :region], :unique => true
   
-  has_one :education_officer, :class_name => "Person"
-  has_many :staff, :class_name => "Person", :dependent => :destroy
+  has_many :staff, :class_name => "Person", :dependent => :nullify
 
   # --- Permissions --- #
 

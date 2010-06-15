@@ -13,6 +13,7 @@ class Appointment < ActiveRecord::Base
   
   belongs_to :workshop, :index => false # Index would duplicate the multi-column index below
   belongs_to :person
+  belongs_to :institution
   
   index [:workshop_id, :person_id], :unique => true
 

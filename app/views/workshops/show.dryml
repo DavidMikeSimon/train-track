@@ -1,0 +1,14 @@
+<show-page>
+  <content-body: replace>
+    <section class="content-body">
+      <field-list fields="first_day, last_day, venue, region, purpose"/>
+      <section class="collection-section">
+        <h3>Participants</h3>
+      </section>
+    </section>
+  </content-body:>
+  
+  <aside:>
+    <h3>Trainers</h3>
+  </aside:>
+</show-page>
