@@ -57,7 +57,7 @@
 </def>
 
 <extend tag="card" for="Appointment">
-  <old-card merge>
+  <old-card id="#{'appointment-%u' % this.id}" merge>
     <header:>
       <view:person /> <i>from</i> <view:institution />, <view:institution.parish />
     </header:>
