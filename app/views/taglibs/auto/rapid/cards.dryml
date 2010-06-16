@@ -13,6 +13,11 @@
     <header: param>
       <h4 param="heading"><a><name/></a></h4>
     </header:>
+    <body: param>
+      <ht key="staffs.collection.count" count="&this.staff.size">
+         <count:staff param/>
+      </ht>
+    </body:>
   </card>
 </def>
 

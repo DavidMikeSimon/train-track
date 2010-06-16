@@ -13,6 +13,8 @@
     <before-app-name:>
        <img src="/images/train-logo.png" id="train-logo"/>
     </before-app-name:>
+    <!-- FIXME Temorarily disabling user management for demo purposes -->
+    <account-nav: replace></account-nav:>
   </old-page>
 </extend>
 
@@ -41,20 +43,38 @@
   </old-show-page>
 </extend>
 
-<extend tag="input-many">
-  <old-input-many merge>
-    <add-item:>Add</add-item:>
-    <remove-item:>Remove</remove-item:>
-  </old-input-many>
-</extend>
-
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item name="Workshops" with="&Workshop">Workshops</nav-item>
     <if test="&current_user.administrator?">
       <nav-item name="Institutions" with="&Institution">Institutions</nav-item>
       <nav-item name="People" with="&Person">People</nav-item>
+      <!-- FIXME Temorarily disabling user management for demo purposes
       <nav-item name="Users" with="&User">Manage System Users</nav-item>
+      -->
     </if>
   </navigation>
+</def>
+
+<def tag="appointment-manager" attrs="item, workshop">
+  <% org_type = case item
+    when "Participant" then "school"
+    when "Trainer" then "training_organization"
+    else raise "Unable to find org_type"
+  end
+  institutions = Institution.find(:all, :conditions => {:organization_type => org_type}, :order => :name)
+  institution_options = options_for_select(institutions.collect{ |i| ["#{i.name} (R#{i.region})", i.id]})
+  %>
+  <% form_remote_tag(:update => "#{item}-container",
+    :position => "top",
+    :url => { :controller => :appointments, :action => :create }) do -%>
+      <%= hidden_field_tag "workshop_id", workshop %>
+      <ul>
+      <li>Institution: <%= select_tag 'institution_id', institution_options %></li>
+      <li>First Name: <%= text_field_tag "first_name", "", :size => 20 %><span style="width:10" /></li>
+      <li>Last Name: <%= text_field_tag "last_name", "", :size => 20 %><span style="width:10" /></li>
+      </ul>
+      <%= submit_tag "Add #{item}", :class => "button submit-button"%>
+  <% end -%>
+  <div id="<%= item %>-container"></div>
 </def>

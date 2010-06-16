@@ -9,7 +9,7 @@ class Appointment < ActiveRecord::Base
     timestamps
   end
   
-  validates_presence_of :workshop, :person
+  validates_presence_of :workshop, :person, :institution
   
   belongs_to :workshop, :index => false # Index would duplicate the multi-column index below
   belongs_to :person

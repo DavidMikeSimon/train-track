@@ -19,11 +19,12 @@ class Person < ActiveRecord::Base
     timestamps
   end
     
-  # This is just the last known institution that this person belongs to
-  # It determines which school's suggestion list they appear in when workshops are being set up...
-  # But the school they represented at the time of a given workshop is recorded in Appointment
-  belongs_to :institution, :class_name => "Institution"
+  # This is just the last known institution that this person belongs to.
+  # The school they represented at the time of a given workshop is recorded in Appointment
+  belongs_to :institution
   has_many :appointments, :dependent => :destroy
+  
+  index [:first_name, :last_name, :institution_id], :unique => true
   
   
   # --- Permissions --- #
@@ -39,13 +40,13 @@ class Person < ActiveRecord::Base
   def destroy_permitted?
     acting_user.administrator?
   end
-
+  
   def view_permitted?(field)
     acting_user.signed_up?
   end
   
   def name
-    "#{title} #{first_name} #{last_name}"
+    "#{last_name}, #{first_name}"
   end
 
 end

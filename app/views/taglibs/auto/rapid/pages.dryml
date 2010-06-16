@@ -101,6 +101,15 @@
 
           <section param="content-body">
             <field-list fields="school_code, region, address, parish, telephone_numbers, fax_number, email_address, organization_type, principal, education_officer" param/>
+            <section param="collection-section">
+              <h3 param="collection-heading">
+                <ht key="institutions.collection.heading.other" >
+                  Staff
+                </ht>
+              </h3>
+
+              <collection:staff param/>
+            </section>
           </section>
     </content:>
 
@@ -204,6 +213,7 @@
 
     <content: param>
           <header param="content-header">
+            <a:institution param="parent-link">&laquo; <ht key="people.actions.back" to="institution"><name/></ht></a:institution>
             <h2 param="heading">
               <ht key="people.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
                 <name/>
@@ -220,7 +230,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="first_name, last_name, title, gender, cell_number, landline_number, fax_number, email_address, institution" param/>
+            <field-list fields="first_name, last_name, title, gender, cell_number, landline_number, fax_number, email_address" param/>
           </section>
     </content:>
 

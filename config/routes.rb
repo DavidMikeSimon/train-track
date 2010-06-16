@@ -2,9 +2,9 @@ ActionController::Routing::Routes.draw do |map|
 
   #map.site_search  'search', :controller => 'front', :action => 'search'
   map.root :controller => 'workshops', :action => 'index'
-
+  
   Hobo.add_routes(map)
-
+  
   # The priority is based upon order of creation: first created -> highest priority.
 
   # Sample of regular route:
@@ -38,6 +38,9 @@ ActionController::Routing::Routes.draw do |map|
 
   # You can have the root of your site routed with map.root -- just remember to delete public/index.html.
   # map.root :controller => "welcome"
+ 
+  map.connect 'appointments/:action/:id', :controller => 'appointments'
+  
 
   # See how all your routes lay out with "rake routes"
 end
