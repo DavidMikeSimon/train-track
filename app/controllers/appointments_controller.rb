@@ -12,17 +12,14 @@ class AppointmentsController < ApplicationController
       params[:last_name],
       params[:institution_id]
     )
-    if p
-      logger.info "B"
+    if person
       appointment = Appointment.create(
         :workshop_id => params[:workshop_id],
         :person_id => person.id,
         :institution_id => params[:institution_id]
       )
-      logger.info "C"
-      redirect_to :show, :id => p.id
+      redirect_to :show, :id => person.id
     else
-      logger.info "D"
       redirect_to :action => :new_disambiguate_person
     end
   end
