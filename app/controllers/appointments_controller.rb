@@ -1,5 +1,8 @@
 class AppointmentsController < ApplicationController
   def create
+    @role = params[:role]
+    @workshop = params[:workshop]
+    
     people = []
     if params.has_key?(:first_name) && params.has_key?(:last_name)
       # TODO : Do a fuzzy search; implement it as a Person method
@@ -18,8 +21,9 @@ class AppointmentsController < ApplicationController
         params[:role]
       )
       render :update do |page|
+        page.replace_html "#{@role}-insertion-form", :partial => "new_by_name_approximation"
         page.remove "appointment-%u" % @appointment.id
-        page.insert_html :top, "#{params[:role]}-container", :partial => @appointment
+        page.insert_html :top, "#{@role}-container", :partial => @appointment
       end
     elsif people.size > 1
       # Got several possible people; allow the user to decide who they intended
