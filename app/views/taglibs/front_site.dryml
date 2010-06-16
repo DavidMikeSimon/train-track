@@ -77,10 +77,10 @@
       :conditions => {:workshop_id => workshop, :role => role}
     )
     %>
-    <% form_remote_tag(:update => "#{role}-container",
-    :position => "top",
-    :html => { :class => "appointment-entry-form" },
-    :url => { :controller => :appointments, :action => :create }) do -%>
+    <% form_remote_tag(
+      :html => { :class => "appointment-entry-form" },
+      :url => { :controller => :appointments, :action => :create }
+    ) do -%>
       <%= hidden_field_tag "workshop_id", workshop %>
       <%= hidden_field_tag "role", role %>
       <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>

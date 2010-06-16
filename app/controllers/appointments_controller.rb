@@ -17,7 +17,10 @@ class AppointmentsController < ApplicationController
         params[:institution_id],
         params[:role]
       )
-      render :partial => @appointment
+      render :update do |page|
+        page.remove "appointment-%u" % @appointment.id
+        page.insert_html :top, "#{params[:role]}-container", :partial => @appointment
+      end
     elsif people.size > 1
       # Got several possible people; allow the user to decide who they intended
     else
