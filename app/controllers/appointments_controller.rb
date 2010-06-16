@@ -9,9 +9,9 @@ class AppointmentsController < ApplicationController
     end
     
     if people.size == 1
-      # Got one match with a person; create the appointment with them
+      # Got one match with a person; create/find the appointment with them
       # TODO If given institution differs from person's last known institution, ask user if they want to move the person or make new person
-      @appointment = Appointment.find_or_create_by_ids(
+      @appointment = Appointment.find_or_update_or_create_by_ids(
         params[:workshop_id],
         people[0].id,
         params[:institution_id],

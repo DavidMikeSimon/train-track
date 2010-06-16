@@ -1,7 +1,1 @@
-<card with="&appointment" for="Appointment">
-  <header:>
-    <view:person /> <i>from</i> <view:institution />
-  </header:>
-  <body:>
-  </body:>
-</card>
+<card with="&appointment" for="Appointment" />

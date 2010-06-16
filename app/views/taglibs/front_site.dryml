@@ -56,6 +56,16 @@
   </navigation>
 </def>
 
+<extend tag="card" for="Appointment">
+  <old-card merge>
+    <header:>
+      <view:person /> <i>from</i> <view:institution />, <view:institution.parish />
+    </header:>
+    <body:>
+    </body:>
+  </old-card>
+</extend>
+
 <def tag="appointment-manager" attrs="role, workshop">
   <section class="appointment-manager collection-section">
     <h3><view with="&role.titleize.pluralize" /></h3>
@@ -63,18 +73,23 @@
     institution_options = options_for_select(
       Appointment.possible_institutions(role).collect{ |i| ["#{i.name} (R#{i.region})", i.id]}
     )
+    appointments = Appointment.find(:all,
+      :conditions => {:workshop_id => workshop, :role => role}
+    )
     %>
     <% form_remote_tag(:update => "#{role}-container",
-      :position => "top",
-      :html => { :class => "appointment-entry-form" },
-      :url => { :controller => :appointments, :action => :create }) do -%>
-        <%= hidden_field_tag "workshop_id", workshop %>
-        <%= hidden_field_tag "role", role %>
-        <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
-        First: <%= text_field_tag "first_name", "", :class => "first-name-searchbox right-pad" %>
-        Last: <%= text_field_tag "last_name", "", :class => "last-name-searchbox right-pad" %>
-        <%= submit_tag "Add", :class => "button submit-button"%>
+    :position => "top",
+    :html => { :class => "appointment-entry-form" },
+    :url => { :controller => :appointments, :action => :create }) do -%>
+      <%= hidden_field_tag "workshop_id", workshop %>
+      <%= hidden_field_tag "role", role %>
+      <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
+      First Name: <%= text_field_tag "first_name", "", :class => "first-name-searchbox right-pad" %>
+      Last Name: <%= text_field_tag "last_name", "", :class => "last-name-searchbox right-pad" %>
+      <%= submit_tag "Add", :class => "button submit-button"%>
     <% end -%>
-    <div id="<%= role %>-container"></div>
+    <div id="<%= role %>-container">
+      <card repeat="&appointments" for="Appointment" />
+    </div>
   </section>
 </def>

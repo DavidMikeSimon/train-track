@@ -26,13 +26,22 @@ class Appointment < ActiveRecord::Base
     return Institution.find(:all, :conditions => {:organization_type => org_type}, :order => :name)
   end
   
-  def self.find_or_create_by_ids(workshop_id, person_id, institution_id, role)
-    @appointment = Appointment.find_or_create_by_workshop_id_and_person_id_and_institution_id_and_role(
-      :workshop_id => workshop_id,
-      :person_id => person_id,
-      :institution_id => institution_id,
-      :role => role
-    )
+  def self.find_or_update_or_create_by_ids(workshop_id, person_id, institution_id, role)
+    appointment = Appointment.find_by_workshop_id_and_person_id_and_role(workshop_id, person_id, role)
+    if appointment
+      if appointment.institution_id != institution_id
+        appointment.institution_id = institution_id
+        appointment.save!
+      end
+      return appointment
+    else
+      return Appointment.create(
+        :workshop_id => workshop_id,
+        :person_id => person_id,
+        :institution_id => institution_id,
+        :role => role
+      )
+    end
   end
   
   # --- Permissions --- #
