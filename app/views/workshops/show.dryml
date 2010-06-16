@@ -2,14 +2,8 @@
   <content-body: replace>
     <section class="content-body">
       <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers"/>
-      <section class="collection-section">
-        <h3>Trainers</h3>
-        <appointment-manager:trainer_appointments item="Trainer" workshop="&this.id"/>
-      </section>
-      <section class="collection-section">
-        <h3>Participants</h3>
-        <appointment-manager:participant_appointments item="Participant" workshop="&this.id"/>
-      </section>
+      <appointment-manager:trainer_appointments role="trainer" workshop="&this.id"/>
+      <appointment-manager:participant_appointments role="participant" workshop="&this.id"/>
     </section>
   </content-body:>
 </show-page>

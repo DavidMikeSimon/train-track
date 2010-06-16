@@ -15,8 +15,26 @@ class Appointment < ActiveRecord::Base
   belongs_to :person
   belongs_to :institution
   
-  index [:workshop_id, :person_id], :unique => true
-
+  index [:workshop_id, :person_id, :role], :unique => true
+  
+  def self.possible_institutions(role)
+    org_type = case role
+      when "participant" then "school"
+      when "trainer" then "training_organization"
+      else raise "Invalid role"
+    end
+    return Institution.find(:all, :conditions => {:organization_type => org_type}, :order => :name)
+  end
+  
+  def self.find_or_create_by_ids(workshop_id, person_id, institution_id, role)
+    @appointment = Appointment.find_or_create_by_workshop_id_and_person_id_and_institution_id_and_role(
+      :workshop_id => workshop_id,
+      :person_id => person_id,
+      :institution_id => institution_id,
+      :role => role
+    )
+  end
+  
   # --- Permissions --- #
 
   def create_permitted?

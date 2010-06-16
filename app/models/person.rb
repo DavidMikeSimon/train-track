@@ -5,8 +5,6 @@ class Person < ActiveRecord::Base
   Title = HoboFields::EnumString.for("Mr.", "Mrs.", "Miss", "Ms.", "Dr.", "Rev.", "Sister", "Fr.")
   Gender = HoboFields::EnumString.for(:male, :female)
   
-  validates_presence_of :institution
-  
   fields do
     first_name      :string, :required
     last_name       :string, :required
@@ -18,14 +16,12 @@ class Person < ActiveRecord::Base
     email_address   :email_address
     timestamps
   end
-    
-  # This is just the last known institution that this person belongs to.
-  # The school they represented at the time of a given workshop is recorded in Appointment
-  belongs_to :institution
+  
   has_many :appointments, :dependent => :destroy
   
-  index [:first_name, :last_name, :institution_id], :unique => true
-  
+  def last_institution
+    # TODO Implement; find the institution of the most recent appointment
+  end
   
   # --- Permissions --- #
   
@@ -46,7 +42,7 @@ class Person < ActiveRecord::Base
   end
   
   def name
-    "#{last_name}, #{first_name}"
+    "#{first_name} #{last_name}"
   end
 
 end

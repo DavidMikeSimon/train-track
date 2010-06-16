@@ -56,25 +56,25 @@
   </navigation>
 </def>
 
-<def tag="appointment-manager" attrs="item, workshop">
-  <% org_type = case item
-    when "Participant" then "school"
-    when "Trainer" then "training_organization"
-    else raise "Unable to find org_type"
-  end
-  institutions = Institution.find(:all, :conditions => {:organization_type => org_type}, :order => :name)
-  institution_options = options_for_select(institutions.collect{ |i| ["#{i.name} (R#{i.region})", i.id]})
-  %>
-  <% form_remote_tag(:update => "#{item}-container",
-    :position => "top",
-    :url => { :controller => :appointments, :action => :create }) do -%>
-      <%= hidden_field_tag "workshop_id", workshop %>
-      <ul>
-      <li>Institution: <%= select_tag 'institution_id', institution_options %></li>
-      <li>First Name: <%= text_field_tag "first_name", "", :size => 20 %><span style="width:10" /></li>
-      <li>Last Name: <%= text_field_tag "last_name", "", :size => 20 %><span style="width:10" /></li>
-      </ul>
-      <%= submit_tag "Add #{item}", :class => "button submit-button"%>
-  <% end -%>
-  <div id="<%= item %>-container"></div>
+<def tag="appointment-manager" attrs="role, workshop">
+  <section class="appointment-manager collection-section">
+    <h3><view with="&role.titleize.pluralize" /></h3>
+    <%
+    institution_options = options_for_select(
+      Appointment.possible_institutions(role).collect{ |i| ["#{i.name} (R#{i.region})", i.id]}
+    )
+    %>
+    <% form_remote_tag(:update => "#{role}-container",
+      :position => "top",
+      :html => { :class => "appointment-entry-form" },
+      :url => { :controller => :appointments, :action => :create }) do -%>
+        <%= hidden_field_tag "workshop_id", workshop %>
+        <%= hidden_field_tag "role", role %>
+        <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
+        First: <%= text_field_tag "first_name", "", :class => "first-name-searchbox right-pad" %>
+        Last: <%= text_field_tag "last_name", "", :class => "last-name-searchbox right-pad" %>
+        <%= submit_tag "Add", :class => "button submit-button"%>
+    <% end -%>
+    <div id="<%= role %>-container"></div>
+  </section>
 </def>

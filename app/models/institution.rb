@@ -47,8 +47,6 @@ class Institution < ActiveRecord::Base
   end
   
   index [:name, :region], :unique => true
-  
-  has_many :staff, :class_name => "Person", :dependent => :nullify
 
   # --- Permissions --- #
 

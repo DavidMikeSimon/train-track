@@ -7,3 +7,28 @@
 .page-header h1 {
   margin-left: 50px;
 }
+
+.btn-link {
+  color: white; background: #5B8BA0 !important; padding: 5px 10px; display: block; max-width: 200px; text-align: center;
+  border-bottom: none; margin: 5px 0px; font-weight: bold; font-size: 13px;
+}
+
+.btn-link:hover {
+  border-bottom: none; background: #193440 !important; color: white;
+}
+
+.appointment-manager .institution-select {
+  width: 280px;
+}
+
+.appointment-manager .right-pad {
+  margin-right: 30px;
+}
+
+.appointment-manager h3 {
+  margin-bottom: 0px;
+}
+
+.appointment-manager {
+  margin-bottom: 30px;
+}

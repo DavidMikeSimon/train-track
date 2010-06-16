@@ -251,15 +251,6 @@ div.ordering-handle { float: left; background: #ccc; color: white; margin-right:
 ul.collection > li { margin-left: 0; list-style: none;}
 .empty-collection-message {margin-top: 20px;}
 
-.btn-link {
-  color: white; background: #5B8BA0 !important; padding: 5px 10px; display: block; max-width: 200px; text-align: center;
-  border-bottom: none; margin: 5px 0px; font-weight: bold; font-size: 13px;
-}
-
-.btn-link:hover {
-  border-bottom: none; background: #193440 !important; color: white;
-}
-
 .collection-section h3 {
 	padding: 15px 0; margin-bottom: 20px; border-bottom: 1px dotted #888;
 }
