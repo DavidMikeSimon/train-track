@@ -1,0 +1,5 @@
+<index-page for="Institution">
+  <table-plus: fields="this, organization_type, region, parish">
+    <organization-type-view:><view with="&this.titleize" /></organization-type-view:>
+  </table-plus:>
+</index-page>

@@ -23,11 +23,13 @@ class Workshop < ActiveRecord::Base
   has_many :appointments, :dependent => :destroy
   has_many :people, :through => :appointments
   
-  has_many :participant_appointments, :class_name => "Appointment", :scope => { :role_is => :participant }, :dependent => :destroy
+  has_many :participant_appointments, :class_name => "Appointment", :conditions => { :role => "participant" }
   has_many :participants, :through => :participant_appointments, :source => :person
   
-  has_many :trainer_appointments, :class_name => "Appointment", :scope => { :role_is => :participant }, :dependent => :destroy
-  has_many :trainers, :through => :participant_appointments, :source => :person
+  has_many :trainer_appointments, :class_name => "Appointment", :conditions => { :role => "trainer" }
+  has_many :trainers, :through => :trainer_appointments, :source => :person
+  
+  set_default_order "title"
   
   # --- Permissions --- #
 

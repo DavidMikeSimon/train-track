@@ -12,8 +12,9 @@ class AppointmentsController < ApplicationController
   
   def destroy
     Appointment.destroy(params[:id])
+    elem_id = "appointment-#{params[:id]}"
     render :update do |page|
-      page.remove "appointment-#{params[:id]}"
+      page.visual_effect :fade, elem_id
     end
   end
   
@@ -63,6 +64,7 @@ class AppointmentsController < ApplicationController
         # Desired behavior is to remove if it's there, but not worry if it isn't
         page.select("#appointment-%u" % @appointment.id).each { |value| value.remove }
         page.insert_html :top, "#{@role}-container", :partial => @appointment
+        # TODO Fade in the new element
       end
     elsif people.size > 1
       # Got several possible people; allow the user to decide who they intended

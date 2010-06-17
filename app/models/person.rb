@@ -19,6 +19,8 @@ class Person < ActiveRecord::Base
   
   has_many :appointments, :dependent => :destroy
   
+  set_default_order "last_name, first_name"
+  
   # TODO Before save, make sure title isn't incompatible with gender
   
   def last_institution

@@ -1,0 +1,3 @@
+<index-page for="People">
+  <table-plus: fields="this, cell_number, email_address" />
+</index-page>

@@ -48,6 +48,8 @@ class Institution < ActiveRecord::Base
   
   index [:name, :region], :unique => true
   
+  set_default_order "name"
+  
   def medium_name
     "#{name} (R#{region})"
   end

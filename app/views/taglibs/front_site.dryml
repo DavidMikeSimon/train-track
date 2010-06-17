@@ -28,7 +28,7 @@
 <extend tag="index-page">
   <old-index-page merge without-top-page-nav without-bottom-page-nav without-new-link>
     <collection: replace>
-      <table-plus fields="this" without-search-form> <!-- TODO Add search functionality -->
+      <table-plus param="table-plus" fields="this" without-search-form> <!-- TODO Add search and sort functionality -->
         <prepend-header:>
           <a action="new" to="&model" param="new-link" class="btn-link">Create New <%= model.name %></a>
         </prepend-header:>
@@ -60,6 +60,7 @@
   <old-card id="#{'appointment-%u' % this.id}" merge>
     <header:>
       <view:person /> <i>from</i> <a:institution><view:long_name /></a>
+      <!-- TODO Refactor this; apparently card has an actions div -->
       <%=
         link_to_remote(
           "Remove",
@@ -179,6 +180,7 @@
     <div id="<%= role %>-insertion-form">
       <appointment-ajax-name-approximation-form role="&role" workshop="&workshop"/>
     </div>
+    <!-- FIXME : Go through the workshop associations to do this, and have that do ordering as well -->
     <% appointments = Appointment.find(:all, :conditions => {:workshop_id => workshop, :role => role}) %>
     <div id="<%= role %>-container">
       <card repeat="&appointments" for="Appointment" />
