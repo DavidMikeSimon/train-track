@@ -59,7 +59,7 @@
 <extend tag="card" for="Appointment">
   <old-card id="#{'appointment-%u' % this.id}" merge>
     <header:>
-      <view:person /> <i>from</i> <view:institution />, <view:institution.parish />
+      <view:person /> <i>from</i> <a:institution><view:long_name /></a>
     </header:>
     <body:>
     </body:>
@@ -69,7 +69,7 @@
 <def tag="appointment-ajax-name-approximation-form"  attrs="role, workshop">
   <%
   institution_options = options_for_select(
-    Appointment.possible_institutions(role).collect{ |i| ["#{i.name} (R#{i.region})", i.id]}
+    Appointment.possible_institutions(role).collect{ |i| [i.medium_name, i.id]}
   )
   form_remote_tag(
     :html => { :class => "appointment-entry-form" },
@@ -85,6 +85,33 @@
     <%= submit_tag "Add", :class => "button submit-button"%>
   <% end -%>
 </def>
+
+<def tag="appointment-ajax-with-new-person-form"  attrs="role, workshop, first-name, last-name">
+  <%
+  institution_options = options_for_select(
+    Appointment.possible_institutions(role).collect{ |i| [i.medium_name, i.id]}
+  )
+  form_remote_tag(
+    :html => { :class => "appointment-entry-form new-person-form" },
+    :url => { :controller => :appointments, :action => :create },
+    :loading => "Hobo.showSpinner('Please wait...')",
+    :complete => "Hobo.hideSpinner()"
+  ) do -%>
+    <h4>
+    Adding New <view with="&role.titleize" />:
+    <view with="&first_name" />
+    <view with="&last_name" />
+    </h4>
+    <%= hidden_field_tag "workshop_id", workshop %>
+    <%= hidden_field_tag "role", role %>
+    <%= hidden_field_tag "create_new_person", true %>
+    <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
+    <div id="<%= role %>-error-flash" class="flash error"></div>
+    <field-list with="&Person.new" skip="first_name,last_name,appointments" tag="input"/>
+    <%= submit_tag "Add #{first_name} #{last_name}", :class => "button submit-button"%>
+  <% end -%>
+</def>
+
 
 <def tag="appointment-manager" attrs="role, workshop">
   <section class="appointment-manager collection-section">

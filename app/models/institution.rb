@@ -47,6 +47,14 @@ class Institution < ActiveRecord::Base
   end
   
   index [:name, :region], :unique => true
+  
+  def medium_name
+    "#{name} (R#{region})"
+  end
+  
+  def long_name
+    "#{name}, #{parish}, Region #{region}"
+  end
 
   # --- Permissions --- #
 

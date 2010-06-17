@@ -25,6 +25,10 @@
   margin-right: 8px;
 }
 
+.new-person-form input {
+  width: 200px !important;
+}
+
 .appointment-manager h3 {
   margin-bottom: 0px;
 }

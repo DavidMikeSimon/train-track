@@ -5,17 +5,29 @@ class AppointmentsController < ApplicationController
     @institution_id = params[:institution_id]
     
     people = []
-    if params.has_key?(:first_name) && params.has_key?(:last_name)
+    if params.has_key?(:create_new_person) && params[:create_new_person]
+      person = Person.new(Hash[params.select {|key, value| Person.column_names.include?(key.to_s)}])
+      if person.valid?
+        person.save!
+        people << person  
+      else
+        flash_id = "#{@role}-error-flash"
+        render :update do |page|
+          page.show flash_id
+          page.replace_html flash_id, person.errors.full_messages.join("<br/>")
+        end
+        return
+      end
+    elsif params.has_key?(:person_id)
+      people << Person.find(params[:person_id])
+    elsif params.has_key?(:first_name) && params.has_key?(:last_name)
       @first_name = params[:first_name].strip
       @last_name = params[:last_name].strip
       render(:text => "") if @first_name == "" || @last_name == ""
-      
       # TODO : Do a fuzzy search; implement it as a Person method
       people = Person.find(:all, :conditions => { :first_name => @first_name, :last_name => @last_name})
-    elsif params.has_key?(:person_id)
-      people << Person.find(params[:person_id])
     else
-      render(:text => "")
+      raise "Invalid params to create action"
     end
     
     if people.size == 1
@@ -29,18 +41,19 @@ class AppointmentsController < ApplicationController
       )
       render :update do |page|
         page.replace_html "#{@role}-insertion-form", :partial => "new_by_name_approximation"
-        # Can't just use "page.remove" because that errors out if the id isn't already present
-        page.select("#appointment-%u" % @appointment.id).each do |value|
-          value.remove
-        end
+        # Can't use page.remove because that causes an error if the element isn't already present
+        # Desired behavior is to remove if it's there, but not worry if it isn't
+        page.select("#appointment-%u" % @appointment.id).each { |value| value.remove }
         page.insert_html :top, "#{@role}-container", :partial => @appointment
       end
     elsif people.size > 1
       # Got several possible people; allow the user to decide who they intended
+      raise "Not yet implemented"
     else
       # No matches; have the user create a new Person in place
       render :update do |page|
         page.replace_html "#{@role}-insertion-form", :partial => "new_with_new_person"
+        page.hide "#{@role}-error-flash"
       end
     end
   end

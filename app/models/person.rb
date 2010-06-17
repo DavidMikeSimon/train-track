@@ -2,8 +2,8 @@ class Person < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
   
-  Title = HoboFields::EnumString.for("Mr.", "Mrs.", "Miss", "Ms.", "Dr.", "Rev.", "Sister", "Fr.")
-  Gender = HoboFields::EnumString.for(:male, :female)
+  Title = HoboFields::EnumString.for("Ms.", "Mrs.", "Miss", "Mr.", "Dr.", "Rev.", "Sister", "Fr.")
+  Gender = HoboFields::EnumString.for(:female, :male)
   
   fields do
     first_name      :string, :required
