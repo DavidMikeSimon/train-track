@@ -1,4 +1,15 @@
 class AppointmentsController < ApplicationController
+  # TODO - When bringing back the name approximation form, show the same institution as before
+  # This probably belongs in session
+  
+  def cancel_new_person_creation
+    @role = params[:role]
+    @workshop_id = params[:workshop_id]
+    render :update do |page|
+      page.replace_html "#{@role}-insertion-form", :partial => "new_by_name_approximation"
+    end
+  end
+  
   def create
     @role = params[:role]
     @workshop_id = params[:workshop_id]

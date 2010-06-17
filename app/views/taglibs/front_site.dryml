@@ -109,6 +109,8 @@
     <%= hidden_field_tag "last_name", last_name %>
     <%= select_tag 'institution_id', institution_options, :class => "institution-select" %>
     <div id="<%= role %>-error-flash" class="flash error"></div>
+    
+    <!-- TODO Refactor! I tried field-list, but it was refusing to fill in name attributes for some reason -->
     <table class="field-list">
       <tbody>
       
@@ -145,7 +147,19 @@
       </tbody>
     </table>
     
-    <%= submit_tag "Add #{first_name} #{last_name}", :class => "button submit-button"%>
+    <%= submit_tag "Add #{first_name} #{last_name}", :class => "button submit-button" %>
+  <% end -%>
+  <!-- TODO Refactor -->
+  <%
+  form_remote_tag(
+    :url => { :controller => :appointments, :action => :cancel_new_person_creation },
+    :loading => "Hobo.showSpinner('Please wait...')",
+    :complete => "Hobo.hideSpinner()"
+  ) do
+  -%>
+    <%= hidden_field_tag "workshop_id", workshop %>
+    <%= hidden_field_tag "role", role %>
+    <%= submit_tag "Cancel", :class => "button submit-button" %>
   <% end -%>
 </def>
 
