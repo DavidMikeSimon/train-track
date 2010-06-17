@@ -5,7 +5,7 @@ class Appointment < ActiveRecord::Base
   Role = HoboFields::EnumString.for(:participant, :trainer)
   
   fields do
-    role        Appointment::Role
+    role        Appointment::Role, :required
     timestamps
   end
   
@@ -27,7 +27,11 @@ class Appointment < ActiveRecord::Base
   end
   
   def self.find_or_update_or_create_by_ids(workshop_id, person_id, institution_id, role)
-    appointment = Appointment.find_by_workshop_id_and_person_id_and_role(workshop_id, person_id, role)
+    appointment = Appointment.find(:first, :conditions => {
+                                                           :workshop_id => workshop_id,
+                                                           :person_id => person_id,
+                                                           :role => role
+                                                          })
     if appointment
       if appointment.institution_id != institution_id
         appointment.institution_id = institution_id
@@ -35,12 +39,15 @@ class Appointment < ActiveRecord::Base
       end
       return appointment
     else
-      return Appointment.create(
+      appt = Appointment.new(
         :workshop_id => workshop_id,
         :person_id => person_id,
         :institution_id => institution_id,
         :role => role
       )
+      raise "Unable to create appointment" unless appt.valid?
+      appt.save!
+      return appt
     end
   end
   

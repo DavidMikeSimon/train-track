@@ -1,1 +1,1 @@
-<appointment-ajax-name-approximation-form role="&@role" workshop="&@workshop"/>
+<appointment-ajax-name-approximation-form role="&@role" workshop="&@workshop_id"/>

@@ -73,13 +73,15 @@
   )
   form_remote_tag(
     :html => { :class => "appointment-entry-form" },
-    :url => { :controller => :appointments, :action => :create }
+    :url => { :controller => :appointments, :action => :create },
+    :loading => "Hobo.showSpinner('Please wait...')",
+    :complete => "Hobo.hideSpinner()"
   ) do -%>
     <%= hidden_field_tag "workshop_id", workshop %>
     <%= hidden_field_tag "role", role %>
     <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
-    First Name: <%= text_field_tag "first_name", "", :class => "first-name-searchbox right-pad" %>
-    Last Name: <%= text_field_tag "last_name", "", :class => "last-name-searchbox right-pad" %>
+    First Name: <%= text_field_tag "first_name", "", :class => "first-name-searchbox right-pad", :autocomplete => "off" %>
+    Last Name: <%= text_field_tag "last_name", "", :class => "last-name-searchbox right-pad", :autocomplete => "off" %>
     <%= submit_tag "Add", :class => "button submit-button"%>
   <% end -%>
 </def>
