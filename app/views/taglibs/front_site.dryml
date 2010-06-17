@@ -60,6 +60,16 @@
   <old-card id="#{'appointment-%u' % this.id}" merge>
     <header:>
       <view:person /> <i>from</i> <a:institution><view:long_name /></a>
+      <%=
+        link_to_remote(
+          "Remove",
+          :url => { :controller => :appointments, :action => :destroy, :id => this.id },
+          :html => { :class => "btn-link delete-link" },
+          :method => :delete,
+          :loading => "Hobo.showSpinner('Please wait...')",
+          :complete => "Hobo.hideSpinner()"
+        )
+      %>
     </header:>
     <body:>
     </body:>

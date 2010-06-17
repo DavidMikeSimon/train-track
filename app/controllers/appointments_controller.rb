@@ -10,6 +10,13 @@ class AppointmentsController < ApplicationController
     end
   end
   
+  def destroy
+    Appointment.destroy(params[:id])
+    render :update do |page|
+      page.remove "appointment-#{params[:id]}"
+    end
+  end
+  
   def create
     @role = params[:role]
     @workshop_id = params[:workshop_id]

@@ -13,6 +13,10 @@
   border-bottom: none; margin: 5px 0px; font-weight: bold; font-size: 13px;
 }
 
+.delete-link {
+  max-width: 100px; position: absolute; right: 5px; top: 1px;
+}
+
 .btn-link:hover {
   border-bottom: none; background: #193440 !important; color: white;
 }
