@@ -1,0 +1,1 @@
+<appointment-ajax-with-new-person-form role="&@role" workshop="&@workshop_id" first-name="&@first_name" last-name="&@last_name"/>

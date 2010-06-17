@@ -19,6 +19,8 @@ class Person < ActiveRecord::Base
   
   has_many :appointments, :dependent => :destroy
   
+  # TODO Before save, make sure title isn't incompatible with gender
+  
   def last_institution
     # TODO Implement; find the institution of the most recent appointment
   end
