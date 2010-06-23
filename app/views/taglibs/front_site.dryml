@@ -109,64 +109,36 @@
     :loading => "Hobo.showSpinner('Please wait...')",
     :complete => "Hobo.hideSpinner()"
   ) do -%>
+    <div id="<%= role %>-error-flash" class="flash error"></div>
     <h4>
     Adding New <view with="&role.titleize" />:
+    <span class="right-pad">
     <view with="&first_name" />
     <view with="&last_name" />
+    </span>
+    <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
+    Gender: <%= select_tag 'gender', options_for_select(Person::Gender::values.map {|v| [v.titleize, v]}), :class => "right-pad" %>
+    Title: <%= select_tag 'title', options_for_select(Person::Title::values), :class => "right-pad" %>
     </h4>
     <%= hidden_field_tag "workshop_id", workshop %>
     <%= hidden_field_tag "role", role %>
     <%= hidden_field_tag "create_new_person", true %>
     <%= hidden_field_tag "first_name", first_name %>
     <%= hidden_field_tag "last_name", last_name %>
-    <%= select_tag 'institution_id', institution_options, :class => "institution-select" %>
-    <div id="<%= role %>-error-flash" class="flash error"></div>
-    
-    <!-- TODO Refactor! I tried field-list, but it was refusing to fill in name attributes for some reason -->
-    <table class="field-list">
-      <tbody>
-      
-      <tr>
-      <th class="gender-label">Gender</th>
-      <td class="gender-view"><%= select_tag 'gender', options_for_select(Person::Gender::values.map {|v| [v.titleize, v]}) %></td>
-      </tr>
-      
-      <tr>
-      <th class="title-label">Title</th>
-      <td class="title-view"><%= select_tag 'title', options_for_select(Person::Title::values) %></td>
-      </tr>
-      
-      <tr>
-      <th class="cell-number-label">Cell Number</th>
-      <td class="cell-number-view"><%= text_field_tag "cell_number", "", :autocomplete => "off" %></td>
-      </tr>
-      
-      <tr>
-      <th class="landline-number-label">Landline Number</th>
-      <td class="landline-number-view"><%= text_field_tag "landline_number", "", :autocomplete => "off" %></td>
-      </tr>
-      
-      <tr>
-      <th class="fax-number-label">Fax Number</th>
-      <td class="fax-number-view"><%= text_field_tag "fax_number", "", :autocomplete => "off" %></td>
-      </tr>
-      
-      <tr>
-      <th class="email-address-label">Email Address</th>
-      <td class="email-address-view"><%= text_field_tag "email_address", "", :autocomplete => "off" %></td>
-      </tr>
-      
-      </tbody>
-    </table>
-    
-    <%= submit_tag "Add #{first_name} #{last_name}", :class => "button submit-button" %>
+    Cell #: <%= text_field_tag "cell_number", "", :autocomplete => "off", :class => "right-pad" %>
+    Landline #: <%= text_field_tag "landline_number", "", :autocomplete => "off", :class => "right-pad" %>
+    Fax #: <%= text_field_tag "fax_number", "", :autocomplete => "off", :class => "right-pad" %>
+    Email: <%= text_field_tag "email_address", "", :autocomplete => "off", :class => "right-pad email-input" %>
+    <br />
+    <%= submit_tag "Add Person", :class => "button submit-button" %>
   <% end -%>
   <!-- TODO Refactor -->
   <%
   form_remote_tag(
     :url => { :controller => :appointments, :action => :cancel_new_person_creation },
     :loading => "Hobo.showSpinner('Please wait...')",
-    :complete => "Hobo.hideSpinner()"
+    :complete => "Hobo.hideSpinner()",
+    :html => { :class => "cancel-form" }
   ) do
   -%>
     <%= hidden_field_tag "workshop_id", workshop %>

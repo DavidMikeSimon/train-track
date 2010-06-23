@@ -30,7 +30,15 @@
 }
 
 .new-person-form input {
+  width: 100px !important;
+}
+
+.new-person-form .email-input {
   width: 200px !important;
+}
+
+.new-person-form,.cancel-form {
+  display: inline;
 }
 
 .appointment-manager h3 {
