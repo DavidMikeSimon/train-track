@@ -28,7 +28,7 @@ class AppointmentsController < ApplicationController
       person = Person.new(Hash[params.select {|key, value| Person.column_names.include?(key.to_s)}])
       if person.valid?
         person.save!
-        people << person  
+        people << person
       else
         flash_id = "#{@role}-error-flash"
         render :update do |page|

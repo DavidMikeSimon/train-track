@@ -100,7 +100,8 @@
 <def tag="appointment-ajax-with-new-person-form"  attrs="role, workshop, first-name, last-name">
   <%
   institution_options = options_for_select(
-    Appointment.possible_institutions(role).collect{ |i| [i.medium_name, i.id]}
+    Appointment.possible_institutions(role).collect{ |i| [i.medium_name, i.id]},
+    @institution_id.to_i
   )
   form_remote_tag(
     :html => { :class => "appointment-entry-form new-person-form" },
