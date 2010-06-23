@@ -2,7 +2,7 @@
   <content-body: replace>
     <section class="content-body">
       <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers"/>
-      <appointment-manager:trainer_appointments role="trainer" workshop="&this.id"/>
+      <appointment-manager:trainer_appointments role="trainer" workshop="&this.id" header="Presenters"/>
       <appointment-manager:participant_appointments role="participant" workshop="&this.id"/>
     </section>
   </content-body:>
