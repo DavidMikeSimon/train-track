@@ -1,0 +1,67 @@
+For each workshop there are several sessions, each of which can apply their hours to different categories, i.e.:
+	- Leadership
+	- Numeracy
+	- Literacy
+	- etc.
+
+Need to investigate teleform for the quickest possible way to mark attendance. Note that many people will show up late.
+Also needs to be possible to correct attendance information afterwards (maybe as an intermediary check process before commit)
+
+Need to submit information to Trainet:
+	- Automatically if possible
+
+Reports:
+	- Workshop attendance report:
+		- Gender percentage
+		- Job description
+	- Person:
+		- How many workshops they attended
+		- How many hours of training
+		- Which workshops they misseds
+	- Overall summary:
+		- Average attendance percentage, gender percentage
+		- For all workshops, or by region
+		- Limited by date optionally
+		- Number of people-hours granted (subset by gender, job description, region, IR, etc.)
+
+Job descriptions:
+	- People who don't work for the school and are hired by the Ministry
+		- Job description
+	- People who work at the school
+		- Job description: Principal, Vice Principal, Senior Teacher, Teacher, etc.
+		- Grades taught (optional, multiple selection possible)
+
+- For each person, need to be able to show total hours accumulated, also hours for each IR (and maybe subcompontents)
+- Don't need to manually associate IRs with people, just determine that from what sessions they attend
+			
+( IR : Intermediate Requirement, aka an objective )
+- Literacy IR1
+	Sepeately tracked subcomponents, with separate hour gathering (????? ASK SIMONE):
+	- Literacy management
+	- Literacy content
+- Numeracy IR2
+	- Also subcomponents
+- Leadership IR4
+	- Maybe not subcompontents? (???? ASK SIMONE)
+
+- Also need to keep track of hours acquired by people trained indirectly, who didn't attend a BEP workshop
+
+- Main focus on number of people trained to be trainers
+- Also need to show total impact
+
+- Each training session can either be training people to be trainers, or training people directly
+	- These need to be tracked seperately, but also summed in some reports
+	- Does meeeting IR hour requirements differentiate between TOT and non-TOT?
+		???? ASK SIMONE
+
+- Do we care about people who were supposed to attend but didn't? ???? ASK SIMONE
+	- Need to know because then regions need to follow up with absentees, on a per workshop basis
+
+- Should use javascript to set title automatically if gender changes and mismatches
+
+- Tracking school attendance:
+	- If anyone from a school is at a workshop, school is *represented* at the workshop; otherwise they're not
+	- Need to have reports on this, a separate concept from tracking person-hours
+
+- How to track indirect training?
+	Issue of contention; particularly re: tracking non-BEP schools/staff
