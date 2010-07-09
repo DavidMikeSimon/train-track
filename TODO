@@ -36,13 +36,14 @@ Job descriptions:
 			
 ( IR : Intermediate Requirement, aka an objective )
 - Literacy IR1
-	Sepeately tracked subcomponents, with separate hour gathering (????? ASK SIMONE):
-	- Literacy management
-	- Literacy content
 - Numeracy IR2
-	- Also subcomponents
 - Leadership IR4
-	- Maybe not subcompontents? (???? ASK SIMONE)
+
+- For administrators, just need a certain total number of hours, not in any particular thing
+
+Sepeately tracked subcomponents, with separate hour gathering
+Subcompontents can add to multiple IRs hour counts
+	- I.e. numeracy management gives hours to Numeracy IR2 and also to Leadership IR4
 
 - Also need to keep track of hours acquired by people trained indirectly, who didn't attend a BEP workshop
 
@@ -51,17 +52,19 @@ Job descriptions:
 
 - Each training session can either be training people to be trainers, or training people directly
 	- These need to be tracked seperately, but also summed in some reports
-	- Does meeeting IR hour requirements differentiate between TOT and non-TOT?
-		???? ASK SIMONE
 
-- Do we care about people who were supposed to attend but didn't? ???? ASK SIMONE
+- Do we care about people who were supposed to attend but didn't?
 	- Need to know because then regions need to follow up with absentees, on a per workshop basis
 
 - Should use javascript to set title automatically if gender changes and mismatches
+
+- Each session can either be training TOT or not, may need to report the difference (or maybe not)
 
 - Tracking school attendance:
 	- If anyone from a school is at a workshop, school is *represented* at the workshop; otherwise they're not
 	- Need to have reports on this, a separate concept from tracking person-hours
 
 - How to track indirect training?
-	Issue of contention; particularly re: tracking non-BEP schools/staff
+	- Do NOT care about non-BEP schools
+	- Want reports of whether or not indirect training is happening at each school
+	- But hours don't care if they are direct or indirect
