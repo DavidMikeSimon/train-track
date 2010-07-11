@@ -10,7 +10,7 @@ module TrainCode
   
   def self.encode(i)
     raise InputError.new("Cannot encode, input is not an Integer") unless i.is_a? Integer
-    raise InputError.new("Cannot encode %u, it's larger than %u" % [i, DOMAIN]) if i >= DOMAIN
+    raise InputError.new("Cannot encode %u, it's not smaller than %u" % [i, DOMAIN]) if i >= DOMAIN
     raise InputError.new("Cannot encode %u, it's negative" % i) if i < 0
     
     s = ""
