@@ -2,12 +2,10 @@ module TrainCode
   class InputError < RuntimeError
   end
   
-  class DecodeError < RuntimeError
-  end
+  DOMAIN = 9**4 # No input number >= this can fit in 4 digits of base 9; also each encoded section # will be < this
+  OFFSETS = [0, 1527, 5972, 3456] # Arbitrary #'s added to each field modulo DOMAIN to form the encoded section #
   
-  DOMAIN = 9**4 # No input number >= this can fit in 4 digits of base 9; also each encoded section will be < this
-  OFFSETS = [0, 1527, 4872, 3456] # Added to each field modulo DOMAIN
-  
+  # Given an integer less than DOMAIN returns an encoded version in the form "####-####-####-####"
   def self.encode(i)
     raise InputError.new("Cannot encode, input is not an Integer") unless i.is_a? Integer
     raise InputError.new("Cannot encode %u, it's not smaller than %u" % [i, DOMAIN]) if i >= DOMAIN
@@ -21,6 +19,7 @@ module TrainCode
     return s
   end
   
+  # Given a string in the form "####-####-####-####" returns an array of integers in decreasing order of preference
   def self.decode(s)
     raise InputError.new("Cannot decode input, it's not a string") unless s.is_a? String
     raise InputError.new("Cannot decode %s, invalid format" % s) unless s =~ /^\d{4}-\d{4}-\d{4}-\d{4}$/
@@ -28,19 +27,9 @@ module TrainCode
     
     part_scores = {}
     (0..3).each do |n|
-      p = parts[n].to_i(9) - OFFSETS[n]
+      p = (parts[n].to_i(9) - OFFSETS[n]) % DOMAIN
       part_scores[p] = part_scores.has_key?(p) ? part_scores[p]+1 : 1
     end
-    
-    scores = part_scores.values.sort.reverse
-    raise DecodeError.new("No clear result") if scores.size > 1 && scores[0] == scores[1]
-    
-    cand, cand_score = nil, nil
-    part_scores.each do |part, score|
-      if cand_score == nil or score > cand_score
-        cand, cand_score = part, score
-      end
-    end
-    return cand
+    return part_scores.to_a.sort{|a,b| a[1] <=> b[1]}.reverse.map{|i| i[0]}
   end
 end

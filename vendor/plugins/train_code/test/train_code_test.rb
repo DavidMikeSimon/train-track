@@ -2,11 +2,11 @@ require 'test_helper'
 
 class TrainCodeTest < ActiveSupport::TestCase
   def offset_code_section(sec, offset)
-    sec.to_i(9).+(offset).%(TrainCode::DOMAIN).to_s(9)
+    "%04u" % sec.to_i(9).+(offset).%(TrainCode::DOMAIN).to_s(9)
   end
   
   test "can encode a number and get it back after decoding" do
-    assert_equal 1234, TrainCode.decode(TrainCode.encode(1234))
+    assert_equal [1234], TrainCode.decode(TrainCode.encode(1234))
   end
   
   test "cannot encode a number larger than or equal to TrainCode.DOMAIN" do
@@ -70,31 +70,38 @@ class TrainCodeTest < ActiveSupport::TestCase
   test "9's are considered 4's for the purposes of decoding" do
     c = TrainCode.encode(4)
     assert_match /^0004/, c
-    assert_equal 4, TrainCode.decode(c.gsub("4", "9"))
+    assert_equal [4], TrainCode.decode(c.gsub("4", "9"))
   end
   
-  test "can change any single section of the code and the decoded result will still be correct" do
+  test "the first of two decoded results will be correct after changing any single code section" do
     c = TrainCode.encode(1234)
     (0..3).each do |n|
       parts = c.split('-')
       parts[n] = offset_code_section(parts[n], 15)
       changed_c = parts.join('-')
-      assert_equal 1234, TrainCode.decode(changed_c)
+      a = TrainCode.decode(changed_c)
+      assert_equal 2, a.size
+      assert_equal 1234, a[0]
+      assert_not_equal 1234, a[1]
     end
   end
   
-  test "can change any two sections of the code by different offsets and the decoded result will still be correct" do
+  test "the first of three decoded results will be correct after changing any two code sections by different offsets" do
     c = TrainCode.encode(1234)
     [[0,1], [0,2], [0,3], [1,2], [1,3], [2,3]].each do |a, b|
       parts = c.split('-')
       parts[a] = offset_code_section(parts[a], 38)
       parts[b] = offset_code_section(parts[b], 45)
       changed_c = parts.join('-')
-      assert_equal 1234, TrainCode.decode(changed_c)
+      a = TrainCode.decode(changed_c)
+      assert_equal 3, a.size
+      assert_equal 1234, a[0]
+      assert_not_equal 1234, a[1]
+      assert_not_equal 1234, a[2]
     end
   end
   
-  test "after changing any three sections of the code by different offsets will get a decoding exception" do
+  test "after changing 3 code sections by different offsets, 4 different results are returned, 1 of which is right" do
     c = TrainCode.encode(1234)
     (0..3).each do |n|
       parts = c.split('-')
@@ -102,21 +109,21 @@ class TrainCodeTest < ActiveSupport::TestCase
         parts[m] = offset_code_section(parts[m], (m+1)*57) unless n == m
       end
       changed_c = parts.join('-')
-      assert_raise TrainCode::DecodeError do
-        TrainCode.decode(changed_c)
-      end
+      a = TrainCode.decode(changed_c)
+      assert_equal 4, a.size
+      assert_equal 1, a.count(1234)
     end
   end
   
-  test "after changing all four sections of the code by different offsets will get a decoding exception" do
+  test "get an array of 4 different wrong results after changing all four code sections by different offsets" do
     c = TrainCode.encode(1234)
     parts = c.split('-')
     (0..3).each do |m|
       parts[m] = offset_code_section(parts[m], (m+1)*12)
     end
     changed_c = parts.join('-')
-    assert_raise TrainCode::DecodeError do
-      TrainCode.decode(changed_c)
-    end
+    a = TrainCode.decode(changed_c)
+    assert_equal 4, a.size
+    assert_equal 0, a.count(1234)
   end
 end
