@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100616205216) do
+ActiveRecord::Schema.define(:version => 20100711210041) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -23,7 +23,6 @@ ActiveRecord::Schema.define(:version => 20100616205216) do
   add_index "appointments", ["institution_id"], :name => "index_appointments_on_institution_id"
   add_index "appointments", ["person_id"], :name => "index_appointments_on_person_id"
   add_index "appointments", ["workshop_id", "person_id", "role"], :name => "index_appointments_on_workshop_id_and_person_id_and_role", :unique => true
-  add_index "appointments", ["workshop_id", "person_id"], :name => "index_appointments_on_workshop_id_and_person_id", :unique => true
 
   create_table "institutions", :force => true do |t|
     t.string   "name"
@@ -54,11 +53,20 @@ ActiveRecord::Schema.define(:version => 20100616205216) do
     t.string   "email_address"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.integer  "institution_id"
   end
 
-  add_index "people", ["first_name", "last_name", "institution_id"], :name => "index_people_on_first_name_and_last_name_and_institution_id", :unique => true
-  add_index "people", ["institution_id"], :name => "index_people_on_institution_id"
+  create_table "random_identifier_groups", :force => true do |t|
+    t.string  "name"
+    t.integer "max_value"
+  end
+
+  add_index "random_identifier_groups", ["name"], :name => "index_random_identifier_groups_on_name", :unique => true
+
+  create_table "random_identifiers", :force => true do |t|
+    t.integer "identifier"
+    t.boolean "in_use",                     :default => false
+    t.integer "random_identifier_group_id"
+  end
 
   create_table "users", :force => true do |t|
     t.string   "crypted_password",          :limit => 40

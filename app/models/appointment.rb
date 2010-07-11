@@ -1,5 +1,4 @@
 class Appointment < ActiveRecord::Base
-
   hobo_model # Don't put anything above this
   
   Role = HoboFields::EnumString.for(:participant, :trainer)
