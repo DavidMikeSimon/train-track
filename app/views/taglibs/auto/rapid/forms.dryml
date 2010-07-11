@@ -39,7 +39,7 @@
 <def tag="form" for="Workshop">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="title, first_day, last_day, venue, region, purpose" param/>
+    <field-list fields="title, first_day, last_day, venue, region, purpose, appointment_identifier_group, random_identifier" param/>
     <div param="actions">
       <submit label="#{ht 'workshops.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

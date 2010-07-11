@@ -20,6 +20,12 @@ class Workshop < ActiveRecord::Base
     timestamps
   end
   
+  # The identifier for the workshop itself, from the "workshops" RandomIdentifierGroup
+  belongs_to :random_identifier, :dependent => :destroy
+  
+  # Identifier groups for our appointments
+  belongs_to :appointment_identifier_group, :class_name => "RandomIdentifierGroup", :dependent => :destroy
+  
   has_many :appointments, :dependent => :destroy
   has_many :people, :through => :appointments
   
@@ -28,6 +34,15 @@ class Workshop < ActiveRecord::Base
   
   has_many :trainer_appointments, :class_name => "Appointment", :conditions => { :role => "trainer" }
   has_many :trainers, :through => :trainer_appointments, :source => :person
+  
+  def after_create
+    random_identifier = RandomIdentifierGroup.find_by_name("workshops").grab_identifier
+    appointment_identifier_group = RandomIdentifierGroup.create(:name => "appointments-%u" % self.id, :max_value => TrainCode::DOMAIN-1)
+  end
+  
+  def train_code
+    "WKS-%s" % TrainCode.encode(random_identifier.identifier)
+  end
   
   set_default_order "title"
   

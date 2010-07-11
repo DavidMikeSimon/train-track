@@ -13,8 +13,17 @@ class Appointment < ActiveRecord::Base
   belongs_to :workshop, :index => false # Index would duplicate the multi-column index below
   belongs_to :person
   belongs_to :institution
+  belongs_to :random_identifier, :dependent => :destroy
   
   index [:workshop_id, :person_id, :role], :unique => true
+  
+  def train_code
+    TrainCode.encode(random_identifier.identifier)
+  end
+  
+  def after_create
+    random_identifier = workshop.appointment_identifier_group.grab_identifier
+  end
   
   def self.possible_institutions(role)
     org_type = case role
@@ -27,10 +36,12 @@ class Appointment < ActiveRecord::Base
   
   def self.find_or_update_or_create_by_ids(workshop_id, person_id, institution_id, role)
     appointment = Appointment.find(:first, :conditions => {
-                                                           :workshop_id => workshop_id,
-                                                           :person_id => person_id,
-                                                           :role => role
-                                                          })
+       :workshop_id => workshop_id,
+       :person_id => person_id,
+       :role => role
+      }
+    )
+    
     if appointment
       if appointment.institution_id != institution_id
         appointment.institution_id = institution_id

@@ -26,6 +26,7 @@ class RandomIdentifierGroup < ActiveRecord::Base
   
   def grab_identifier
     returning random_identifiers.first(:conditions => { :in_use => false }) do |i|
+      raise "Unable to find an unused random identifier in group %s" % name unless i
       i.in_use = true
       i.save!
     end

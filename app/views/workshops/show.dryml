@@ -1,7 +1,8 @@
 <show-page without-aside>
+  <after-heading:>Workshop Code: <view:train_code/></after-heading:>
   <content-body: replace>
     <section class="content-body">
-      <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers"/>
+      <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers, appointment_identifier_group, random_identifier"/>
       <appointment-manager:trainer_appointments role="trainer" workshop="&this.id" header="Presenters"/>
       <appointment-manager:participant_appointments role="participant" workshop="&this.id"/>
     </section>

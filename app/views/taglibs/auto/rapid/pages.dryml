@@ -457,7 +457,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="first_day, last_day, venue, region, purpose" param/>
+            <field-list fields="first_day, last_day, venue, region, purpose, appointment_identifier_group, random_identifier" param/>
           </section>
     </content:>
 
