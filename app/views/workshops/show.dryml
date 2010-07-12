@@ -1,5 +1,5 @@
 <show-page without-aside>
-  <after-heading:>Workshop Code: <view:train_code/></after-heading:>
+  <after-heading:>Workshop Code: <b><view:train_code/></b></after-heading:>
   <content-body: replace>
     <section class="content-body">
       <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers, appointment_identifier_group, random_identifier"/>

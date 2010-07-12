@@ -21,8 +21,8 @@ class Appointment < ActiveRecord::Base
     TrainCode.encode(random_identifier.identifier)
   end
   
-  def after_create
-    random_identifier = workshop.appointment_identifier_group.grab_identifier
+  def before_create
+    self.random_identifier = workshop.appointment_identifier_group.grab_identifier
   end
   
   def self.possible_institutions(role)

@@ -75,7 +75,7 @@
       %>
     </header:>
     <body:>
-    Attendance Code: <view:train_code/><br/>
+    Attendance Code: <b><view:train_code/></b><br/>
     Sessions Attended:
     </body:>
   </old-card>

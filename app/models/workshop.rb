@@ -34,10 +34,13 @@ class Workshop < ActiveRecord::Base
   
   has_many :trainer_appointments, :class_name => "Appointment", :conditions => { :role => "trainer" }
   has_many :trainers, :through => :trainer_appointments, :source => :person
+
+  attr_protected :random_identifier, :appointment_identifier_group
   
   def after_create
-    random_identifier = RandomIdentifierGroup.find_by_name("workshops").grab_identifier
-    appointment_identifier_group = RandomIdentifierGroup.create(:name => "appointments-%u" % self.id, :max_value => TrainCode::DOMAIN-1)
+    self.random_identifier = RandomIdentifierGroup.find_by_name("workshops").grab_identifier
+    self.appointment_identifier_group = RandomIdentifierGroup.create(:name => "appointments-%u" % self.id, :max_value => TrainCode::DOMAIN-1)
+    save!
   end
   
   def train_code
