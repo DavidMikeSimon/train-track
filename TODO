@@ -1,5 +1,4 @@
 **** BEFORE WEDNESDAY (in order of decreasing priority) ****
-- Add attendance tracking, show attendance information on page, for now force sort by sessions attended ASC, name ASC
 - Create an output format for attendance codes that can easily be turned into labels
 - Allow importing attendance codes from teleform to mark attendance (on form: include date and start time, even if it isn't in session currently)
 - Allow manually marking/correcting attendance
@@ -10,6 +9,11 @@
 
 **** LONGER TERM ****
 - Rename 'trainer' to 'presenter'
+- Use the index to grab new random identifiers
+- Refactor! Ye gods, refactor! Especially application.dryml and the workshop_sessions/appointments controllers
+- After adding a session, reset focus to session name text box and clear contents
+- After altering attendance for a participant, jump back to that participant's card on the page
+
 
 For each workshop there are several sessions, each of which can apply their hours to different categories, i.e.:
 	- Leadership

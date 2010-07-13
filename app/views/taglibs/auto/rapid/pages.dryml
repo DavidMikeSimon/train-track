@@ -15,6 +15,130 @@
 
 
 
+<!-- ====== Appointment Pages ====== -->
+
+<def tag="index-page" for="Appointment">
+  <page merge title="#{ht 'appointments.index.title', :default=>['Appointments'] }">
+    <body: class="index-page appointment" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="appointments.index.heading">
+            Appointments
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="appointments.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+        <div param="new-form">
+          <h3 param="new-form-heading">
+            <ht key="appointments.form.new.heading">New Appointment</ht>
+          </h3>
+          <form with="&@invalid_record || new_for_current_user(Appointment)" param/>
+        </div>
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="Appointment">
+  <page merge title="#{ht 'appointments.new.title', :default=>[' New Appointment'] }">
+    <body: class="new-page appointment" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="appointments.new.heading">
+            New Appointment
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'appointments.actions.create', :default=>['Create Appointment']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="Appointment">
+  <page merge title="#{ht 'appointments.show.title', :default=>['Appointment'] }">
+
+    <body: class="show-page appointment" param/>
+
+    <content: param>
+          <header param="content-header">
+            <h2 param="heading">
+              <ht key="appointments.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="appointments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Appointment
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="role, institution, person, random_identifier, workshop" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="Appointment">
+  <page merge title="#{ht 'appointments.edit.title', :default=>['Edit Appointment'] }">
+
+    <body: class="edit-page appointment" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="appointments.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'appointments.actions.delete', :default=>['Remove This Appointment']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+
+
+
 <!-- ====== Institution Pages ====== -->
 
 <def tag="index-page" for="Institution">

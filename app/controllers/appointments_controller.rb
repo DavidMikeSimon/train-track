@@ -2,6 +2,17 @@ class AppointmentsController < ApplicationController
   # TODO - When bringing back the name approximation form, show the same institution as before
   # TODO - PERMISSIONS, oi! (Hook into Hobo permissions if it isn't already being done)
   
+  hobo_model_controller
+  
+  auto_actions :edit
+  
+  def update
+    hobo_update do
+      flash[:notice] = "Attendance for #{@appointment.person.name} updated"
+      redirect_to @appointment.workshop
+    end
+  end
+  
   def cancel_new_person_creation
     @role = params[:role]
     @workshop_id = params[:workshop_id]

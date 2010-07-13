@@ -1,5 +1,17 @@
 <!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
 
+<def tag="form" for="Appointment">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="role, institution, person, random_identifier, workshop, workshop_sessions" param/>
+    <div param="actions">
+      <submit label="#{ht 'appointments.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="Institution">
   <form merge param="default">
     <error-messages param/>

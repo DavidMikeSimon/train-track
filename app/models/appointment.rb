@@ -15,6 +15,9 @@ class Appointment < ActiveRecord::Base
   belongs_to :institution
   belongs_to :random_identifier, :dependent => :destroy
   
+  has_many :attendances, :dependent => :destroy
+  has_many :workshop_sessions, :through => :attendances, :accessible => true, :conditions => 'workshop_id = #{workshop_id}'
+  
   index [:workshop_id, :person_id, :role], :unique => true
   
   def train_code

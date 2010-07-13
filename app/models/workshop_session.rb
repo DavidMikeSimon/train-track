@@ -12,6 +12,8 @@ class WorkshopSession < ActiveRecord::Base
   belongs_to :workshop
   validates_presence_of :workshop
   
+  has_many :attendances
+  
   # --- Permissions --- #
 
   def create_permitted?
