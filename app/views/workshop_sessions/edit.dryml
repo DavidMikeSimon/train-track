@@ -1,0 +1,7 @@
+<edit-page>
+  <form:>
+    <append-actions:>
+      &nbsp;&nbsp;&nbsp;<a:workshop>Cancel</a>
+    </append-actions:>
+  </form:>
+</edit-page>
