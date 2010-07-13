@@ -26,6 +26,8 @@ class Workshop < ActiveRecord::Base
   # Identifier groups for our appointments
   belongs_to :appointment_identifier_group, :class_name => "RandomIdentifierGroup", :dependent => :destroy
   
+  has_many :workshop_sessions, :dependent => :destroy
+  
   has_many :appointments, :dependent => :destroy
   has_many :people, :through => :appointments
   

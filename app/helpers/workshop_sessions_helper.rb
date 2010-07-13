@@ -1,0 +1,2 @@
+module WorkshopSessionsHelper
+end

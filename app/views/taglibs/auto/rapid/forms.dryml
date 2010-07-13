@@ -36,6 +36,18 @@
 
 
 
+<def tag="form" for="WorkshopSession">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, workshop" param/>
+    <div param="actions">
+      <submit label="#{ht 'workshop_sessions.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="Workshop">
   <form merge param="default">
     <error-messages param/>

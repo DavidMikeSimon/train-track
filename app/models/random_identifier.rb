@@ -6,7 +6,7 @@ class RandomIdentifier < ActiveRecord::Base
     in_use                  :boolean, :default => false
   end
   
-  belongs_to :random_identifier_group
+  belongs_to :random_identifier_group, :index => false # Index would duplicate the multi-column index below
   
   validates_presence_of :random_identifier_group
   index [:random_identifier_group, :in_use, :id]

@@ -58,16 +58,24 @@
   </navigation>
 </def>
 
+<extend tag="card" for="WorkshopSession">
+  <old-card id="#{'workshop-session-%u' % this.id}" merge>
+    <header:>
+      <view:name/>
+      <a action="edit" class="btn-link card-action-link">Edit</a>
+    </header:>
+  </old-card>
+</extend>
+
 <extend tag="card" for="Appointment">
   <old-card id="#{'appointment-%u' % this.id}" merge>
     <header:>
       <view:person /> <i>from</i> <a:institution><view:long_name /></a>
-      <!-- TODO Refactor this; apparently card has an actions div -->
       <%=
         link_to_remote(
           "Remove",
           :url => { :controller => :appointments, :action => :destroy, :id => this.id },
-          :html => { :class => "btn-link delete-link" },
+          :html => { :class => "btn-link card-action-link" },
           :method => :delete,
           :confirm => "Really remove this #{this.role == :participant ? "participant and their attendance data" : "presenter"}?",
           :loading => "Hobo.showSpinner('Please wait...')",
@@ -155,9 +163,9 @@
 </def>
 
 <def tag="appointment-manager" attrs="role, workshop, header">
-  <% header ||= role %>
+  <% header ||= role.titleize.pluralize %>
   <section class="appointment-manager collection-section">
-    <h3><view with="&header.titleize.pluralize" param="header"/></h3>
+    <h3><view with="&header" param="header"/></h3>
     <div id="<%= role %>-insertion-form">
       <appointment-ajax-name-approximation-form role="&role" workshop="&workshop"/>
     </div>
@@ -165,6 +173,30 @@
     <% appointments = Appointment.find(:all, :conditions => {:workshop_id => workshop, :role => role}) %>
     <div id="<%= role %>-container">
       <card repeat="&appointments" for="Appointment" />
+    </div>
+  </section>
+</def>
+
+<def tag="workshop-session-manager" attrs="workshop">
+  <section class="appointment-manager collection-section">
+    <h3>Sessions</h3>
+    <div id="workshop-session-insertion-form">
+    <%
+    form_remote_tag(
+      :html => { :class => "workshop-session-entry-form new-workshop-session-form" },
+      :url => { :controller => :workshop_sessions, :action => :create },
+      :loading => "Hobo.showSpinner('Please wait...')",
+      :complete => "Hobo.hideSpinner()"
+    ) do -%>
+      <%= hidden_field_tag "workshop_id", workshop %>
+      Session Name: <%= text_field_tag "name", "", :class => "right-pad", :autocomplete => "off" %>
+      <%= submit_tag "Add Session", :class => "button submit-button"%>
+    <% end -%>
+    </div>
+    <!-- FIXME : Go through the workshop associations to do this, and have that do ordering as well -->
+    <% workshop_sessions = WorkshopSession.find(:all, :conditions => {:workshop_id => workshop}) %>
+    <div id="workshop-session-container">
+      <card repeat="&workshop_sessions" for="WorkshopSesssion" />
     </div>
   </section>
 </def>

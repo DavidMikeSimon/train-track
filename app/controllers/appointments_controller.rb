@@ -1,6 +1,6 @@
 class AppointmentsController < ApplicationController
   # TODO - When bringing back the name approximation form, show the same institution as before
-  # This probably belongs in session
+  # TODO - PERMISSIONS, oi! (Hook into Hobo permissions if it isn't already being done)
   
   def cancel_new_person_creation
     @role = params[:role]

@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100711231934) do
+ActiveRecord::Schema.define(:version => 20100713182130) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20100711231934) do
     t.integer "random_identifier_group_id"
   end
 
+  add_index "random_identifiers", ["random_identifier_group_id", "in_use", "id"], :name => "index_random_identifiers_on_random_identifier_group_and_in_use_and_id"
   add_index "random_identifiers", ["random_identifier_group_id"], :name => "index_random_identifiers_on_random_identifier_group_id"
 
   create_table "users", :force => true do |t|
@@ -83,6 +84,16 @@ ActiveRecord::Schema.define(:version => 20100711231934) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "workshop_sessions", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "workshop_id"
+  end
+
+  add_index "workshop_sessions", ["workshop_id", "name"], :name => "index_workshop_sessions_on_workshop_id_and_name", :unique => true
+  add_index "workshop_sessions", ["workshop_id"], :name => "index_workshop_sessions_on_workshop_id"
 
   create_table "workshops", :force => true do |t|
     t.string   "title"

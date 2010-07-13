@@ -56,3 +56,16 @@
   </card>
 </def>
 
+<def tag="card" for="WorkshopSession">
+  <card class="workshop-session" param="default" merge>
+    <header: param>
+      <h4 param="heading"><name/></h4>
+      <div param="actions">
+        <a action="edit" if="&can_edit?" param="edit-link">
+          <ht key="workshop_sessions.actions.edit">Edit</ht>
+        </a>
+      </div>
+    </header:>
+  </card>
+</def>
+

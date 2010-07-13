@@ -1,5 +1,4 @@
 **** BEFORE WEDNESDAY (in order of decreasing priority) ****
-- Add sessions to workshops, with ability to add and remove them just like appointments (also an edit page would be nice)
 - Add attendance tracking, show attendance information on page, for now force sort by sessions attended ASC, name ASC
 - Create an output format for attendance codes that can easily be turned into labels
 - Allow importing attendance codes from teleform to mark attendance (on form: include date and start time, even if it isn't in session currently)
@@ -7,6 +6,10 @@
 - Should use javascript to set title automatically if gender changes and mismatches
 - Make it more convenient to use only keyboard when entering in large numbers of attendees
 - Remember school when restarting attendee-entry form; will be common to enter in multiple people from the same school
+
+
+**** LONGER TERM ****
+- Rename 'trainer' to 'presenter'
 
 For each workshop there are several sessions, each of which can apply their hours to different categories, i.e.:
 	- Leadership

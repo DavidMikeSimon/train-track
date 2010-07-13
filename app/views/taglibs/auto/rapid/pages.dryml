@@ -372,6 +372,130 @@
 
 
 
+<!-- ====== WorkshopSession Pages ====== -->
+
+<def tag="index-page" for="WorkshopSession">
+  <page merge title="#{ht 'workshop_sessions.index.title', :default=>['Workshop Sessions'] }">
+    <body: class="index-page workshop-session" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="workshop_sessions.index.heading">
+            Workshop Sessions
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="workshop_sessions.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+        <div param="new-form">
+          <h3 param="new-form-heading">
+            <ht key="workshop_sessions.form.new.heading">New Workshop Session</ht>
+          </h3>
+          <form with="&@invalid_record || new_for_current_user(WorkshopSession)" param/>
+        </div>
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="WorkshopSession">
+  <page merge title="#{ht 'workshop_sessions.new.title', :default=>[' New Workshop Session'] }">
+    <body: class="new-page workshop-session" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="workshop_sessions.new.heading">
+            New Workshop Session
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'workshop_sessions.actions.create', :default=>['Create Workshop Session']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="WorkshopSession">
+  <page merge title="#{ht 'workshop_sessions.show.title', :default=>['Workshop Session'] }">
+
+    <body: class="show-page workshop-session" param/>
+
+    <content: param>
+          <header param="content-header">
+            <h2 param="heading">
+              <ht key="workshop_sessions.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="" param/>
+
+            <a action="edit" if="&can_edit?" param="edit-link">
+              <ht key="workshop_sessions.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
+                Edit Workshop Session
+              </ht>
+            </a>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="workshop" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="WorkshopSession">
+  <page merge title="#{ht 'workshop_sessions.edit.title', :default=>['Edit Workshop Session'] }">
+
+    <body: class="edit-page workshop-session" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="workshop_sessions.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'workshop_sessions.actions.delete', :default=>['Remove This Workshop Session']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+
+
+
 <!-- ====== Workshop Pages ====== -->
 
 <def tag="index-page" for="Workshop">
