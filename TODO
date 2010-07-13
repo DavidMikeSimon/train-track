@@ -1,7 +1,5 @@
 **** BEFORE WEDNESDAY (in order of decreasing priority) ****
-- Create an output format for attendance codes that can easily be turned into labels
 - Allow importing attendance codes from teleform to mark attendance (on form: include date and start time, even if it isn't in session currently)
-- Allow manually marking/correcting attendance
 - Should use javascript to set title automatically if gender changes and mismatches
 - Make it more convenient to use only keyboard when entering in large numbers of attendees
 - Remember school when restarting attendee-entry form; will be common to enter in multiple people from the same school

@@ -1,5 +1,5 @@
 class Workshop < ActiveRecord::Base
-
+  
   hobo_model # Don't put anything above this
   
   validates_numericality_of(
@@ -28,7 +28,7 @@ class Workshop < ActiveRecord::Base
   
   has_many :workshop_sessions, :dependent => :destroy
   
-  has_many :appointments, :dependent => :destroy
+  has_many :appointments, :dependent => :destroy, :include => [:person, :random_identifier]
   has_many :people, :through => :appointments
   
   has_many :participant_appointments, :class_name => "Appointment", :conditions => { :role => "participant" }
@@ -36,7 +36,7 @@ class Workshop < ActiveRecord::Base
   
   has_many :trainer_appointments, :class_name => "Appointment", :conditions => { :role => "trainer" }
   has_many :trainers, :through => :trainer_appointments, :source => :person
-
+  
   attr_protected :random_identifier, :appointment_identifier_group
   
   def after_create
@@ -52,11 +52,11 @@ class Workshop < ActiveRecord::Base
   set_default_order "title"
   
   # --- Permissions --- #
-
+  
   def create_permitted?
     acting_user.signed_up?
   end
-
+  
   def update_permitted?
     acting_user.signed_up?
   end
@@ -64,7 +64,7 @@ class Workshop < ActiveRecord::Base
   def destroy_permitted?
     acting_user.administrator?
   end
-
+  
   def view_permitted?(field)
     acting_user.signed_up?
   end

@@ -1,7 +1,12 @@
 <show-page without-aside>
-  <after-heading:>Workshop Code: <b><view:train_code/></b></after-heading:>
+  <after-heading:>
+  Workshop Code: <b><view:train_code/></b><br/>
+  </after-heading:>
   <content-body: replace>
     <section class="content-body">
+      <a class="btn-link" action="csv_codes">Participant Labels CSV</a>
+      <a class="btn-link" action="csv_codes">Upload Attendance CSV</a>
+      
       <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers, appointment_identifier_group, random_identifier, workshop_sessions"/>
       <workshop-session-manager workshop="&this.id" />
       <appointment-manager role="trainer" workshop="&this.id" header="Presenters"/>
