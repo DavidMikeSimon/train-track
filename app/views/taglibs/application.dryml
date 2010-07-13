@@ -69,14 +69,17 @@
           :url => { :controller => :appointments, :action => :destroy, :id => this.id },
           :html => { :class => "btn-link delete-link" },
           :method => :delete,
+          :confirm => "Really remove this #{this.role == :participant ? "participant and their attendance data" : "presenter"}?",
           :loading => "Hobo.showSpinner('Please wait...')",
           :complete => "Hobo.hideSpinner()"
         )
       %>
     </header:>
     <body:>
-    Attendance Code: <b><view:train_code/></b><br/>
-    Sessions Attended:
+    <if test="&this.role == :participant">
+      Attendance Code: <b><view:train_code/></b><br/>
+      Sessions Attended:
+    </if>
     </body:>
   </old-card>
 </extend>

@@ -21,6 +21,7 @@ class RandomIdentifierGroup < ActiveRecord::Base
   end
   
   def after_destroy
+    # Using delete instead of destroy because it skips RandomIdentifier's after_destroy (and also is much faster)
     RandomIdentifier.delete_all(:random_identifier_group_id => self.id)
   end
   
