@@ -12,7 +12,17 @@ class WorkshopSession < ActiveRecord::Base
   belongs_to :workshop
   validates_presence_of :workshop
   
+  belongs_to :random_identifier, :dependent => :destroy
+  
   has_many :attendances
+  
+  def train_code
+    "SES-%s" % TrainCode.encode(random_identifier.identifier)
+  end
+  
+  def before_create
+    self.random_identifier = workshop.workshop_session_identifier_group.grab_identifier
+  end
   
   # --- Permissions --- #
 

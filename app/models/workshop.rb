@@ -23,8 +23,9 @@ class Workshop < ActiveRecord::Base
   # The identifier for the workshop itself, from the "workshops" RandomIdentifierGroup
   belongs_to :random_identifier, :dependent => :destroy
   
-  # Identifier groups for our appointments
+  # Identifier groups for our appointments and sessions
   belongs_to :appointment_identifier_group, :class_name => "RandomIdentifierGroup", :dependent => :destroy
+  belongs_to :workshop_session_identifier_group, :class_name => "RandomIdentifierGroup", :dependent => :destroy
   
   has_many :workshop_sessions, :dependent => :destroy
   
@@ -42,6 +43,7 @@ class Workshop < ActiveRecord::Base
   def after_create
     self.random_identifier = RandomIdentifierGroup.find_by_name("workshops").grab_identifier
     self.appointment_identifier_group = RandomIdentifierGroup.create(:name => "appointments-%u" % self.id, :max_value => TrainCode::DOMAIN-1)
+    self.workshop_session_identifier_group = RandomIdentifierGroup.create(:name => "workshop-sessions-%u" % self.id, :max_value => TrainCode::DOMAIN-1)
     save!
   end
   

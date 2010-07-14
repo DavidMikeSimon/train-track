@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100713195810) do
+ActiveRecord::Schema.define(:version => 20100714135545) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -101,8 +101,10 @@ ActiveRecord::Schema.define(:version => 20100713195810) do
     t.datetime "created_at"
     t.datetime "updated_at"
     t.integer  "workshop_id"
+    t.integer  "random_identifier_id"
   end
 
+  add_index "workshop_sessions", ["random_identifier_id"], :name => "index_workshop_sessions_on_random_identifier_id"
   add_index "workshop_sessions", ["workshop_id", "name"], :name => "index_workshop_sessions_on_workshop_id_and_name", :unique => true
   add_index "workshop_sessions", ["workshop_id"], :name => "index_workshop_sessions_on_workshop_id"
 
@@ -117,9 +119,11 @@ ActiveRecord::Schema.define(:version => 20100713195810) do
     t.date     "last_day"
     t.integer  "random_identifier_id"
     t.integer  "appointment_identifier_group_id"
+    t.integer  "workshop_session_identifier_group_id"
   end
 
   add_index "workshops", ["appointment_identifier_group_id"], :name => "index_workshops_on_appointment_identifier_group_id"
   add_index "workshops", ["random_identifier_id"], :name => "index_workshops_on_random_identifier_id"
+  add_index "workshops", ["workshop_session_identifier_group_id"], :name => "index_workshops_on_workshop_session_identifier_group_id"
 
 end
