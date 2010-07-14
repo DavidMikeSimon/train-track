@@ -51,7 +51,7 @@
 <def tag="form" for="WorkshopSession">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="name, workshop" param/>
+    <field-list fields="name, random_identifier, workshop" param/>
     <div param="actions">
       <submit label="#{ht 'workshop_sessions.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>
@@ -63,7 +63,7 @@
 <def tag="form" for="Workshop">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="title, first_day, last_day, venue, region, purpose, appointment_identifier_group, random_identifier" param/>
+    <field-list fields="title, first_day, last_day, venue, region, purpose, appointment_identifier_group, random_identifier, workshop_session_identifier_group" param/>
     <div param="actions">
       <submit label="#{ht 'workshops.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

@@ -64,6 +64,10 @@
       <view:name/>
       <a action="edit" class="btn-link card-action-link">Edit</a>
     </header:>
+    <body:>
+      Session Code: <b><view:train_code/></b><br/>
+      <b><count:attendances label="Person"/> Attended</b><br/>
+    </body:>
   </old-card>
 </extend>
 

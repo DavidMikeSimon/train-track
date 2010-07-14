@@ -38,7 +38,7 @@ class Workshop < ActiveRecord::Base
   has_many :trainer_appointments, :class_name => "Appointment", :conditions => { :role => "trainer" }
   has_many :trainers, :through => :trainer_appointments, :source => :person
   
-  attr_protected :random_identifier, :appointment_identifier_group
+  attr_protected :random_identifier, :appointment_identifier_group, :workshop_session_identifier_group
   
   def after_create
     self.random_identifier = RandomIdentifierGroup.find_by_name("workshops").grab_identifier

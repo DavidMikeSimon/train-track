@@ -585,7 +585,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="workshop" param/>
+            <field-list fields="random_identifier, workshop" param/>
           </section>
     </content:>
 
@@ -705,7 +705,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="first_day, last_day, venue, region, purpose, appointment_identifier_group, random_identifier" param/>
+            <field-list fields="first_day, last_day, venue, region, purpose, appointment_identifier_group, random_identifier, workshop_session_identifier_group" param/>
           </section>
     </content:>
 
