@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100715153810) do
+ActiveRecord::Schema.define(:version => 20100715163936) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -67,6 +67,14 @@ ActiveRecord::Schema.define(:version => 20100715153810) do
     t.string   "email_address"
     t.datetime "created_at"
     t.datetime "updated_at"
+  end
+
+  create_table "processed_xml_files", :force => true do |t|
+    t.string   "filename"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "accepted"
+    t.boolean  "duplicate_entry"
   end
 
   create_table "random_identifier_groups", :force => true do |t|

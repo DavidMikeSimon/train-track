@@ -1,4 +1,5 @@
 require 'csv'
+require 'set'
 
 class WorkshopsController < ApplicationController
 
@@ -18,6 +19,25 @@ class WorkshopsController < ApplicationController
         end
       end
     }
+  end
+  
+  # FIXME This should be a web_method, accessible only through POST, since it has side effects
+  show_action :process_xml do
+    xml_dir = defined?(TAR2RUBYSCRIPT) ? oldlocation("attendance-xml") : "#{RAILS_ROOT}/attendance-xml"
+    already_processed = Set.new(ProcessedXmlFile.connection.select_values("SELECT filename FROM processed_xml_files"))
+    processed = 0
+    Dir.foreach(xml_dir) do |filename|
+      if filename.downcase.end_with?(".xml") && !already_processed.include?(filename)
+        processed += 1
+      end
+    end
+    
+    if processed > 0
+      flash[:notice] = "Successfully processed %u new attendance entries" % processed
+    else
+      flash[:notice] = "No new attendance entries to process"
+    end
+    redirect_to Workshop.find(params[:id])
   end
 
 end

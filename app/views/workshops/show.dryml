@@ -5,7 +5,7 @@
   <content-body: replace>
     <section class="content-body">
       <a class="btn-link" action="csv_codes">Participant Labels CSV</a>
-      <a class="btn-link" action="csv_codes">Upload Attendance CSV</a>
+      <a class="btn-link" action="process_xml">Process Scanned Attendance</a>
       
       <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers, appointment_identifier_group, workshop_session_identifier_group, random_identifier, workshop_sessions"/>
       <workshop-session-manager workshop="&this.id" />
