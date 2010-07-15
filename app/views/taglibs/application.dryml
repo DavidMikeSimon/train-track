@@ -89,7 +89,7 @@
     </header:>
     <body:>
     <if test="&this.role == :participant">
-      Attendance Code: <b><view:train_code/></b><br/>
+      Participant Code: <b><view:train_code/></b><br/>
       <a action="edit"><b><count:attendances label="Session"/> Attended</b><br/></a>
     </if>
     </body:>
