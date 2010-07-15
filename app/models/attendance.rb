@@ -6,9 +6,9 @@ class Attendance < ActiveRecord::Base
     timestamps
   end
   
-  belongs_to :appointment
+  belongs_to :appointment, :counter_cache => true
   has_one :person, :through => :appointment
-  belongs_to :workshop_session
+  belongs_to :workshop_session, :counter_cache => true
   
   validates_presence_of :appointment, :workshop_session
   

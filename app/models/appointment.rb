@@ -5,6 +5,7 @@ class Appointment < ActiveRecord::Base
   
   fields do
     role        Appointment::Role, :required
+    attendances_count :integer, :default => 0
     timestamps
   end
   

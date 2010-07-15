@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100714135545) do
+ActiveRecord::Schema.define(:version => 20100715135318) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -19,12 +19,12 @@ ActiveRecord::Schema.define(:version => 20100714135545) do
     t.string   "role"
     t.integer  "institution_id"
     t.integer  "random_identifier_id"
+    t.integer  "attendances_count",    :default => 0
   end
 
   add_index "appointments", ["institution_id"], :name => "index_appointments_on_institution_id"
   add_index "appointments", ["person_id"], :name => "index_appointments_on_person_id"
   add_index "appointments", ["random_identifier_id"], :name => "index_appointments_on_random_identifier_id"
-  add_index "appointments", ["workshop_id", "person_id", "role"], :name => "index_appointments_on_workshop_id_and_person_id_and_role", :unique => true
 
   create_table "attendances", :force => true do |t|
     t.datetime "created_at"
@@ -102,6 +102,7 @@ ActiveRecord::Schema.define(:version => 20100714135545) do
     t.datetime "updated_at"
     t.integer  "workshop_id"
     t.integer  "random_identifier_id"
+    t.integer  "attendances_count",    :default => 0
   end
 
   add_index "workshop_sessions", ["random_identifier_id"], :name => "index_workshop_sessions_on_random_identifier_id"

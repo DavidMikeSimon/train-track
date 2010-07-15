@@ -4,6 +4,7 @@ class WorkshopSession < ActiveRecord::Base
   
   fields do
     name        :string, :required
+    attendances_count :integer, :default => 0
     timestamps
   end
   
