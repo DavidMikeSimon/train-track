@@ -11,6 +11,9 @@
 - Refactor! Ye gods, refactor! Especially application.dryml and the workshop_sessions/appointments controllers
 - After adding a session, reset focus to session name text box and clear contents
 - After altering attendance for a participant, jump back to that participant's card on the page
+- Should be possible to alter a session's start time from its edit page
+- Maybe give sessions a show page which lists all the people who attended that session
+- The attendance editor for appointments should order the sessions by their start time, and use WorkshopSession.to_s
 
 
 For each workshop there are several sessions, each of which can apply their hours to different categories, i.e.:
