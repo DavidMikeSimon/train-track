@@ -585,7 +585,8 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="random_identifier, workshop" param/>
+            <view:description param="description"/>
+            <field-list fields="starts_at, random_identifier, workshop" param/>
           </section>
     </content:>
 

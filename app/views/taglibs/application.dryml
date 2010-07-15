@@ -65,7 +65,7 @@
 <extend tag="card" for="WorkshopSession">
   <old-card id="#{'workshop-session-%u' % this.id}" merge>
     <header:>
-      <view:name/>
+      <view:description/>
       <a action="edit" class="btn-link card-action-link">Edit</a>
     </header:>
     <body:>
@@ -189,6 +189,11 @@
     <h3>Sessions</h3>
     <div id="workshop-session-insertion-form">
     <%
+    # This needs to be refactored
+    workshop_instance = Workshop.find(workshop)
+    date_range = workshop_instance.first_day .. workshop_instance.last_day
+    start_date_options = options_for_select(date_range.to_a.map(&:to_s))
+    
     form_remote_tag(
       :html => { :class => "workshop-session-entry-form new-workshop-session-form" },
       :url => { :controller => :workshop_sessions, :action => :create },
@@ -197,6 +202,11 @@
     ) do -%>
       <%= hidden_field_tag "workshop_id", workshop %>
       Session Name: <%= text_field_tag "name", "", :class => "right-pad", :autocomplete => "off" %>
+      Starts At:
+      <%= select_tag "start_date", start_date_options, :class => "right-pad" %>
+      <%= select_tag "start_hour", options_for_select((0..23).to_a.map{|n| "%02u" % n}, "12") %>
+      :
+      <%= select_tag "start_minute", options_for_select((0..59).to_a.map{|n| "%02u" % n}) %>
       <%= submit_tag "Add Session", :class => "button submit-button"%>
     <% end -%>
     </div>

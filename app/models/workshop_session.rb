@@ -5,6 +5,7 @@ class WorkshopSession < ActiveRecord::Base
   fields do
     name        :string, :required
     attendances_count :integer, :default => 0
+    starts_at   :datetime, :required
     timestamps
   end
   
@@ -15,7 +16,7 @@ class WorkshopSession < ActiveRecord::Base
   
   belongs_to :random_identifier, :dependent => :destroy
   
-  has_many :attendances
+  has_many :attendances, :dependent => :destroy
   
   def train_code
     "SES-%s" % TrainCode.encode(random_identifier.identifier)
@@ -23,6 +24,14 @@ class WorkshopSession < ActiveRecord::Base
   
   def before_create
     self.random_identifier = workshop.workshop_session_identifier_group.grab_identifier
+  end
+  
+  def description
+    "%s - %s" % [self.starts_at.to_formatted_s(:long_ordinal), self.name]
+  end
+  
+  def to_s
+    description
   end
   
   # --- Permissions --- #

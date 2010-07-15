@@ -79,6 +79,9 @@
         </a>
       </div>
     </header:>
+    <body: param>
+      <view:description param="description"/>
+    </body:>
   </card>
 </def>
 
