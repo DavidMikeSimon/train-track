@@ -25,6 +25,10 @@ class RandomIdentifierGroup < ActiveRecord::Base
     RandomIdentifier.delete_all(:random_identifier_group_id => self.id)
   end
   
+  def find_used_identifier(identifier)
+    random_identifiers.first(:conditions => { :in_use => true, :identifier => identifier})
+  end
+  
   def grab_identifier
     returning random_identifiers.first(:conditions => { :in_use => false }) do |i|
       raise "Unable to find an unused random identifier in group %s" % name unless i

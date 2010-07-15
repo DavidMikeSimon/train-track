@@ -4,8 +4,8 @@ class ProcessedXmlFile < ActiveRecord::Base
 
   fields do
     filename :string, :required
-    accepted :boolean, :required
-    duplicate_entry :boolean, :required
+    accepted :boolean
+    duplicate_entry :boolean
     timestamps
   end
   
