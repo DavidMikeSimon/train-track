@@ -10,6 +10,10 @@
 
 <def tag="app-name">Train Track</def>
 
+<def tag="size-count">
+  <count label="&this.member_class.view_hints.field_name(this.try.origin_attribute).singularize" with="&this.size" merge />
+</def>
+
 <extend tag="page">
   <old-page merge>
     <before-app-name:>
@@ -66,7 +70,7 @@
     </header:>
     <body:>
       Session Code: <b><view:train_code/></b><br/>
-      <b><count:attendances label="Person"/> Attended</b><br/>
+      <b><size-count:attendances label="Person"/> Attended</b><br/>
     </body:>
   </old-card>
 </extend>
@@ -90,7 +94,7 @@
     <body:>
     <if test="&this.role == :participant">
       Participant Code: <b><view:train_code/></b><br/>
-      <a action="edit"><b><count:attendances label="Session"/> Attended</b><br/></a>
+      <a action="edit"><b><size-count:attendances label="Session"/> Attended</b><br/></a>
     </if>
     </body:>
   </old-card>
