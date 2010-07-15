@@ -27,15 +27,27 @@ class Workshop < ActiveRecord::Base
   belongs_to :appointment_identifier_group, :class_name => "RandomIdentifierGroup", :dependent => :destroy
   belongs_to :workshop_session_identifier_group, :class_name => "RandomIdentifierGroup", :dependent => :destroy
   
-  has_many :workshop_sessions, :dependent => :destroy
+  has_many :workshop_sessions, :dependent => :destroy, :include => [:random_identifier], :order => :name
   
   has_many :appointments, :dependent => :destroy, :include => [:person, :random_identifier]
   has_many :people, :through => :appointments
   
-  has_many :participant_appointments, :class_name => "Appointment", :conditions => { :role => "participant" }
+  has_many(
+    :participant_appointments,
+    :class_name => "Appointment",
+    :conditions => { :role => "participant" },
+    :include => [:person, :random_identifier, :institution],
+    :order => "attendances_count, people.last_name, people.first_name"
+  )
   has_many :participants, :through => :participant_appointments, :source => :person
   
-  has_many :trainer_appointments, :class_name => "Appointment", :conditions => { :role => "trainer" }
+  has_many(
+    :trainer_appointments,
+    :class_name => "Appointment",
+    :conditions => { :role => "trainer" },
+    :include => [:person, :random_identifier, :institution],
+    :order => "attendances_count, people.last_name, people.first_name"
+  )
   has_many :trainers, :through => :trainer_appointments, :source => :person
   
   attr_protected :random_identifier, :appointment_identifier_group, :workshop_session_identifier_group

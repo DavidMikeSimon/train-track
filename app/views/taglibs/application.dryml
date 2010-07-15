@@ -177,8 +177,7 @@
     <div id="<%= role %>-insertion-form">
       <appointment-ajax-name-approximation-form role="&role" workshop="&workshop"/>
     </div>
-    <!-- FIXME : Go through the workshop associations to do this, and have that do ordering as well -->
-    <% appointments = Appointment.find(:all, :conditions => {:workshop_id => workshop, :role => role}, :include => [:person, :random_identifier, :institution]) %>
+    <% appointments = role == "participant" ? this.participant_appointments : this.trainer_appointments %>
     <div id="<%= role %>-container">
       <card repeat="&appointments" for="Appointment" />
     </div>
@@ -201,10 +200,8 @@
       <%= submit_tag "Add Session", :class => "button submit-button"%>
     <% end -%>
     </div>
-    <!-- FIXME : Go through the workshop associations to do this, and have that do ordering as well -->
-    <% workshop_sessions = WorkshopSession.find(:all, :conditions => {:workshop_id => workshop}, :include => [:random_identifier]) %>
     <div id="workshop-session-container">
-      <card repeat="&workshop_sessions" for="WorkshopSesssion" />
+      <card repeat="&this.workshop_sessions" for="WorkshopSesssion" />
     </div>
   </section>
 </def>
