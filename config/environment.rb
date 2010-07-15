@@ -1,3 +1,21 @@
+# Tar2RubyScript hack to use database from exe directory if app is packaged as an exe
+module Rails
+  class Configuration
+    def database_configuration
+      conf = YAML::load(ERB.new(IO.read(database_configuration_file)).result)
+      if defined?(TAR2RUBYSCRIPT)
+        conf.each do |k, v|
+          if v["adapter"] =~ /^sqlite/
+            v["database"] = oldlocation(v["database"]) if v.include?("database")
+            v["dbfile"]   = oldlocation(v["dbfile"])   if v.include?("dbfile")
+          end
+        end
+      end
+      conf
+    end
+  end
+end
+
 # Be sure to restart your server when you modify this file
 
 # Specifies gem version of Rails to use when vendor/rails is not present
