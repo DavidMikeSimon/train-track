@@ -26,7 +26,9 @@ class RandomIdentifierGroup < ActiveRecord::Base
   end
   
   def find_used_identifier(identifier)
-    random_identifiers.first(:conditions => { :in_use => true, :identifier => identifier})
+    random_identifiers.first(:conditions => { :in_use => true, :identifier => identifier}) or (
+      raise "Unable to resolve identifier %s in group %s" % [identifier, name]
+    )
   end
   
   def grab_identifier
