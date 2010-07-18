@@ -14,6 +14,14 @@
 - Should be possible to alter a session's start time from its edit page
 - Maybe give sessions a show page which lists all the people who attended that session
 - The attendance editor for appointments should order the sessions by their start time, and use WorkshopSession.to_s
+- Always replace "&" with "and" when inserting/updating/searching institution names
+  - Similarly, "PJH" -> "Primary and Junior High", "Inf" -> "Infant", "AA" -> "All Age", etc.
+  - Possibly remove all these sorts of things from the title entirely, since there seems to be a lot of confusion around this
+- Allow for tracking non-schools as organizations participants can come from (i.e. Ministry of Ed, Education Officers, etc.)
+- Add more constraints
+- Make sure parish matches region
+- Maybe make parish in institution optional (for more abstract organizations)
+- Region selection with radio buttons, not dropdown
 
 
 For each workshop there are several sessions, each of which can apply their hours to different categories, i.e.:
