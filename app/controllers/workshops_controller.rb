@@ -13,10 +13,18 @@ class WorkshopsController < ApplicationController
     
     workshop = Workshop.find(params[:id])
     render :text => proc { |response, output|
-      workshop.participant_appointments.find_in_batches(:include => [:person, :random_identifier]) do |batch|
-        batch.each do |appointment|
-          output.write "\"%s\",\"%s\"\n" % [appointment.person, appointment.train_code]
-        end
+      Appointment.all(
+        :conditions => { :workshop_id => workshop.id, :role => "participant" },
+        :include => [:institution, :person, :random_identifier],
+        :order => "institutions.region, institutions.name, people.last_name, people.first_name"
+      ).each do |appointment|
+        output.write "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n" % [
+          appointment.institution.region,
+          appointment.institution.name,
+          appointment.person.last_name,
+          appointment.person.first_name,
+          appointment.train_code
+        ]
       end
     }
   end
