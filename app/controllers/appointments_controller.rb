@@ -8,7 +8,7 @@ class AppointmentsController < ApplicationController
   
   def update
     hobo_update do
-      flash[:notice] = "Attendance for #{@appointment.person.name} updated"
+      flash[:notice] = "Attendance information for #{@appointment.person.name} updated"
       redirect_to @appointment.workshop
     end
   end
