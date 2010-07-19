@@ -78,7 +78,7 @@
 <extend tag="card" for="Appointment" attrs="conf-registration-session">
   <old-card id="#{'appointment-%u' % this.id}" merge>
     <header:>
-      <view:person /> <i>from</i> <a:institution><view:long_name /></a>
+      <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.institution.id, this.institution.long_name] %>
       <%=
         link_to_remote(
           "Remove",
@@ -92,11 +92,11 @@
       %>
     </header:>
     <body:>
-      <if test="&this.role == :participant">
-        Participant Code: <b><view:train_code/></b><br/>
-        <a action="edit"><b><size-count:attendances label="Session"/> Attended</b></a>
+      <% if this.role == :participant -%>
+        Participant Code: <b><%= this.train_code %></b><br/>
+        <b><%= "<a href=\"%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size, "Session")] %></b>
         
-        <if test="&conf_registration_session">
+        <% if conf_registration_session != nil -%>
           &nbsp;&nbsp;&nbsp;
           <% registered = conf_registration_session.attendances.any?{|a| a.appointment_id == this.id} %>
           <b><%= registered ? "<font color='darkgreen'>Registered:</font>" : "<font color='darkred'>Not Registered:</font>" %></b>
@@ -110,8 +110,8 @@
             :complete => "Hobo.hideSpinner()"
           )
           %>
-        </if>
-      </if>
+        <% end %>
+      <% end %>
     </body:>
   </old-card>
 </extend>
