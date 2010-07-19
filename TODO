@@ -34,7 +34,6 @@
     - If I'm not dreaming, though, allow user to type in correct number within Train Track, and have it re-attempt the match
 - Have a special session which is for registration, with its own form that includes a signature field
   - Have a toggle button available AJAXily within the appointment card to toggle registration status (with a msg box confirm)
-- BUG: Appointment edit bug - Only shows the first 100 schools
 - When a name is typed in, allow these options:
   - Show similar names (indicating if they're already registered with this workshop or not, and what their last institution was)
   - Allow creating a new person

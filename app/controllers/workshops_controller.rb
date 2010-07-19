@@ -11,20 +11,35 @@ class WorkshopsController < ApplicationController
     headers['Content-Disposition'] = "attachment; filename=\"participants.csv\""
     headers['Content-Type'] = 'text/csv'
     
+    line_template = "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n"
+    
+    max_minutes = params[:minutes].to_i
     workshop = Workshop.find(params[:id])
     render :text => proc { |response, output|
+      output.write line_template % [
+        "Region",
+        "Institution",
+        "Last Name",
+        "First Name",
+        "Code"
+      ]
+      
       Appointment.all(
         :conditions => { :workshop_id => workshop.id, :role => "participant" },
         :include => [:institution, :person, :random_identifier],
         :order => "institutions.region, institutions.name, people.last_name, people.first_name"
       ).each do |appointment|
-        output.write "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n" % [
-          appointment.institution.region,
-          appointment.institution.name,
-          appointment.person.last_name,
-          appointment.person.first_name,
-          appointment.train_code
-        ]
+        appt_age = Time.now - [appointment.updated_at, appointment.institution.updated_at, appointment.person.updated_at].max
+        appt_age_minutes = appt_age/60.0
+        if max_minutes == 0 || appt_age_minutes <= max_minutes
+          output.write line_template % [
+            appointment.institution.region,
+            appointment.institution.name,
+            appointment.person.last_name,
+            appointment.person.first_name,
+            appointment.train_code
+          ]
+        end
       end
     }
   end

@@ -96,7 +96,7 @@
       Participant Code: <b><view:train_code/></b><br/>
       <a action="edit"><b><size-count:attendances label="Session"/> Attended</b></a>
       
-      <% registration_session = this.workshop.workshop_sessions.find_by_name("Conference Registration") %>
+      <% registration_session = this.workshop.workshop_sessions.find_by_name("Conference Registration") # FIXME %>
       <if test="&registration_session != nil">
         &nbsp;&nbsp;&nbsp;
         <% registered = this.attendances.find_by_workshop_session_id(registration_session.id) != nil %>

@@ -4,8 +4,22 @@
   </after-heading:>
   <content-body: replace>
     <section class="content-body">
-      <a class="btn-link" action="csv_codes">Participant Labels CSV</a>
+      <form action="#{this.id}/csv_codes" method="get">
+        <select name="minutes">
+          <option value="0">All Participants</option>
+          <option value="15">Participants updated in the last 15 minutes</option>
+          <option value="30">Participants updated in the last 30 minutes</option>
+          <option value="60">Participants updated in the last hour</option>
+          <option value="120">Participants updated in the last 2 hours</option>
+          <option value="240">Participants updated in the last 4 hours</option>
+          <option value="480">Participants updated in the last 8 hours</option>
+          <option value="1440">Participants updated in the last 24 hours</option>
+        </select>
+        <submit class="btn-link" label="Generate Participant CSV"/>
+      </form>
+      <hr/><br/><br/>
       <a class="btn-link" action="process_xml">Process Scanned Attendance</a>
+      <hr/><br/><br/>
       
       <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers, appointment_identifier_group, workshop_session_identifier_group, random_identifier, workshop_sessions"/>
       <workshop-session-manager workshop="&this.id" />

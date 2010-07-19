@@ -2,6 +2,9 @@
   <heading:>Edit Sessions Attended By <view:person/></heading:>
   <form:>
     <field-list: fields="institution, workshop_sessions">
+      <institution-view:>
+        <select-one limit="9999" />
+      </institution-view:>
       <workshop-sessions-view:>
         <check-many />
       </workshop-sessions-view:>

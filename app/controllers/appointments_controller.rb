@@ -17,6 +17,7 @@ class AppointmentsController < ApplicationController
   def toggle_registration
     @appt = Appointment.find(params[:id])
     @workshop = Workshop.find(@appt.workshop_id)
+    # FIXME Don't use a hard-coded name
     @workshop_session = WorkshopSession.find_by_workshop_id_and_name(@workshop.id, "Conference Registration")
    
     if @workshop_session

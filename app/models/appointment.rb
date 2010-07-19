@@ -28,7 +28,7 @@ class Appointment < ActiveRecord::Base
   def before_create
     self.random_identifier = workshop.appointment_identifier_group.grab_identifier
   end
-  
+
   def self.possible_institutions(role)
     org_type = case role
       when "participant" then "school"
