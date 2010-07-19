@@ -196,7 +196,7 @@
     </div>
     <%
       appt_source = role == "participant" ? this.participant_appointments : this.trainer_appointments
-      appointments = appt_source.all.sort{|a,b| [a.attendances.count, a.person.last_name, a.person.first_name] <=> [b.attendances.count, a.person.last_name, a.person.first_name]}
+      appointments = appt_source.all.sort{|a,b| [a.attendances.count, a.person.last_name, a.person.first_name] <=> [b.attendances.count, b.person.last_name, b.person.first_name]}
     %>
     <div id="<%= role %>-container">
       <card repeat="&appointments" for="Appointment" />
