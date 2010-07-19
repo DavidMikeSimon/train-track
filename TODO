@@ -53,6 +53,7 @@
   - Can table-plus do AJAX sorting? AJAX pagination? AJAX searching? Most importantly, AJAX insertions and deletions?
 - MoE people aren't all from region 1 - need to re-think relationship between institution and region
 - Allow in-place AJAX editing of appointments, including attendances
+- First row of generated CSV should be a title row
 
 
 For each workshop there are several sessions, each of which can apply their hours to different categories, i.e.:
