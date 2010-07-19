@@ -36,12 +36,16 @@ class WorkshopsController < ApplicationController
     processed = 0
     Dir.foreach(xml_dir) do |filename|
       if filename.downcase.end_with?(".xml") && !already_processed.include?(filename)
-        doc = REXML::Document.new(File.open("%s/%s" % [xml_dir, filename]))
-        unaccepted = 0
-        duplicated = false
-        
-        doc.root.elements.each do |record|  
-          begin
+        begin
+		  filepath = "%s/%s" % [xml_dir, filename]
+		  
+		  # Stupid hack to work around rubyscript2exe's problems with iconv decoders
+          fdata = File.foreach(filepath).reject{ |line| line.start_with? "<?xml" }.join("\n")
+          doc = REXML::Document.new(fdata)
+          unaccepted = 0
+          duplicated = false
+          
+          doc.root.elements.each do |record|
             # FIXME Ye gods but there's too much cut and paste here
             workshop_code = record.elements["Field[@id='Workshop']/Value"].text
             workshop = Workshop.find_by_random_identifier_id(
@@ -74,11 +78,11 @@ class WorkshopsController < ApplicationController
               logger.info "%s - UNABLE TO RESOLVE INPUT (W:%s S:%s A:%s)" % [filename, workshop_code, workshop_session_code, participant_code]
               unaccepted += 1
             end
-          rescue StandardError => e
-            logger.info "#{filename} - UNABLE TO READ INPUT DATA : #{e.class.to_s} : #{e.to_s}"
-            unaccepted += 1
-          end  
-        end
+          end
+	    rescue StandardError => e
+		  logger.info "#{filename} - UNABLE TO READ INPUT DATA : #{e.class.to_s} : #{e.to_s}"
+		  unaccepted += 1
+	    end
         
         ProcessedXmlFile.create(:filename => filename, :accepted => (unaccepted == 0), :duplicate_entry => duplicated)
         processed += 1
