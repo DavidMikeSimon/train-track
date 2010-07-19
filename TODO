@@ -10,18 +10,49 @@
 - Use the index to grab new random identifiers
 - Refactor! Ye gods, refactor! Especially application.dryml and the workshop_sessions/appointments controllers
 - After adding a session, reset focus to session name text box and clear contents
-- After altering attendance for a participant, jump back to that participant's card on the page
 - Should be possible to alter a session's start time from its edit page
 - Maybe give sessions a show page which lists all the people who attended that session
 - The attendance editor for appointments should order the sessions by their start time, and use WorkshopSession.to_s
 - Always replace "&" with "and" when inserting/updating/searching institution names
-  - Similarly, "PJH" -> "Primary and Junior High", "Inf" -> "Infant", "AA" -> "All Age", etc.
+  - Similarly, "PJH" -> "Primary and Junior High", "Inf" -> "Infant", "AA" -> "All Age", "JH" -> "Junior High", etc.
   - Possibly remove all these sorts of things from the title entirely, since there seems to be a lot of confusion around this
 - Allow for tracking non-schools as organizations participants can come from (i.e. Ministry of Ed, Education Officers, etc.)
-- Add more constraints
+- Add more constraints, attr_protected/attr_readonly where necessary (especially random_identifier)
 - Make sure parish matches region
 - Maybe make parish in institution optional (for more abstract organizations)
 - Region selection with radio buttons, not dropdown
+- Include numbers on the registration sheet, and include that number in the output XML file if possible
+- Move XML processing to its own page, and allow manual viewing of the processed files log
+  - Show files which are matched to a workshop and session but not to an attendee on the workshop's page, with a "resolved" button
+  - However, files where most of the attendee boxes are left blank are not marked in this way
+- Speed up the workshop display page when showing large numbers of attendees
+- Integrate with offline mirror ; keep an online version on heroku, and allow workshop checkout and checkin
+- Allow guessing from a single number in the code (maybe with some way to make sure code matches directly in at least one quadrant?)
+- It would be really really really nice if I could get TeleForm to export the image of the field along with the data
+  - I'm dreaming, aren't I?
+    - Yep, totally dreaming.
+    - If I'm not dreaming, though, allow user to type in correct number within Train Track, and have it re-attempt the match
+- Have a special session which is for registration, with its own form that includes a signature field
+  - Have a toggle button available AJAXily within the appointment card to toggle registration status (with a msg box confirm)
+- BUG: Appointment edit bug - Only shows the first 100 schools
+- When a name is typed in, allow these options:
+  - Show similar names (indicating if they're already registered with this workshop or not, and what their last institution was)
+  - Allow creating a new person
+  - Allow changing an existing person to a new institution (if they're already in this workshop under another institution)
+- DO NOT allow changing which person an appointment refers to while maintaining the participant code. That way lies madness.
+- Allow printing of stickers for people directly from app
+  - Keep track of appointments which need stickers re-printed (new, or person/institution changed)
+    - Do it by giving appointment a dirty_sticker flag default true, and updating person/institution/appt sets flag to true
+  - Allow economical page use - start from unused part of sticker page (with a manual reset option)
+  - Print multiples vertically, not horizontally
+- Allow non-schools to be participants
+- Allow tracking attendance/registration for presenters
+- The "new appointment/session" form should itself be in a card, so that it can "turn into" the card with the new data
+- Require javascript
+- Maybe keep appointments in a paginated table-plus instead of a selection of cards
+  - Can table-plus do AJAX sorting? AJAX pagination? AJAX searching? Most importantly, AJAX insertions and deletions?
+- MoE people aren't all from region 1 - need to re-think relationship between institution and region
+- Allow in-place AJAX editing of appointments, including attendances
 
 
 For each workshop there are several sessions, each of which can apply their hours to different categories, i.e.:

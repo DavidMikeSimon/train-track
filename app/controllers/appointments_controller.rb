@@ -13,6 +13,27 @@ class AppointmentsController < ApplicationController
     end
   end
   
+  # TODO - Make me a web method
+  def toggle_registration
+    @appt = Appointment.find(params[:id])
+    @workshop = Workshop.find(@appt.workshop_id)
+    @workshop_session = WorkshopSession.find_by_workshop_id_and_name(@workshop.id, "Conference Registration")
+   
+    if @workshop_session
+      attendance = @appt.attendances.find_by_workshop_session_id(@workshop_session.id)
+      if attendance
+        attendance.destroy
+      else
+        Attendance.create(:appointment => @appt, :workshop_session => @workshop_session)
+      end
+    end
+    
+    @appt.reload(:include => :attendances)
+    render :update do |page|
+      page.replace "appointment-%u" % @appt.id, :partial => @appt
+    end
+  end
+  
   def cancel_new_person_creation
     @role = params[:role]
     @workshop_id = params[:workshop_id]
