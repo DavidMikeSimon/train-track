@@ -11,7 +11,7 @@ class WorkshopsController < ApplicationController
     headers['Content-Disposition'] = "attachment; filename=\"participants.csv\""
     headers['Content-Type'] = 'text/csv'
     
-    line_template = "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n"
+    line_template = "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n"
     
     max_minutes = params[:minutes].to_i
     workshop = Workshop.find(params[:id])
@@ -21,12 +21,13 @@ class WorkshopsController < ApplicationController
         "Institution",
         "Last Name",
         "First Name",
-        "Code"
+        "Code",
+        "Attendances"
       ]
       
       Appointment.all(
         :conditions => { :workshop_id => workshop.id, :role => "participant" },
-        :include => [:institution, :person, :random_identifier],
+        :include => [:institution, :person, :random_identifier, :attendances],
         :order => "institutions.region, institutions.name, people.last_name, people.first_name"
       ).each do |appointment|
         appt_age = Time.now - [appointment.updated_at, appointment.institution.updated_at, appointment.person.updated_at].max
@@ -37,7 +38,8 @@ class WorkshopsController < ApplicationController
             appointment.institution.name,
             appointment.person.last_name,
             appointment.person.first_name,
-            appointment.train_code
+            appointment.train_code,
+            appointment.attendances.size
           ]
         end
       end
