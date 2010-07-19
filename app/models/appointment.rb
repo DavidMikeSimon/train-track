@@ -5,7 +5,6 @@ class Appointment < ActiveRecord::Base
   
   fields do
     role        Appointment::Role, :required
-    attendances_count :integer, :default => 0
     timestamps
   end
   
@@ -27,6 +26,11 @@ class Appointment < ActiveRecord::Base
   
   def before_create
     self.random_identifier = workshop.appointment_identifier_group.grab_identifier
+  end
+
+  def to_s
+    # FIXME - This is specific to the workshop session edit page, it belongs in that view
+    "%s from %s (R%u) [Added: %s]" % [person.name, institution.name, institution.region, created_at]
   end
 
   def self.possible_institutions(role)

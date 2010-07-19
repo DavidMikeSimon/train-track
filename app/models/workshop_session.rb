@@ -4,7 +4,6 @@ class WorkshopSession < ActiveRecord::Base
   
   fields do
     name        :string, :required
-    attendances_count :integer, :default => 0
     starts_at   :datetime, :required
     timestamps
   end
@@ -17,6 +16,7 @@ class WorkshopSession < ActiveRecord::Base
   belongs_to :random_identifier, :dependent => :destroy
   
   has_many :attendances, :dependent => :destroy
+  has_many :appointments, :through => :attendances, :include => [:person, :institution], :accessible => true, :conditions => 'workshop_id = #{workshop_id}', :order => "people.last_name, people.first_name"
   
   def train_code
     "SES-%s" % TrainCode.encode(random_identifier.identifier)
@@ -41,7 +41,7 @@ class WorkshopSession < ActiveRecord::Base
   end
 
   def update_permitted?
-    acting_user.signed_up? && only_changed?(:name)
+    acting_user.signed_up? && only_changed?(:name, :starts_at, :attendances)
   end
 
   def destroy_permitted?
