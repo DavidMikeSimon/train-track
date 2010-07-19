@@ -76,8 +76,8 @@
 </extend>
 
 <extend tag="card" for="Appointment" attrs="conf-registration-session">
-  <old-card id="#{'appointment-%u' % this.id}" merge>
-    <header:>
+  <div id="#{'appointment-%u' % this.id}" class="card appointment">
+    <div class="header">
       <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.institution.id, this.institution.long_name] %>
       <%=
         link_to_remote(
@@ -90,8 +90,8 @@
           :complete => "Hobo.hideSpinner()"
         )
       %>
-    </header:>
-    <body:>
+    </div>
+    <div class="body">
       <% if this.role == :participant -%>
         Participant Code: <b><%= this.train_code %></b><br/>
         <b><%= "<a href=\"%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size, "Session")] %></b>
@@ -112,8 +112,8 @@
           %>
         <% end %>
       <% end %>
-    </body:>
-  </old-card>
+    </div>
+  </div>
 </extend>
 
 <def tag="appointment-ajax-name-approximation-form"  attrs="role, workshop">
