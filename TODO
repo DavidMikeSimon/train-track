@@ -6,6 +6,9 @@
 
 
 **** LONGER TERM ****
+- Show verification error on uniqueness violations
+- Keep track of what's been printed, allow easy re-printing of a given batch
+- Fill in the bottom part of the form with X's so that people aren't tempted to write "extra" numbers there
 - Reload workshop show page after generating a print list
 - Rename 'trainer' to 'presenter'
 - Use the index to grab new random identifiers

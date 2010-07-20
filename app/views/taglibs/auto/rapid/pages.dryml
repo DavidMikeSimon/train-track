@@ -341,7 +341,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="first_name, last_name, title, gender, cell_number, landline_number, fax_number, email_address" param/>
+            <field-list fields="first_name, last_name, role, title, gender, cell_number, landline_number, fax_number, email_address" param/>
           </section>
     </content:>
 

@@ -35,6 +35,7 @@
   <div id="#{'appointment-%u' % this.id}" class="card appointment">
     <div class="header">
       <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.institution.id, this.institution.long_name] %>
+      <%= this.person.role.blank? ? "" : "&nbsp;&nbsp;&nbsp;&nbsp;[#{this.person.role}]" %>
       <%=
         link_to_remote(
           "Remove",
@@ -178,6 +179,7 @@
     <%= hidden_field_tag "create_new_person", true %>
     <%= hidden_field_tag "first_name", first_name %>
     <%= hidden_field_tag "last_name", last_name %>
+    Role: <%= text_field_tag "role", "", :autocomplete => "off" %><br />
     Cell #: <%= text_field_tag "cell_number", "", :autocomplete => "off", :class => "right-pad" %>
     Landline #: <%= text_field_tag "landline_number", "", :autocomplete => "off", :class => "right-pad" %>
     Fax #: <%= text_field_tag "fax_number", "", :autocomplete => "off", :class => "right-pad" %>

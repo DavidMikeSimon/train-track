@@ -16,6 +16,7 @@ class Person < ActiveRecord::Base
   fields do
     first_name      :string, :required
     last_name       :string, :required
+    role            :string
     title           Person::Title, :required
     gender          Person::Gender, :required
     cell_number     :string
@@ -30,8 +31,8 @@ class Person < ActiveRecord::Base
   set_default_order "last_name, first_name"
   
   def after_update
-    # TODO : If title or role or department ends up on appointment card, check that here too 
-    if first_name_changed? || last_name_changed?
+    # TODO : If title or department ends up on appointment card, check that here too 
+    if first_name_changed? || last_name_changed? || role_changed?
       Appointment.all(:conditions => {:person_id => self.id}).each do |appt|
         appt.print_needed = true
         appt.save!
