@@ -38,6 +38,14 @@ class Appointment < ActiveRecord::Base
     "%s from %s (R%u) [Added: %s]" % [person.name, institution.name, institution.region, created_at]
   end
 
+  def non_registration_attendances_count(conf_registration_session)
+    x = attendances.size
+    if conf_registration_session && attendances.any?{|a| a.workshop_session_id == conf_registration_session.id}
+      x -= 1
+    end
+    return x
+  end
+
   def self.possible_institutions(role)
     org_type = case role
       when "participant" then "school"

@@ -8,11 +8,12 @@ class WorkshopsController < ApplicationController
   auto_actions :all
   
   show_action :csv_codes do
-    line_template = "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n"
+    line_template = "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n"
     
     workshop = Workshop.find(params[:id])
     conditions = { :workshop_id => workshop.id, :role => "participant" }
     conditions[:print_needed] = true if params[:limit] == "print"
+    conf_registration_session = workshop.workshop_sessions.find_by_name('Conference Registration')
     
     headers['Content-Disposition'] = "attachment; filename=\"participants-%s.csv\"" % params[:limit]
     headers['Content-Type'] = 'text/csv'
@@ -24,7 +25,8 @@ class WorkshopsController < ApplicationController
         "Last Name",
         "First Name",
         "Code",
-        "Attendances"
+        "Regular Sessions Attended",
+        "Registered"
       ]
       
       Appointment.all(
@@ -38,7 +40,8 @@ class WorkshopsController < ApplicationController
           appointment.person.last_name,
           appointment.person.first_name,
           appointment.train_code,
-          appointment.attendances.size
+          appointment.non_registration_attendances_count(conf_registration_session),
+          appointment.attendances.any?{|a| a.workshop_session_id == conf_registration_session.id}
         ]
       end
       
