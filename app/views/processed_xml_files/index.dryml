@@ -1,0 +1,8 @@
+<index-page without-count>
+  <title:>Unresolved XML Files</title:>
+  <heading:>Unresolved XML Files</heading:>
+  <table-plus: fields="this, created_at">
+    <this-view:><a><view:filename/></a></this-view:>
+    <created-at-heading:>Scanned</created-at-heading:>
+  </table-plus:>
+</index-page>

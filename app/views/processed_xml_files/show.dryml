@@ -1,0 +1,13 @@
+<%
+# FIXME : Copy-and-paste make Dave angry. Rarrgh.
+xml_dir = defined?(TAR2RUBYSCRIPT) ? oldlocation("attendance-xml") : "#{RAILS_ROOT}/attendance-xml"
+%>
+
+<show-page>
+  <title:><%=h this.filename %></title:>
+  <heading:><view:filename/></heading:>
+  <after-heading:><view:created_at/></after-heading:>
+  <content-body:>
+  <pre><%=h File.open("%s/%s" % [xml_dir, this.filename]) {|f| f.readlines} %></pre>
+  </content-body:>
+</show-page>

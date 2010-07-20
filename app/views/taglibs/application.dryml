@@ -111,6 +111,7 @@
     <if test="&current_user.administrator?">
       <nav-item name="Institutions" with="&Institution">Institutions</nav-item>
       <nav-item name="People" with="&Person">People</nav-item>
+      <nav-item name="Processed XML Files" with="&ProcessedXmlFile">Unresolved XML Files</nav-item>
       <!-- FIXME Temorarily disabling user management for demo purposes
       <nav-item name="Users" with="&User">Manage System Users</nav-item>
       -->

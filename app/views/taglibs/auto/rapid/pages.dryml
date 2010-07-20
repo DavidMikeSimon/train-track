@@ -7,6 +7,7 @@
     <nav-item href="#{base_url}/">Home</nav-item>
     <nav-item with="&Institution"><ht key="institutions.nav_item">Institutions</ht></nav-item>
     <nav-item with="&Person"><ht key="people.nav_item">People</ht></nav-item>
+    <nav-item with="&ProcessedXmlFile"><ht key="processed_xml_files.nav_item">Processed Xml Files</ht></nav-item>
     <nav-item with="&User"><ht key="users.nav_item">Users</ht></nav-item>
     <nav-item with="&Workshop"><ht key="workshops.nav_item">Workshops</ht></nav-item>
   </navigation>
@@ -362,6 +363,117 @@
           </ht>
         </h2>
         <delete-button label="#{ht 'people.actions.delete', :default=>['Remove This Person']}" param/>
+      </section>
+
+      <section param="content-body">
+        <form param/>
+      </section>
+    </content:>
+
+  </page>
+</def>
+
+
+
+
+
+<!-- ====== ProcessedXmlFile Pages ====== -->
+
+<def tag="index-page" for="ProcessedXmlFile">
+  <page merge title="#{ht 'processed_xml_files.index.title', :default=>['Processed Xml Files'] }">
+    <body: class="index-page processed-xml-file" param/>
+
+    <content: param>
+      <header param="content-header">
+        <h2 param="heading">
+          <ht key="processed_xml_files.index.heading">
+            Processed Xml Files
+          </ht>
+        </h2>
+
+        <p param="count" if>
+          <ht key="processed_xml_files.collection.count" count="&this.size">
+            There <count prefix="are"/>
+          </ht>
+        </p>
+      </header>
+
+      <section param="content-body">
+
+        <page-nav param="top-page-nav"/>
+
+        <collection param/>
+
+        <page-nav param="bottom-page-nav"/>
+
+
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="new-page" for="ProcessedXmlFile">
+  <page merge title="#{ht 'processed_xml_files.new.title', :default=>[' New Processed Xml File'] }">
+    <body: class="new-page processed-xml-file" param/>
+
+    <content: param>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="processed_xml_files.new.heading">
+            New Processed Xml File
+          </ht>
+        </h2>
+      </section>
+
+      <section param="content-body">
+        <form param>
+          <submit: label="#{ht 'processed_xml_files.actions.create', :default=>['Create Processed Xml File']}"/>
+        </form>
+      </section>
+    </content:>
+  </page>
+</def>
+
+
+<def tag="show-page" for="ProcessedXmlFile">
+  <page merge title="#{ht 'processed_xml_files.show.title', :default=>['Processed Xml File'] }">
+
+    <body: class="show-page processed-xml-file" param/>
+
+    <content: param>
+          <header param="content-header">
+            <h2 param="heading">
+              <ht key="processed_xml_files.show.heading" name="&this.respond_to?(:name) ? this.name : ''">
+                <name/>
+              </ht>
+            </h2>
+
+            <record-flags fields="accepted, duplicate_entry" param/>
+          </header>
+
+          <section param="content-body">
+            <field-list fields="filename" param/>
+          </section>
+    </content:>
+
+  </page>
+</def>
+
+
+<def tag="edit-page" for="ProcessedXmlFile">
+  <page merge title="#{ht 'processed_xml_files.edit.title', :default=>['Edit Processed Xml File'] }">
+
+    <body: class="edit-page processed-xml-file" param/>
+
+    <content:>
+      <section param="content-header">
+        <h2 param="heading">
+          <ht key="processed_xml_files.edit.heading" name="&this.respond_to?(:name) ? this.name : ''">
+            Edit <type-name/>
+          </ht>
+        </h2>
+        <delete-button label="#{ht 'processed_xml_files.actions.delete', :default=>['Remove This Processed Xml File']}" param/>
       </section>
 
       <section param="content-body">

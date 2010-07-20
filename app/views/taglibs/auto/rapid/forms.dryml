@@ -36,6 +36,18 @@
 
 
 
+<def tag="form" for="ProcessedXmlFile">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="filename, accepted, duplicate_entry" param/>
+    <div param="actions">
+      <submit label="#{ht 'processed_xml_files.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
 <def tag="form" for="User">
   <form merge param="default">
     <error-messages param/>
