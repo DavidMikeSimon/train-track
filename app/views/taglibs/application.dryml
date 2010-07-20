@@ -31,6 +31,47 @@
   </old-card>
 </extend>
 
+<extend tag="card" for="Appointment" attrs="conf-registration-session">
+  <div id="#{'appointment-%u' % this.id}" class="card appointment">
+    <div class="header">
+      <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.institution.id, this.institution.long_name] %>
+      <%=
+        link_to_remote(
+          "Remove",
+          :url => { :controller => :appointments, :action => :destroy, :id => this.id, :workshop_id => this.workshop_id },
+          :html => { :class => "btn-link card-action-link" },
+          :method => :delete,
+          :confirm => "Really remove this #{this.role == :participant ? "participant and their attendance data" : "presenter"}?",
+          :loading => "Hobo.showSpinner('Please wait...')",
+          :complete => "Hobo.hideSpinner()"
+        )
+      %>
+    </div>
+    <div class="body">
+      <% if this.role == :participant -%>
+        Participant Code: <b><%= this.train_code %></b><br/>
+        <b><%= "<a href=\"%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size, "Session")] %></b>
+        
+        <% if conf_registration_session != nil -%>
+          &nbsp;&nbsp;&nbsp;
+          <% registered = conf_registration_session.attendances.any?{|a| a.appointment_id == this.id} %>
+          <b><%= registered ? "<font color='darkgreen'>Registered:</font>" : "<font color='darkred'>Not Registered:</font>" %></b>
+          <%=
+          link_to_remote(
+            registered ? "Unregister" : "Register",
+            :url => { :controller => :appointments, :action => :toggle_registration, :id => this.id },
+            :method => :post,
+            :confirm => "Really mark this person as #{registered ? "unregistered" : "registered"}?",
+            :loading => "Hobo.showSpinner('Please wait...')",
+            :complete => "Hobo.hideSpinner()"
+          )
+          %>
+        <% end %>
+      <% end %>
+    </div>
+  </div>
+</extend>
+
 <extend tag="index-page">
   <old-index-page merge without-top-page-nav without-bottom-page-nav without-new-link>
     <collection: replace>
@@ -158,45 +199,8 @@
       conf_registration_session = this.workshop_sessions.find_by_name('Conference Registration')
     %>
     <div id="<%= role %>-container">
-      <% appointments.each do |this| -%>
-        <div id="#{'appointment-%u' % this.id}" class="card appointment">
-          <div class="header">
-            <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.institution.id, this.institution.long_name] %>
-            <%=
-              link_to_remote(
-                "Remove",
-                :url => { :controller => :appointments, :action => :destroy, :id => this.id, :workshop_id => this.workshop_id },
-                :html => { :class => "btn-link card-action-link" },
-                :method => :delete,
-                :confirm => "Really remove this #{this.role == :participant ? "participant and their attendance data" : "presenter"}?",
-                :loading => "Hobo.showSpinner('Please wait...')",
-                :complete => "Hobo.hideSpinner()"
-              )
-            %>
-          </div>
-          <div class="body">
-            <% if this.role == :participant -%>
-              Participant Code: <b><%= this.train_code %></b><br/>
-              <b><%= "<a href=\"%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size, "Session")] %></b>
-              
-              <% if conf_registration_session != nil -%>
-                &nbsp;&nbsp;&nbsp;
-                <% registered = conf_registration_session.attendances.any?{|a| a.appointment_id == this.id} %>
-                <b><%= registered ? "<font color='darkgreen'>Registered:</font>" : "<font color='darkred'>Not Registered:</font>" %></b>
-                <%=
-                link_to_remote(
-                  registered ? "Unregister" : "Register",
-                  :url => { :controller => :appointments, :action => :toggle_registration, :id => this.id },
-                  :method => :post,
-                  :confirm => "Really mark this person as #{registered ? "unregistered" : "registered"}?",
-                  :loading => "Hobo.showSpinner('Please wait...')",
-                  :complete => "Hobo.hideSpinner()"
-                )
-                %>
-              <% end %>
-            <% end %>
-          </div>
-        </div>
+      <% appointments.each do |appt| -%>
+        <card with="&appt" conf-registration-session="&conf_registration_session" for="Appointment" />
       <% end %>
     </div>
   </section>
