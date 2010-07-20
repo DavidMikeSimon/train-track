@@ -29,7 +29,15 @@ class Person < ActiveRecord::Base
   
   set_default_order "last_name, first_name"
   
-  # TODO Before save, make sure title isn't incompatible with gender
+  def after_update
+    # TODO : If title or role or department ends up on appointment card, check that here too 
+    if first_name_changed? || last_name_changed?
+      Appointment.all(:conditions => {:person_id => self.id}).each do |appt|
+        appt.print_needed = true
+        appt.save!
+      end
+    end
+  end
   
   def last_institution
     # TODO Implement; find the institution of the most recent appointment

@@ -4,7 +4,8 @@ class Appointment < ActiveRecord::Base
   Role = HoboFields::EnumString.for(:participant, :trainer)
   
   fields do
-    role        Appointment::Role, :required
+    print_needed :boolean, :default => true
+    role         Appointment::Role, :required
     timestamps
   end
   
@@ -26,6 +27,10 @@ class Appointment < ActiveRecord::Base
   
   def before_create
     self.random_identifier = workshop.appointment_identifier_group.grab_identifier
+  end
+
+  def before_update
+    self.print_needed = true if institution_changed?
   end
 
   def to_s

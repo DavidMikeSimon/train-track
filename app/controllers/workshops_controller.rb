@@ -8,13 +8,15 @@ class WorkshopsController < ApplicationController
   auto_actions :all
   
   show_action :csv_codes do
-    headers['Content-Disposition'] = "attachment; filename=\"participants.csv\""
-    headers['Content-Type'] = 'text/csv'
-    
     line_template = "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n"
     
-    max_minutes = params[:minutes].to_i
     workshop = Workshop.find(params[:id])
+    conditions = { :workshop_id => workshop.id, :role => "participant" }
+    conditions[:print_needed] = true if params[:limit] == "print"
+    
+    headers['Content-Disposition'] = "attachment; filename=\"participants-%s.csv\"" % params[:limit]
+    headers['Content-Type'] = 'text/csv'
+    
     render :text => proc { |response, output|
       output.write line_template % [
         "Region",
@@ -26,22 +28,23 @@ class WorkshopsController < ApplicationController
       ]
       
       Appointment.all(
-        :conditions => { :workshop_id => workshop.id, :role => "participant" },
+        :conditions => conditions,
         :include => [:institution, :person, :random_identifier, :attendances],
         :order => "institutions.region, institutions.name, people.last_name, people.first_name"
       ).each do |appointment|
-        appt_age = Time.now - [appointment.updated_at, appointment.institution.updated_at, appointment.person.updated_at].max
-        appt_age_minutes = appt_age/60.0
-        if max_minutes == 0 || appt_age_minutes <= max_minutes
-          output.write line_template % [
-            appointment.institution.region,
-            appointment.institution.name,
-            appointment.person.last_name,
-            appointment.person.first_name,
-            appointment.train_code,
-            appointment.attendances.size
-          ]
-        end
+        output.write line_template % [
+          appointment.institution.region,
+          appointment.institution.name,
+          appointment.person.last_name,
+          appointment.person.first_name,
+          appointment.train_code,
+          appointment.attendances.size
+        ]
+      end
+      
+      # This has to be in the render proc block, otherwise it's executed _before_ the render
+      if params[:limit] == "print"
+        workshop.appointments.update_all("print_needed = 'f'")
       end
     }
   end

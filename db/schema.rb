@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100719182612) do
+ActiveRecord::Schema.define(:version => 20100720144502) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -19,6 +19,7 @@ ActiveRecord::Schema.define(:version => 20100719182612) do
     t.string   "role"
     t.integer  "institution_id"
     t.integer  "random_identifier_id"
+    t.boolean  "print_needed",         :default => true
   end
 
   add_index "appointments", ["institution_id"], :name => "index_appointments_on_institution_id"

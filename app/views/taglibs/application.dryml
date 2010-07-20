@@ -66,7 +66,21 @@
             :complete => "Hobo.hideSpinner()"
           )
           %>
+          &nbsp;&nbsp;&nbsp;
         <% end %>
+        
+        <% if this.print_needed? -%>
+          <b><font color="darkblue">On Print List:</font></b>
+        <% end %>
+        <%=
+        link_to_remote(
+          this.print_needed? ? "Don't Print" : "Print",
+          :url => { :controller => :appointments, :action => :toggle_print_needed, :id => this.id },
+          :method => :post,
+          :loading => "Hobo.showSpinner('Please wait...')",
+          :complete => "Hobo.hideSpinner()"
+        )
+        %>
       <% end %>
     </div>
   </div>

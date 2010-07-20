@@ -5,15 +5,9 @@
   <content-body: replace>
     <section class="content-body">
       <form action="#{this.id}/csv_codes" method="get">
-        <select name="minutes">
-          <option value="0">All Participants</option>
-          <option value="15">Participants updated in the last 15 minutes</option>
-          <option value="30">Participants updated in the last 30 minutes</option>
-          <option value="60">Participants updated in the last hour</option>
-          <option value="120">Participants updated in the last 2 hours</option>
-          <option value="240">Participants updated in the last 4 hours</option>
-          <option value="480">Participants updated in the last 8 hours</option>
-          <option value="1440">Participants updated in the last 24 hours</option>
+        <select name="limit">
+          <option value="print">Participants On Print List</option>
+          <option value="all">All Participants</option>
         </select>
         <submit class="btn-link" label="Generate Participant CSV"/>
       </form>

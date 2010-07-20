@@ -1,1 +1,2 @@
-<card with="&appointment" for="Appointment" />
+<% conf_registration_session = appointment.workshop.workshop_sessions.find_by_name('Conference Registration') %>
+<card with="&appointment.reload(:include => :attendances)" for="Appointment" conf-registration-session="&conf_registration_session"/>

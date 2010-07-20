@@ -58,6 +58,15 @@ class Institution < ActiveRecord::Base
     "#{name}, #{parish}, Region #{region}"
   end
 
+  def after_update
+    if name_changed? || region_changed?
+      Appointment.all(:conditions => {:institution_id => self.id}).each do |appt|
+        appt.print_needed = true
+        appt.save!
+      end
+    end
+  end
+
   # --- Permissions --- #
 
   def create_permitted?

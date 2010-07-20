@@ -12,6 +12,17 @@ class AppointmentsController < ApplicationController
       redirect_to @appointment.workshop
     end
   end
+
+  # TODO - Make me a web method
+  def toggle_print_needed
+    @appt = Appointment.find(params[:id])
+    @appt.print_needed = !@appt.print_needed?
+    @appt.save!
+    @appt.reload(:include => :attendances)
+    render :update do |page|
+      page.replace "appointment-%u" % @appt.id, :partial => @appt
+    end
+  end
   
   # TODO - Make me a web method
   def toggle_registration

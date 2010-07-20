@@ -6,6 +6,7 @@
 
 
 **** LONGER TERM ****
+- Reload workshop show page after generating a print list
 - Rename 'trainer' to 'presenter'
 - Use the index to grab new random identifiers
 - Refactor! Ye gods, refactor! Especially application.dryml and the workshop_sessions/appointments controllers
