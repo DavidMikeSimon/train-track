@@ -50,7 +50,7 @@
     <div class="body">
       <% if this.role == :participant -%>
         Participant Code: <b><%= this.train_code %></b><br/>
-        <b><%= "<a href=\"%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size, "Session")] %></b>
+        <b><%= "<a href=\"/appointments/%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size, "Session")] %></b>
         
         <% if conf_registration_session != nil -%>
           &nbsp;&nbsp;&nbsp;
