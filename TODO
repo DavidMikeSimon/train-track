@@ -6,6 +6,21 @@
 
 
 **** LONGER TERM ****
+- When processing train code, use a replace distance algorithm:
+  - For each quadrant that has all four digits, figure out what the other quadrants should be, then check character similarity vs. actual quadrants
+- Ignore mostly blank scanned inputs silently (somebody started filling it in, then said forget it)
+- Workshop session needs a "room" field
+- Editing appointment attendance - sort sessions.
+- Can teleform be told that 9's are disallowed? It tends to guess 9 instead of 5.
+- Can teleform be told to turn off insert-style editing in the verif stage?
+- Can teleform auto-commit after verification?
+- Times are shown in UTC, n ot local
+- Use the school code to identify institutions uniquely
+- Look into printing string nametags, to which stickers are attached
+- Figure out why the printer is so slow
+- Rename Appointment model to Participant, come up with a new concept name for what is now Appointment::role
+- Make 'job title' (aka role) part of appointment, not person (as it can change over time)
+- Add a field to show the organization the installation belongs to (so an MoE Train Track can be easily identified vs a BEP installation)
 - Show verification error on uniqueness violations
 - Keep track of what's been printed, allow easy re-printing of a given batch
 - Fill in the bottom part of the form with X's so that people aren't tempted to write "extra" numbers there

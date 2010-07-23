@@ -14,41 +14,39 @@ task :load_csv => :environment do
       puts ""
       
       CSV.open("#{RAILS_ROOT}/#{filename}", "r") do |row|
-        inst_name, first_name, last_name, gender, region = row
-        if region
-          region = region.to_i
-        else
-          puts "!!! [%s, %s, %s] Unknown region, defaulting to 1" % [inst_name, first_name, last_name]
-          region = 1
-        end
+        inst_name, person_name, gender, person_role = row
+        name_parts = person_name.split(" ")
+        last_name = name_parts.pop
+        first_name = name_parts.join(" ")
         
         gender = gender.downcase
         if gender == "m"
-          gender = :male
+          gender = "male"
         else
-          gender = :female
+          gender = "female"
         end
         
-        institution = Institution.find_by_name_and_region_and_organization_type(
+        institution = Institution.find_by_name_and_organization_type(
           inst_name,
-          region,
           organization_type
         )
         if institution
-          puts "+++ Found institution %u %s" % [region, inst_name]
+          puts "+++ Found institution %s" % [inst_name]
         else
-          puts "EEE Unable to find institution %u %s" % [region, inst_name]
+          puts "EEE Unable to find institution %s" % [inst_name]
         end
         
-        person = Person.new(
-          :first_name => first_name,
-          :last_name => last_name,
-          :gender => gender,
-          :title => gender == :female ? "Ms." : "Mr."
+        person = Person.find_or_initialize_by_first_name_and_last_name_and_gender(
+          first_name,
+          last_name,
+          gender,
+          :title => gender == "female" ? "Ms." : "Mr.",
+          :role => person_role
         )
         if person.valid?
+          person.role = person_role
           person.save!
-          puts "+++ Person %s %s" % [first_name, last_name]
+          puts "+++ Person %s %s (NEW:%s)" % [first_name, last_name, person.new_record?]
         else
           puts "EEE Unable to create person: #{person.inspect}"
         end
