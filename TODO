@@ -6,6 +6,7 @@
 
 
 **** LONGER TERM ****
+- Perhaps use universal person train codes (would require changing the train_code plugin)
 - When processing train code, use a replace distance algorithm:
   - For each quadrant that has all four digits, figure out what the other quadrants should be, then check character similarity vs. actual quadrants
 - Ignore mostly blank scanned inputs silently (somebody started filling it in, then said forget it)
