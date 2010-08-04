@@ -1,12 +1,26 @@
-**** BEFORE WEDNESDAY (in order of decreasing priority) ****
-- Allow importing attendance codes from teleform to mark attendance (on form: include date and start time, even if it isn't in session currently)
+FROM AUG 4 MEETING:
+- Online site on Heroku
+  - Seems fine
+- Data entry primary
+  - Fine
+- Name tags & stickers
+  - We already have some hanging tags
+  - Stickers are fine
+- When is next workshop?
+  - October
+- BEP is interested in sharing the software with JTC, MoE, etc.
+
+- It's okay for the numbers to change each workshop
+
+- Need to get meanings of those position codes
+
+- Don't use numbers with a '666' string, just generate another (makes it easier...)
+- Put the name of the institution in charge on the title bar, to differentiate JTC Train Track from BEP Train Track
+- Add people from institution page, AJAX-style just like on workshop page (for speed entry)
+- Need to generate report like the sheet I was shown: Overall Attendance Tracking Report
 - Should use javascript to set title automatically if gender changes and mismatches
 - Make it more convenient to use only keyboard when entering in large numbers of attendees
 - Remember school when restarting attendee-entry form; will be common to enter in multiple people from the same school
-
-
-**** LONGER TERM ****
-- Add people from institution page, AJAX-style (for speed entry)
 - Perhaps use universal person train codes (would require changing the train_code plugin)
 - When processing train code, use a replace distance algorithm:
   - For each quadrant that has all four digits, figure out what the other quadrants should be, then check character similarity vs. actual quadrants
