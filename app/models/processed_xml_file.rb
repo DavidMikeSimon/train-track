@@ -9,7 +9,6 @@ class ProcessedXmlFile < ActiveRecord::Base
     timestamps
   end
   
-  
   # --- Permissions --- #
   
   def create_permitted?
@@ -17,7 +16,7 @@ class ProcessedXmlFile < ActiveRecord::Base
   end
 
   def update_permitted?
-    acting_user.administrator?
+    acting_user.signed_up?
   end
 
   def destroy_permitted?

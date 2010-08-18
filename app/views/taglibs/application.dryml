@@ -19,8 +19,6 @@
     <before-app-name:>
        <img src="/images/train-logo.png" id="train-logo"/>
     </before-app-name:>
-    <!-- FIXME Temorarily disabling user management for demo purposes -->
-    <account-nav: replace></account-nav:>
   </old-page>
 </extend>
 

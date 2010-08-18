@@ -7,4 +7,12 @@ class ApplicationController < ActionController::Base
   
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
+  
+  before_filter :check_for_login
+  
+  def check_for_login
+    return true if current_user.signed_up?
+    redirect_to :controller => :users, :action => :login
+    return
+  end
 end

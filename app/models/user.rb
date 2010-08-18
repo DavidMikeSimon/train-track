@@ -15,6 +15,18 @@ class User < ActiveRecord::Base
   # Just remove it if you don't want that
   before_create { |user| user.administrator = true if !Rails.env.test? && count == 0 }
   
+  lifecycle do
+    state :active, :default => true
+
+    transition :request_password_reset, { :active => :active }, :new_key => true do
+      UserMailer.deliver_forgot_password(self, lifecycle.key)
+    end
+
+    transition :reset_password, { :active => :active }, :available_to => :key_holder,
+               :params => [ :password, :password_confirmation ]
+
+  end
+  
   # --- Permissions --- #
 
   def create_permitted?
