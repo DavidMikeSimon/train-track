@@ -62,5 +62,4 @@ Rails::Initializer.run do |config|
   # config.i18n.default_locale = :de
   
   APP_CONFIG = YAML::load(File.open("#{RAILS_ROOT}/config/appconfig.yml"))
-  PW_CONFIG = YAML::load(File.open("#{RAILS_ROOT}/config/pwconfig.yml"))
 end
