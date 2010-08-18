@@ -14,7 +14,13 @@ FROM AUG 4 MEETING:
 
 - Need to get meanings of those position codes
 
-- Don't use numbers with a '666' string, just generate another (makes it easier...)
+- Put it online by end of August
+
+- IMPORTANT MODEL ADJUSTMENT:
+  - People need to be strongly associated with the last school they attended a wkshop for; make this available even for people with 0 attendances
+  - Some chairmen are attending a workshop for multiple schools
+  - Allow non-chairmen to be assoc with multiple schools, but issue a warning (maybe?)
+- Don't use numbers with a '666' or '1313' string (ignoring dashes), just generate another (makes it easier...)
 - Put the name of the institution in charge on the title bar, to differentiate JTC Train Track from BEP Train Track
 - Add people from institution page, AJAX-style just like on workshop page (for speed entry)
 - Need to generate report like the sheet I was shown: Overall Attendance Tracking Report
