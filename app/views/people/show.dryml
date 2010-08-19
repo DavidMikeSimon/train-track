@@ -2,5 +2,6 @@
   <field-list:>
     <gender-view:><view with="&this.titleize" /></gender-view:>
     <grade-taught-view:><if><view/></if><else>N/A</else></grade-taught-view:>
+    <job-view:><if><view/></if><else>Other</else></job-view:>
   </field-list:>
 </show-page>

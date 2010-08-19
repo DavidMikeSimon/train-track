@@ -35,6 +35,14 @@
   </old-card>
 </extend>
 
+<extend tag="form" for="Person">
+  <old-form merge>
+    <field-list:>
+      <job-view:><select-one include-none="true" blank-message="Other"/></job-view:>
+    </field-list:>
+  </old-form>
+</extend>
+
 <extend tag="card" for="Appointment" attrs="conf-registration-session">
   <div id="#{'appointment-%u' % this.id}" class="card appointment">
     <div class="header">

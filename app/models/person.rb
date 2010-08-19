@@ -13,10 +13,11 @@ class Person < ActiveRecord::Base
     end
   end
   
+  belongs_to :job
+  
   fields do
     first_name      :string, :required
     last_name       :string, :required
-    job_details     :string
     title           Person::Title, :required
     gender          Person::Gender, :required
     cell_number     :string
@@ -24,10 +25,9 @@ class Person < ActiveRecord::Base
     fax_number      :string
     email_address   :email_address
     grade_taught    :integer # TODO Maybe should use serialize and make this "grades_taught"? Does Hobo work with that?
+    job_details     :string
     timestamps
   end
-  
-  belongs_to :job
   
   has_many :appointments, :dependent => :destroy
   
