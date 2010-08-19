@@ -22,6 +22,12 @@
   </old-page>
 </extend>
 
+<extend tag="account-nav">
+  <old-account-nav merge without-logged-in-as>
+    <log-out:><a href='&logout_url'>Log out <name/></a></log-out:>
+  </old-account-nav>
+</extend>
+
 <extend tag="card" for="Person">
   <old-card merge without-actions>
     <after-header:>

@@ -5,8 +5,8 @@ class User < ActiveRecord::Base
   hobo_user_model # Don't put anything above this
 
   fields do
-    name          :string, :required, :unique
-    email_address :email_address, :login => true
+    name          :string, :required, :unique, :login => true
+    email_address :email_address
     administrator :boolean, :default => false
     timestamps
   end

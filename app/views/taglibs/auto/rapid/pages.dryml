@@ -8,7 +8,6 @@
     <nav-item with="&Institution"><ht key="institutions.nav_item">Institutions</ht></nav-item>
     <nav-item with="&Person"><ht key="people.nav_item">People</ht></nav-item>
     <nav-item with="&ProcessedXmlFile"><ht key="processed_xml_files.nav_item">Processed Xml Files</ht></nav-item>
-    <nav-item with="&User"><ht key="users.nav_item">Users</ht></nav-item>
     <nav-item with="&Workshop"><ht key="workshops.nav_item">Workshops</ht></nav-item>
   </navigation>
 </def>
@@ -510,9 +509,6 @@
       </header>
 
       <section param="content-body">
-        <a action="new" to="&model" param="new-link">
-          <ht key="users.actions.new">New User</ht>
-        </a>
 
         <page-nav param="top-page-nav"/>
 
@@ -564,12 +560,6 @@
             </h2>
 
             <record-flags fields="administrator" param/>
-
-            <a action="edit" if="&can_edit?" param="edit-link">
-              <ht key="users.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
-                Edit User
-              </ht>
-            </a>
           </header>
 
           <section param="content-body">
