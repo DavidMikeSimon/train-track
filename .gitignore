@@ -1,2 +1,2 @@
 log
-db/production.sqlite3
+db/*.sqlite3
