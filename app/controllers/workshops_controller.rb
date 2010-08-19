@@ -26,6 +26,8 @@ class WorkshopsController < ApplicationController
         "First Name",
         "Code",
         "Role",
+        "Gender",
+        "Grade Taught",
         "Regular Sessions Attended",
         "Registered"
       ]
@@ -42,6 +44,8 @@ class WorkshopsController < ApplicationController
           appointment.person.first_name,
           appointment.train_code,
           appointment.person.role,
+          appointment.person.gender,
+          appointment.person.grade_taught || "",
           appointment.non_registration_attendances_count(conf_registration_session),
           appointment.attendances.any?{|a| a.workshop_session_id == conf_registration_session.id}
         ]
@@ -62,9 +66,9 @@ class WorkshopsController < ApplicationController
     Dir.foreach(xml_dir) do |filename|
       if filename.downcase.end_with?(".xml") && !already_processed.include?(filename)
         begin
-		  filepath = "%s/%s" % [xml_dir, filename]
-		  
-		  # Stupid hack to work around rubyscript2exe's problems with iconv decoders
+          filepath = "%s/%s" % [xml_dir, filename]
+        
+          # Stupid hack to work around rubyscript2exe's problems with iconv decoders
           fdata = File.foreach(filepath).reject{ |line| line.start_with? "<?xml" }.join("\n")
           doc = REXML::Document.new(fdata)
           unaccepted = 0
@@ -104,10 +108,10 @@ class WorkshopsController < ApplicationController
               unaccepted += 1
             end
           end
-	    rescue StandardError => e
-		  logger.info "#{filename} - UNABLE TO READ INPUT DATA : #{e.class.to_s} : #{e.to_s}"
-		  unaccepted += 1
-	    end
+        rescue StandardError => e
+          logger.info "#{filename} - UNABLE TO READ INPUT DATA : #{e.class.to_s} : #{e.to_s}"
+          unaccepted += 1
+        end
         
         ProcessedXmlFile.create(:filename => filename, :accepted => (unaccepted == 0), :duplicate_entry => duplicated)
         processed += 1
