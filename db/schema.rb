@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100819201454) do
+ActiveRecord::Schema.define(:version => 20100819202041) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -100,7 +100,7 @@ ActiveRecord::Schema.define(:version => 20100819201454) do
     t.integer "random_identifier_group_id"
   end
 
-  add_index "random_identifiers", ["random_identifier_group_id", "in_use", "id"], :name => "index_random_identifiers_on_random_identifier_group_and_in_use_and_id"
+  add_index "random_identifiers", ["random_identifier_group_id", "in_use"], :name => "index_random_identifiers_on_random_identifier_group_id_and_in_use"
 
   create_table "users", :force => true do |t|
     t.string   "crypted_password",          :limit => 40

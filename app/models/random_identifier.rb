@@ -9,7 +9,7 @@ class RandomIdentifier < ActiveRecord::Base
   belongs_to :random_identifier_group, :index => false # Index would duplicate the multi-column index below
   
   validates_presence_of :random_identifier_group
-  index [:random_identifier_group, :in_use, :id]
+  index [:random_identifier_group_id, :in_use]
   
   def after_destroy
     # Like a zombie rising from the grave, discarded in_use RandomIdentifiers come back to life as not in_use
