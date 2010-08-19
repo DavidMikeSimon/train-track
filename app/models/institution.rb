@@ -61,6 +61,12 @@ class Institution < ActiveRecord::Base
   def long_name
     "#{name}, #{parish}, Region #{region}"
   end
+  
+  def before_save
+    if name_changed?
+      self.name = self.class.clean_name(self.name)
+    end
+  end
 
   def after_update
     if name_changed? || region_changed?
@@ -69,6 +75,34 @@ class Institution < ActiveRecord::Base
         appt.save!
       end
     end
+  end
+  
+  NAME_ABBREVIATIONS = {
+    "PJH" => "Primary and Junior High",
+    "P/JH" => "Primary and Junior High",
+    "AA" => "All Age",
+    "A/A" => "All Age",
+    "JH" => "Junior High",
+    "JHS" => "Junior High",
+    "HS" => "High School",
+    "Inf" => "Infant",
+    "P" => "Primary",
+  }
+  
+  def self.clean_name(s)
+    NAME_ABBREVIATIONS.each_pair do |short, long|
+      s.gsub!(/\b(#{short})\b/, long)
+    end
+    
+    s.gsub!(".", "")
+    s.gsub!(/\b&/, " &")
+    s.gsub!(/&\b/, "& ")
+    s.gsub!("&", "and")
+    
+    s.gsub!(/ {2,}/, " ")
+    s.strip!
+    
+    return s
   end
 
   # --- Permissions --- #
