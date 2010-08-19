@@ -23,6 +23,7 @@ class Person < ActiveRecord::Base
     landline_number :string
     fax_number      :string
     email_address   :email_address
+    grade_taught    :integer # TODO Maybe should use serialize and make this "grades_taught"? Does Hobo work with that?
     timestamps
   end
   

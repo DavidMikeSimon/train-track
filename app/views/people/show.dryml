@@ -1,5 +1,6 @@
 <show-page for="People">
   <field-list:>
     <gender-view:><view with="&this.titleize" /></gender-view:>
+    <grade-taught-view:><if><view/></if><else>N/A</else></grade-taught-view:>
   </field-list:>
 </show-page>
