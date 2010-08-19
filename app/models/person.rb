@@ -2,7 +2,7 @@ class Person < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
   
-  Title = HoboFields::EnumString.for("Ms.", "Mrs.", "Miss", "Mr.", "Dr.", "Rev.", "Sister", "Fr.")
+  Title = HoboFields::EnumString.for("Ms.", "Mrs.", "Miss", "Mr.", "Dr.", "Rev.", "Sister", "Fr.", "Prof.")
   Gender = HoboFields::EnumString.for(:female, :male)
   
   def validate
