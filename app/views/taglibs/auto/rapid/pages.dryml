@@ -225,7 +225,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="school_code, region, address, parish, telephone_numbers, fax_number, email_address, organization_type, principal, education_officer, female_students_total, male_students_total, female_students_early_grade_total, male_students_early_grade_total" param/>
+            <field-list fields="school_code, region, address, parish, telephone_numbers, fax_number, email_address, organization_type, principal, education_officer, female_students_total, male_students_total, female_students_early_grade_total, male_students_early_grade_total, female_teachers_total, male_teachers_total, female_teachers_early_grade_total, male_teachers_early_grade_total" param/>
           </section>
     </content:>
 

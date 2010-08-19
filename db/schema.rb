@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100819012527) do
+ActiveRecord::Schema.define(:version => 20100819020630) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -55,6 +55,10 @@ ActiveRecord::Schema.define(:version => 20100819012527) do
     t.integer  "male_students_total",               :default => 0
     t.integer  "female_students_early_grade_total", :default => 0
     t.integer  "male_students_early_grade_total",   :default => 0
+    t.integer  "female_teachers_total",             :default => 0
+    t.integer  "male_teachers_total",               :default => 0
+    t.integer  "female_teachers_early_grade_total", :default => 0
+    t.integer  "male_teachers_early_grade_total",   :default => 0
   end
 
   add_index "institutions", ["name", "region"], :name => "index_institutions_on_name_and_region", :unique => true

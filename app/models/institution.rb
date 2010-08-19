@@ -47,6 +47,10 @@ class Institution < ActiveRecord::Base
     male_students_total      :integer, :default => 0
     female_students_early_grade_total :integer, :default => 0
     male_students_early_grade_total :integer, :default => 0
+    female_teachers_total    :integer, :default => 0
+    male_teachers_total      :integer, :default => 0
+    female_teachers_early_grade_total :integer, :default => 0
+    male_teachers_early_grade_total :integer, :default => 0
     timestamps
   end
   
