@@ -1,5 +1,5 @@
 <index-page for="People">
-  <table-plus: fields="this, cell_number, email_address, role, grade_taught">
+  <table-plus: fields="this, cell_number, email_address, job, grade_taught">
     <grade-taught-view:><if><view/></if><else>N/A</else></grade-taught-view:>
   </table-plus:>
 </index-page>

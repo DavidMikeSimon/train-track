@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100819202041) do
+ActiveRecord::Schema.define(:version => 20100819205126) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -64,6 +64,12 @@ ActiveRecord::Schema.define(:version => 20100819202041) do
 
   add_index "institutions", ["name", "region"], :name => "index_institutions_on_name_and_region", :unique => true
 
+  create_table "jobs", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "people", :force => true do |t|
     t.string   "first_name"
     t.string   "last_name"
@@ -75,9 +81,12 @@ ActiveRecord::Schema.define(:version => 20100819202041) do
     t.string   "email_address"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "role"
+    t.string   "job_details"
     t.integer  "grade_taught"
+    t.integer  "job_id"
   end
+
+  add_index "people", ["job_id"], :name => "index_people_on_job_id"
 
   create_table "processed_xml_files", :force => true do |t|
     t.string   "filename"

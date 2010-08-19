@@ -29,6 +29,14 @@
   </card>
 </def>
 
+<def tag="card" for="Job">
+  <card class="job" param="default" merge>
+    <header: param>
+      <h4 param="heading"><name/></h4>
+    </header:>
+  </card>
+</def>
+
 <def tag="card" for="Person">
   <card class="person" param="default" merge>
     <header: param>

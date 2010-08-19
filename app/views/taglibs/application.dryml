@@ -39,7 +39,7 @@
   <div id="#{'appointment-%u' % this.id}" class="card appointment">
     <div class="header">
       <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.institution.id, this.institution.long_name] %>
-      <%= this.person.role.blank? ? "" : "&nbsp;&nbsp;&nbsp;&nbsp;[#{this.person.role}]" %>
+      <%= this.person.job ? "&nbsp;&nbsp;&nbsp;&nbsp;[#{this.person.job.name}]" : ""%>
       <%=
         link_to_remote(
           "Remove",
