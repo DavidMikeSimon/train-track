@@ -8,6 +8,17 @@ class ApplicationController < ActionController::Base
   # Scrub sensitive parameters from your log
   filter_parameter_logging :password
   
+  before_filter :require_ssl
+  
+  def require_ssl
+    # Only redirect from port 80 so that local testing isn't messed with
+    if request.port == 80 && !request.ssl?
+      redirect_to "https://" + request.host + request.request_uri
+      flash.keep
+      return false
+    end
+  end
+  
   before_filter :check_for_login
   
   def check_for_login
