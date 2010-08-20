@@ -5,16 +5,6 @@ class Person < ActiveRecord::Base
   Title = HoboFields::EnumString.for("Ms.", "Mrs.", "Miss", "Mr.", "Dr.", "Rev.", "Sister", "Fr.", "Prof.")
   Gender = HoboFields::EnumString.for(:female, :male)
   
-  def validate
-    if ["Ms.", "Mrs.", "Miss", "Sister"].include?(title) && gender == :male
-      errors.add_to_base "You cannot use the title \"#{title}\" for a male person."
-    elsif ["Mr.", "Fr."].include?(title) && gender == :female
-      errors.add_to_base "You cannot use the title \"#{title}\" for a female person."
-    end
-  end
-  
-  belongs_to :job
-  
   fields do
     first_name      :string, :required
     last_name       :string, :required
@@ -28,6 +18,19 @@ class Person < ActiveRecord::Base
     job_details     :string
     timestamps
   end
+  
+  def validate
+    if ["Ms.", "Mrs.", "Miss", "Sister"].include?(title) && gender == :male
+      errors.add_to_base "You cannot use the title \"#{title}\" for a male person."
+    elsif ["Mr.", "Fr."].include?(title) && gender == :female
+      errors.add_to_base "You cannot use the title \"#{title}\" for a female person."
+    end
+  end
+  
+  include FuzzySearch
+  fuzzy_search_attributes :first_name, :last_name
+  
+  belongs_to :job
   
   has_many :appointments, :dependent => :destroy
   
