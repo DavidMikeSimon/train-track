@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100820004107) do
+ActiveRecord::Schema.define(:version => 20100820004515) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -89,10 +89,8 @@ ActiveRecord::Schema.define(:version => 20100820004107) do
   add_index "people", ["job_id"], :name => "index_people_on_job_id"
 
   create_table "person_trigrams", :force => true do |t|
-    t.string   "token",      :null => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "person_id"
+    t.string  "token",     :null => false
+    t.integer "person_id"
   end
 
   add_index "person_trigrams", ["person_id"], :name => "index_person_trigrams_on_person_id"

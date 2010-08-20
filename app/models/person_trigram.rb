@@ -4,7 +4,6 @@ class PersonTrigram < ActiveRecord::Base
 
   fields do
     token :string, :null => false
-    timestamps
   end
   
   belongs_to :person
