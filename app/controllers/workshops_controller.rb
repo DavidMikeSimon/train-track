@@ -8,7 +8,7 @@ class WorkshopsController < ApplicationController
   auto_actions :all
   
   show_action :csv_codes do
-    line_template = "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n"
+    line_template = "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n"
     
     workshop = Workshop.find(params[:id])
     conditions = { :workshop_id => workshop.id, :role => "participant" }
@@ -45,7 +45,7 @@ class WorkshopsController < ApplicationController
           appointment.person.first_name,
           appointment.train_code,
           appointment.person.job ? appointment.person.job.name : "Other",
-          appointment.person.job_details,
+          appointment.person.job_details || "",
           appointment.person.gender,
           appointment.person.grade_taught || "",
           appointment.non_registration_attendances_count(conf_registration_session),
