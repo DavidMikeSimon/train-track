@@ -51,7 +51,7 @@ module FuzzySearch
 		named_scope :fuzzy_find_scope, lambda { |words| generate_fuzzy_find_scope_params(words) }
       end
     end
-
+	
     def fuzzy_ref_id; (fuzzy_ref + "_id").to_sym; end
     def fuzzy_ref_type_symbol; fuzzy_ref.gsub(/\/(.?)/) { "::#{$1.upcase}" }.gsub(/(?:^|_)(.)/) { $1.upcase }.to_sym; end
     def fuzzy_ref_type; Kernel::const_get(fuzzy_ref_type_symbol); end
@@ -66,41 +66,6 @@ module FuzzySearch
       self.fuzzy_threshold = 5
     end
 	
-#    def scoped_fuzzy_find(words)
-#      
-#        # split the words on whitespaces and redo the find with that array
-#        return scoped_fuzzy_find()
-#      else 
-#        
-#        
-#        return with_scope(:find => )
-#			
-#        logger.info "fuzzy_find query found #{results.size} results"
-#        annotated_results = results.collect do |ref|
-#          # put a weight on each instance for display purpose
-#          def ref.fuzzy_weight=(w)
-#            @weight = w
-#          end
-#          def ref.fuzzy_weight
-#            @weight
-#          end
-#          
-#          # if there are no double entries then
-#          # i.count <= trigrams.size and i.count <= 'type'Trigrams.count
-#          ref.fuzzy_weight = ((ref.count.to_i * 100)/trigrams.size +
-#            (ref.count.to_i * 100)/fuzzy_trigram_type.send("count", :conditions => {fuzzy_ref_id => ref.id}))/2
-#          logger.info "weight: #{ref.fuzzy_weight}"
-#          ref
-#        end
-#
-#        # Remove the results that are too "far off" what the user intended
-#        annotated_results.delete_if {|result| result.fuzzy_weight < fuzzy_threshold}
-#
-#        annotated_results
-#      end
-#	  
-#    end
-	
 	def fuzzy_find(words)
 		fuzzy_find_scope(words).all
 	end
@@ -108,7 +73,9 @@ module FuzzySearch
 	private
 	
 	def generate_fuzzy_find_scope_params(words)
-		words = words.to_s.split(/[\s\-]+/) unless words.instance_of? Array
+		return {} unless words != nil
+		words = words.strip.to_s.split(/[\s\-]+/) unless words.instance_of? Array
+		return {} unless words.size > 0
 		
 		trigrams = []
         words.each do |w|
