@@ -62,12 +62,15 @@
     </div>
     <div class="body">
       <% if this.role == :participant -%>
+		<% registered = false %>
+		<% if conf_registration_session != nil -%>
+			<% registered = conf_registration_session.attendances.any?{|a| a.appointment_id == this.id} %>
+		<% end %>
         Participant Code: <b><%= this.train_code %></b><br/>
-        <b><%= "<a href=\"/appointments/%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size, "Session")] %></b>
+        <b><%= "<a href=\"/appointments/%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size - (registered ? 1 : 0), "Session")] %></b>
         
         <% if conf_registration_session != nil -%>
           &nbsp;&nbsp;&nbsp;
-          <% registered = conf_registration_session.attendances.any?{|a| a.appointment_id == this.id} %>
           <b><%= registered ? "<font color='darkgreen'>Registered:</font>" : "<font color='darkred'>Not Registered:</font>" %></b>
           <%=
           link_to_remote(
