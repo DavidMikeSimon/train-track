@@ -48,6 +48,7 @@ module FuzzySearch
         cattr_accessor :fuzzy_ref
         self.fuzzy_ref = model.name.underscore
         has_many fuzzy_trigram_type_symbol.to_s.tableize.to_sym
+		named_scope :fuzzy_find_scope, lambda { |words| generate_fuzzy_find_scope_params(words) }
       end
     end
 
@@ -64,57 +65,73 @@ module FuzzySearch
       cattr_accessor :fuzzy_threshold
       self.fuzzy_threshold = 5
     end
-
-    def fuzzy_find(words)
-      unless words.instance_of? Array
-        # split the words on whitespaces and redo the find with that array
-        fuzzy_find(words.to_s.split(/[\s\-]+/))
-      else 
-        trigrams = []
+	
+#    def scoped_fuzzy_find(words)
+#      
+#        # split the words on whitespaces and redo the find with that array
+#        return scoped_fuzzy_find()
+#      else 
+#        
+#        
+#        return with_scope(:find => )
+#			
+#        logger.info "fuzzy_find query found #{results.size} results"
+#        annotated_results = results.collect do |ref|
+#          # put a weight on each instance for display purpose
+#          def ref.fuzzy_weight=(w)
+#            @weight = w
+#          end
+#          def ref.fuzzy_weight
+#            @weight
+#          end
+#          
+#          # if there are no double entries then
+#          # i.count <= trigrams.size and i.count <= 'type'Trigrams.count
+#          ref.fuzzy_weight = ((ref.count.to_i * 100)/trigrams.size +
+#            (ref.count.to_i * 100)/fuzzy_trigram_type.send("count", :conditions => {fuzzy_ref_id => ref.id}))/2
+#          logger.info "weight: #{ref.fuzzy_weight}"
+#          ref
+#        end
+#
+#        # Remove the results that are too "far off" what the user intended
+#        annotated_results.delete_if {|result| result.fuzzy_weight < fuzzy_threshold}
+#
+#        annotated_results
+#      end
+#	  
+#    end
+	
+	def fuzzy_find(words)
+		fuzzy_find_scope(words).all
+	end
+	
+	private
+	
+	def generate_fuzzy_find_scope_params(words)
+		words = words.to_s.split(/[\s\-]+/) unless words.instance_of? Array
+		
+		trigrams = []
         words.each do |w|
           word = ' ' + normalize(w) + ' '
           word_as_chars = word.mb_chars
           trigrams << (0..word_as_chars.length-3).collect {|idx| word_as_chars[idx,3].to_s}
         end
         trigrams = trigrams.flatten.uniq
-
+		
         # Transform the list of columns in the searchable entity into 
         # a SQL fragment like:
         # "fuzzy_ref.id, fuzzy_ref.field1, fuzzy_ref.field2, ..."
-        #entity_fields = columns.map {|col| "fuzzy_ref." + col.name}.join(", ")
         entity_fields = columns.map {|col| fuzzy_ref_table + "." + col.name}.join(", ")
-        
-        results = find( :all, 
-                        :select => "count(*) AS count, #{entity_fields}",
-                        :joins => ["LEFT OUTER JOIN #{fuzzy_ref}_trigrams ON #{fuzzy_ref}_trigrams.#{fuzzy_ref}_id = #{fuzzy_ref_table}.id"],
-                        :conditions => ["#{fuzzy_ref}_trigrams.token IN (?)", trigrams],
-                        :group => entity_fields,
-                        :order => "count DESC" )
-
-        logger.info "fuzzy_find query found #{results.size} results"
-        annotated_results = results.collect do |ref|
-          # put a weight on each instance for display purpose
-          def ref.fuzzy_weight=(w)
-            @weight = w
-          end
-          def ref.fuzzy_weight
-            @weight
-          end
-          
-          # if there are no double entries then
-          # i.count <= trigrams.size and i.count <= 'type'Trigrams.count
-          ref.fuzzy_weight = ((ref.count.to_i * 100)/trigrams.size +
-            (ref.count.to_i * 100)/fuzzy_trigram_type.send("count", :conditions => {fuzzy_ref_id => ref.id}))/2
-          logger.info "weight: #{ref.fuzzy_weight}"
-          ref
-        end
-
-        # Remove the results that are too "far off" what the user intended
-        annotated_results.delete_if {|result| result.fuzzy_weight < fuzzy_threshold}
-
-        annotated_results
-      end
-    end
+		
+		return {
+			:select => "(((count(*)*100.0)/#{trigrams.size}) + ((count(*)*100.0)/(SELECT count(*) FROM #{fuzzy_ref}_trigrams WHERE #{fuzzy_ref}_id = #{fuzzy_ref_table}.id)))/2.0 AS fuzzy_weight, #{entity_fields}",
+			:joins => ["LEFT OUTER JOIN #{fuzzy_ref}_trigrams ON #{fuzzy_ref}_trigrams.#{fuzzy_ref}_id = #{fuzzy_ref_table}.id"],
+			:conditions => ["#{fuzzy_ref}_trigrams.token IN (?)", trigrams],
+			:group => entity_fields,
+			:order => "fuzzy_weight DESC",
+			:having => "fuzzy_weight >= #{fuzzy_threshold}"
+		}
+	end
   end
 
 end
