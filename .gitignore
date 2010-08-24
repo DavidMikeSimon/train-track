@@ -2,3 +2,8 @@ log
 db/*.sqlite3
 Git train-track.lnk
 *.pnproj
+doc
+gems
+specifications
+bin
+cache
