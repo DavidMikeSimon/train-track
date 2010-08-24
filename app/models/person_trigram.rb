@@ -6,6 +6,8 @@ class PersonTrigram < ActiveRecord::Base
     token :string, :null => false
   end
   
+  index :token
+  
   belongs_to :person
 
 
