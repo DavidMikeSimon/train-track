@@ -102,7 +102,7 @@
 <extend tag="index-page">
   <old-index-page merge without-top-page-nav without-bottom-page-nav without-new-link>
     <collection: replace>
-      <table-plus param="table-plus" fields="this" without-search-form> <!-- TODO Add search and sort functionality -->
+      <table-plus param="table-plus" fields="this">
         <prepend-header:>
           <a action="new" to="&model" param="new-link" class="btn-link">Create New <%= model.name %></a>
         </prepend-header:>
