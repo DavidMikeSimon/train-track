@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100912203650) do
+ActiveRecord::Schema.define(:version => 20100912215858) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -121,6 +121,12 @@ ActiveRecord::Schema.define(:version => 20100912203650) do
 
   add_index "random_identifiers", ["random_identifier_group_id"], :name => "index_random_identifiers_on_random_identifier_group_id"
 
+  create_table "training_subjects", :force => true do |t|
+    t.string   "name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
   create_table "users", :force => true do |t|
     t.string   "crypted_password",          :limit => 40
     t.string   "salt",                      :limit => 40
@@ -145,6 +151,7 @@ ActiveRecord::Schema.define(:version => 20100912203650) do
     t.integer  "random_identifier_id"
     t.datetime "starts_at"
     t.integer  "minutes",              :default => 0
+    t.integer  "training_subject_id"
   end
 
   add_index "workshop_sessions", ["random_identifier_id"], :name => "index_workshop_sessions_on_random_identifier_id"
@@ -163,6 +170,7 @@ ActiveRecord::Schema.define(:version => 20100912203650) do
     t.integer  "random_identifier_id"
     t.integer  "appointment_identifier_group_id"
     t.integer  "workshop_session_identifier_group_id"
+    t.integer  "default_training_subject_id"
   end
 
   add_index "workshops", ["appointment_identifier_group_id"], :name => "index_workshops_on_appointment_identifier_group_id"

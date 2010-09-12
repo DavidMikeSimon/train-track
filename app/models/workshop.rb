@@ -26,6 +26,9 @@ class Workshop < ActiveRecord::Base
   # Identifier groups for our appointments and sessions
   belongs_to :appointment_identifier_group, :class_name => "RandomIdentifierGroup", :dependent => :destroy
   belongs_to :workshop_session_identifier_group, :class_name => "RandomIdentifierGroup", :dependent => :destroy
+
+  # Default TrainingSubject for new sessions in this workshop
+  belongs_to :default_training_subject, :class_name => "TrainingSubject"
   
   has_many :workshop_sessions, :dependent => :destroy, :include => [:random_identifier], :order => "starts_at, name"
   

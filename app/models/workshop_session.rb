@@ -15,6 +15,8 @@ class WorkshopSession < ActiveRecord::Base
   validates_presence_of :workshop
   
   belongs_to :random_identifier, :dependent => :destroy
+
+  belongs_to :training_subject
   
   has_many :attendances, :dependent => :destroy
   has_many :appointments, :through => :attendances, :include => [:person, :institution], :accessible => true, :conditions => 'workshop_id = #{workshop_id}', :order => "people.last_name, people.first_name"
@@ -25,10 +27,15 @@ class WorkshopSession < ActiveRecord::Base
   
   def before_create
     self.random_identifier = workshop.workshop_session_identifier_group.grab_identifier
+    self.training_subject ||= workshop.default_training_subject
   end
   
   def description
-    "%s (%u minutes) - %s" % [self.starts_at.to_formatted_s(:long_ordinal), self.minutes, self.name]
+    s = "%s (%u minutes) - %s" % [self.starts_at.to_formatted_s(:long_ordinal), self.minutes, self.name]
+    if self.training_subject
+      s = "%s - %s" % [self.training_subject.name, s]
+    end
+    return s
   end
   
   def to_s
@@ -42,7 +49,7 @@ class WorkshopSession < ActiveRecord::Base
   end
 
   def update_permitted?
-    acting_user.signed_up? && only_changed?(:name, :starts_at, :minutes, :attendances)
+    acting_user.signed_up? && only_changed?(:name, :starts_at, :minutes, :training_subject, :attendances)
   end
 
   def destroy_permitted?
