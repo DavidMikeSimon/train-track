@@ -1,0 +1,97 @@
+<!-- AUTOMATICALLY GENERATED FILE - DO NOT EDIT -->
+
+<def tag="form" for="Appointment">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="print_needed, role, institution, person, random_identifier, workshop, workshop_sessions" param/>
+    <div param="actions">
+      <submit label="#{ht 'appointments.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Institution">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, school_code, region, address, parish, telephone_numbers, fax_number, email_address, organization_type, principal, education_officer, female_students_total, male_students_total, female_students_early_grade_total, male_students_early_grade_total, female_teachers_total, male_teachers_total, female_teachers_early_grade_total, male_teachers_early_grade_total" param/>
+    <div param="actions">
+      <submit label="#{ht 'institutions.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Person">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="first_name, last_name, title, gender, cell_number, landline_number, fax_number, email_address, grade_taught, job_details, job" param/>
+    <div param="actions">
+      <submit label="#{ht 'people.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="ProcessedXmlFile">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="filename, accepted, duplicate_entry" param/>
+    <div param="actions">
+      <submit label="#{ht 'processed_xml_files.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="User">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, email_address, administrator, state" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+<def tag="reset-password-form" polymorphic/>
+<def tag="reset-password-form" for="User">
+  <form lifecycle="reset_password" merge param="default">
+    <error-messages param/>
+    <input type="hidden" name="key" value="&this.lifecycle.provided_key" if="&this.lifecycle.provided_key"/>
+    <field-list fields="password, password_confirmation" param/>
+    <div param="actions">
+      <submit label="#{ht 'users.actions.reset_password', :default=>['Reset Password']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+<def tag="form" for="WorkshopSession">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="name, starts_at, minutes, appointments, random_identifier, training_subject, workshop" param/>
+    <div param="actions">
+      <submit label="#{ht 'workshop_sessions.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
+<def tag="form" for="Workshop">
+  <form merge param="default">
+    <error-messages param/>
+    <field-list fields="title, first_day, last_day, venue, region, purpose, appointment_identifier_group, default_training_subject, random_identifier, workshop_session_identifier_group" param/>
+    <div param="actions">
+      <submit label="#{ht 'workshops.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
+    </div>
+  </form>
+</def>
+
+
+
