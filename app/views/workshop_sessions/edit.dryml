@@ -1,6 +1,6 @@
 <edit-page>
   <form:>
-    <field-list: fields="name, starts_at, length, appointments">
+    <field-list: fields="name, starts_at, minutes, appointments">
       <appointments-view:>
         <check-many options="&Appointment.all(:conditions => {:workshop_id => this_parent.workshop_id}, :include => [:person, :institution], :order => 'created_at DESC')"/>
       </appointments-view:>

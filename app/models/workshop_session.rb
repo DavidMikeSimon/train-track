@@ -5,7 +5,7 @@ class WorkshopSession < ActiveRecord::Base
   fields do
     name        :string, :required
     starts_at   :datetime, :required
-    length      :integer, :required, :default => 0
+    minutes     :integer, :required, :default => 0
     timestamps
   end
   
@@ -28,7 +28,7 @@ class WorkshopSession < ActiveRecord::Base
   end
   
   def description
-    "%s (%u minutes) - %s" % [self.starts_at.to_formatted_s(:long_ordinal), self.length, self.name]
+    "%s (%u minutes) - %s" % [self.starts_at.to_formatted_s(:long_ordinal), self.minutes, self.name]
   end
   
   def to_s
@@ -42,7 +42,7 @@ class WorkshopSession < ActiveRecord::Base
   end
 
   def update_permitted?
-    acting_user.signed_up? && only_changed?(:name, :starts_at, :attendances)
+    acting_user.signed_up? && only_changed?(:name, :starts_at, :minutes, :attendances)
   end
 
   def destroy_permitted?

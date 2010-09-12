@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100912195053) do
+ActiveRecord::Schema.define(:version => 20100912203650) do
 
   create_table "appointments", :force => true do |t|
     t.datetime "created_at"
@@ -144,7 +144,7 @@ ActiveRecord::Schema.define(:version => 20100912195053) do
     t.integer  "workshop_id"
     t.integer  "random_identifier_id"
     t.datetime "starts_at"
-    t.integer  "length",               :default => 0
+    t.integer  "minutes",              :default => 0
   end
 
   add_index "workshop_sessions", ["random_identifier_id"], :name => "index_workshop_sessions_on_random_identifier_id"

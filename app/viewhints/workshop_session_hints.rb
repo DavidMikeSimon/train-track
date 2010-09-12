@@ -1,5 +1,5 @@
 class WorkshopSessionHints < Hobo::ViewHints
-  field_names :appointments => "Participants Present"
+  field_names :appointments => "Participants Present", :minutes => "Length In Minutes"
   # model_name "My Model"
   # field_names :field1 => "First Field", :field2 => "Second Field"
   # field_help :field1 => "Enter what you want in this field"

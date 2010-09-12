@@ -19,7 +19,7 @@ class WorkshopSessionsController < ApplicationController
   def create
     @workshop_id = params[:workshop_id]
     @name = params[:name]
-    @length = params[:length]
+    @minutes = params[:minutes]
     date_parts = params[:start_date].split("-").map(&:to_i)
     @starts_at = DateTime.new(
       date_parts[0],
@@ -29,7 +29,7 @@ class WorkshopSessionsController < ApplicationController
       params[:start_minute].to_i,
       0
     )
-    @workshop_session = WorkshopSession.create(:workshop_id => @workshop_id, :starts_at => @starts_at, :length => @length, :name => @name)
+    @workshop_session = WorkshopSession.create(:workshop_id => @workshop_id, :starts_at => @starts_at, :minutes => @minutes, :name => @name)
     if @workshop_session then
       render :update do |page|
         page.insert_html :top, "workshop-session-container", :partial => @workshop_session
