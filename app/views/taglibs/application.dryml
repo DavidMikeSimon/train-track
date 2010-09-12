@@ -258,7 +258,10 @@
       <%= select_tag "start_date", start_date_options, :class => "right-pad" %>
       <%= select_tag "start_hour", options_for_select((0..23).to_a.map{|n| "%02u" % n}, "12") %>
       :
-      <%= select_tag "start_minute", options_for_select((0..59).to_a.map{|n| "%02u" % n}) %>
+      <%= select_tag "start_minute", options_for_select((0..59).to_a.select{|n| n % 5 == 0}.map{|n| "%02u" % n}) %>
+      &nbsp;&nbsp;&nbsp;Length:
+      <%= select_tag "length", options_for_select((0..240).to_a.select{|n| n % 15 == 0}) %>
+      minutes
       <%= submit_tag "Add Session", :class => "button submit-button"%>
     <% end -%>
     </div>

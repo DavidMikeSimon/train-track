@@ -5,6 +5,7 @@ class WorkshopSession < ActiveRecord::Base
   fields do
     name        :string, :required
     starts_at   :datetime, :required
+    length      :integer, :required, :default => 0
     timestamps
   end
   
@@ -27,7 +28,7 @@ class WorkshopSession < ActiveRecord::Base
   end
   
   def description
-    "%s - %s" % [self.starts_at.to_formatted_s(:long_ordinal), self.name]
+    "%s (%u minutes) - %s" % [self.starts_at.to_formatted_s(:long_ordinal), self.length, self.name]
   end
   
   def to_s
