@@ -1,2 +1,4 @@
 rails -v 2.3.8
+rack -v 1.1.0
 hobo -v 1.0.1
+fastercsv -v 1.5.3
