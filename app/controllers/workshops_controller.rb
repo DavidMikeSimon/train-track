@@ -1,4 +1,4 @@
-require 'csv'
+require 'fastercsv'
 require 'set'
 
 class WorkshopsController < ApplicationController
@@ -8,56 +8,47 @@ class WorkshopsController < ApplicationController
   auto_actions :all
   
   show_action :csv_codes do
-    line_template = "\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\",\"%s\"\n"
-    
     workshop = Workshop.find(params[:id])
     conditions = { :workshop_id => workshop.id, :role => "participant" }
     conditions[:print_needed] = true if params[:limit] == "print"
     conf_registration_session = workshop.workshop_sessions.find_by_name('Conference Registration')
     
-    headers['Content-Disposition'] = "attachment; filename=\"participants-%s.csv\"" % params[:limit]
-    headers['Content-Type'] = 'text/csv'
+    csv_fields = [
+      ["Region", lambda {|a| a.institution.region }],
+      ["Institution", lambda {|a| a.institution.name }],
+      ["Last Name", lambda {|a| a.person.last_name }],
+      ["First Name", lambda {|a| a.person.first_name }],
+      ["Code", lambda {|a| a.train_code }],
+      ["Job", lambda {|a| a.person.job ? a.person.job.name : "Other" }],
+      ["Job Details", lambda {|a| a.person.job_details }],
+      ["Gender", lambda {|a| a.person.gender }],
+      ["Grade Taught", lambda {|a| a.person.grade_taught }],
+      ["Regular Sessions Attended", lambda {|a| a.non_registration_attendances_count(conf_registration_session) }],
+      ["Registered", lambda {|a| a.attendances.any?{|a| a.workshop_session_id == conf_registration_session.id } }]
+    ]
     
-    render :text => proc { |response, output|
-      output.write line_template % [
-        "Region",
-        "Institution",
-        "Last Name",
-        "First Name",
-        "Code",
-        "Job",
-        "Job Details",
-        "Gender",
-        "Grade Taught",
-        "Regular Sessions Attended",
-        "Registered"
-      ]
-      
+    csv_data = FasterCSV.generate do |csv|
+      # Header
+      csv << csv_fields.map {|e| e[0]}
+     
+      # Content
       Appointment.all(
         :conditions => conditions,
         :include => [:institution, :person, :random_identifier, :attendances],
         :order => "institutions.region, institutions.name, people.last_name, people.first_name"
       ).each do |appointment|
-        output.write line_template % [
-          appointment.institution.region,
-          appointment.institution.name,
-          appointment.person.last_name,
-          appointment.person.first_name,
-          appointment.train_code,
-          appointment.person.job ? appointment.person.job.name : "Other",
-          appointment.person.job_details || "",
-          appointment.person.gender,
-          appointment.person.grade_taught || "",
-          appointment.non_registration_attendances_count(conf_registration_session),
-          appointment.attendances.any?{|a| a.workshop_session_id == conf_registration_session.id}
-        ]
+        csv << csv_fields.map {|e| e[1].call(appointment)}
       end
-      
-      # This has to be in the render proc block, otherwise it's executed _before_ the render
-      if params[:limit] == "print"
-        workshop.appointments.update_all("print_needed = 'f'")
-      end
-    }
+    end
+    
+    send_data csv_data,
+      :type => 'text/csv; charset=iso-8859-1; header=present',
+      :disposition => "attachment; filename=\"participants-%s.csv\"" % params[:limit]
+
+    # This has to be in the render proc block, otherwise it's executed _before_ the render
+    if params[:limit] == "print"
+      workshop.appointments.update_all("print_needed = 'f'")
+    end
   end
   
   # FIXME This should be a web_method, implemented in model and accessible only through POST

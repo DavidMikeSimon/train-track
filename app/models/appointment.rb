@@ -76,7 +76,7 @@ class Appointment < ActiveRecord::Base
         :institution_id => institution_id,
         :role => role
       )
-      raise "Unable to create appointment" unless appt.valid?
+      raise "Unable to create appointment: #{appt.errors.full_messages.join(",")}" unless appt.valid?
       appt.save!
       return appt
     end
