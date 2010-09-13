@@ -50,18 +50,8 @@ class PeopleController < ApplicationController
       # Header
       csv << csv_fields.map {|e| e[0]}
 
-      select_fields = ["people.*"]
-      # TODO Get rid of this silly hack once people are more closely associated with an institution
-      ["name", "region"].each { |institution_field|
-        select_fields << "(SELECT institutions.#{institution_field} FROM appointments LEFT JOIN institutions ON institutions.id = appointments.institution_id LEFT JOIN workshops ON workshops.id = appointments.workshop_id WHERE appointments.person_id = people.id ORDER BY workshops.first_day DESC LIMIT 1) AS institution_#{institution_field}"
-      }
-      TrainingSubject.all.each { |ts|
-        select_fields << Person.minute_count_select_expr("%s_minutes" % ts.name, ts)
-      }
-      select_fields << Person.minute_count_select_expr("total_minutes")
-
       # Content
-      Person.all(:select => select_fields.join(","), :order => "last_name, first_name").each { |person|
+      Person.with_minute_count_fields.call(:order => "last_name, first_name").each { |person|
         csv << csv_fields.map {|e| (e[1].call(person) || "").to_s}
       }
     }

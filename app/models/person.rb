@@ -55,6 +55,18 @@ class Person < ActiveRecord::Base
   def self.minute_count_select_expr(col_name, training_subject = nil)
     "(SELECT SUM(workshop_sessions.minutes) FROM appointments LEFT JOIN attendances ON attendances.appointment_id = appointments.id LEFT JOIN workshop_sessions ON workshop_sessions.id = attendances.workshop_session_id WHERE appointments.person_id = people.id #{training_subject ? "AND workshop_sessions.training_subject_id = %u" % training_subject.id : ""}) as #{col_name}"
   end
+
+  # FIXME This is silly, I should be able to do this with eager-loading, but it isn't working for some reason
+  named_scope :with_minute_count_fields, lambda { { :select =>
+    (
+      ["people.*"] + 
+      TrainingSubject.all.map{|ts| minute_count_select_expr("%s_minutes" % ts.name, ts)} +
+      [minute_count_select_expr("total_minutes")] +
+      ["name", "region"].map { |institution_field|
+        "(SELECT institutions.#{institution_field} FROM appointments LEFT JOIN institutions ON institutions.id = appointments.institution_id LEFT JOIN workshops ON workshops.id = appointments.workshop_id WHERE appointments.person_id = people.id ORDER BY workshops.first_day DESC LIMIT 1) AS institution_#{institution_field}"
+      }
+    ).join(',')
+  } }
   
   # --- Permissions --- #
   
