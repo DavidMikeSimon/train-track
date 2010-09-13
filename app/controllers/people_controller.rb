@@ -35,7 +35,8 @@ class PeopleController < ApplicationController
       ["Institution", lambda { |p| p["institution_name"] }],
       ["Region", lambda { |p| p["institution_region"] }],
       ["Gender", lambda { |p| p.gender }],
-      ["Job", lambda {|p| p.job ? p.job.name : "Other" }]
+      ["Job", lambda {|p| p.job ? p.job.name : "Other" }],
+      ["Job Details", lambda {|p| p.job_details }]
     ]
     
     TrainingSubject.all.each do |ts|
