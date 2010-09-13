@@ -1,3 +1,9 @@
+class ActionController::Response
+  def <<(s)
+    write(s)
+  end
+end
+
 class PeopleController < ApplicationController
 
   hobo_model_controller
@@ -10,7 +16,20 @@ class PeopleController < ApplicationController
  
   # TODO Should probably just make this format-detected on regular index action
   # TODO Adjust this once people are more closely associated with an institution
+  # TODO Factor out this streaming-CSV-generation idea and have workshop CSV use it too
   index_action :csv do
+    filename = "people.csv"
+    if request.env['HTTP_USER_AGENT'] =~ /msie/i
+      headers['Pragma'] = 'public'
+      headers["Content-type"] = "text/plain"
+      headers['Cache-Control'] = 'no-cache, must-revalidate, post-check=0, pre-check=0'
+      headers['Content-Disposition'] = "attachment; filename=\"#{filename}\""
+      headers['Expires'] = "0"
+    else
+      headers["Content-Type"] ||= 'text/csv'
+      headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
+    end
+  
     csv_fields = [
       ["Last Name", lambda { |p| p.last_name }],
       ["First Name", lambda { |p| p.first_name }],
@@ -26,8 +45,10 @@ class PeopleController < ApplicationController
     end
     
     csv_fields << ["Total Hours", lambda { |p| p.attendances.all.sum{|a| a.workshop_session.minutes}/60.0}]
-    
-    csv_data = FasterCSV.generate do |csv|
+   
+    render :text => Proc.new { |response, output|
+      csv = FasterCSV.new(output, :row_sep => "\r\n")
+      
       # Header
       csv << csv_fields.map {|e| e[0]}
 
@@ -37,11 +58,7 @@ class PeopleController < ApplicationController
       ).each do |person|
         csv << csv_fields.map {|e| (e[1].call(person) || "").to_s}
       end
-    end
-    
-    send_data csv_data,
-      :type => 'text/csv; charset=iso-8859-1; header=present',
-      :disposition => "attachment; filename=\"people.csv\""
+    }
   end
 
 end
