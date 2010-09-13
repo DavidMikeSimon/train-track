@@ -32,7 +32,7 @@ class Person < ActiveRecord::Base
   
   belongs_to :job
   
-  has_many :appointments, :dependent => :destroy
+  has_many :appointments, :dependent => :destroy, :include => :workshop, :order => "workshops.first_day"
   
   set_default_order "last_name, first_name"
   

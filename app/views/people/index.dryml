@@ -1,4 +1,8 @@
 <index-page for="People">
+  <after-heading:>
+    <a class="btn-link" href="/people/csv">Generate CSV Report</a>
+  </after-heading:>
+  
   <table-plus: fields="this, cell_number, job, grade_taught">
     <grade-taught-view:><if><view/></if><else>N/A</else></grade-taught-view:>
     <job-view:><select-one-editor include-none="true" blank-message="Other" sort="true"/></job-view:>
