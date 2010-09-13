@@ -39,7 +39,7 @@ class PeopleController < ApplicationController
     ]
     
     TrainingSubject.all.each do |ts|
-      csv_fields << ["%s Hours" % ts.name, lambda { |p| (p["%s_minutes" % ts.name].to_i || 0)/60.0}]
+      csv_fields << ["%s Hours" % ts.name, lambda { |p| (p["%s_minutes" % ts.name.gsub(" ", "_").underscore].to_i || 0)/60.0}]
     end
     
     csv_fields << ["Total Hours", lambda { |p| (p["total_minutes"].to_i || 0)/60.0}]
@@ -51,7 +51,7 @@ class PeopleController < ApplicationController
       csv << csv_fields.map {|e| e[0]}
 
       # Content
-      Person.with_minute_count_fields.call(:order => "last_name, first_name").each { |person|
+      Person.with_minute_count_fields().all(:order => "last_name, first_name").each { |person|
         csv << csv_fields.map {|e| (e[1].call(person) || "").to_s}
       }
     }

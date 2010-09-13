@@ -60,7 +60,7 @@ class Person < ActiveRecord::Base
   named_scope :with_minute_count_fields, lambda { { :select =>
     (
       ["people.*"] + 
-      TrainingSubject.all.map{|ts| minute_count_select_expr("%s_minutes" % ts.name, ts)} +
+      TrainingSubject.all.map{|ts| minute_count_select_expr("%s_minutes" % ts.name.gsub(" ", "_").underscore, ts)} +
       [minute_count_select_expr("total_minutes")] +
       ["name", "region"].map { |institution_field|
         "(SELECT institutions.#{institution_field} FROM appointments LEFT JOIN institutions ON institutions.id = appointments.institution_id LEFT JOIN workshops ON workshops.id = appointments.workshop_id WHERE appointments.person_id = people.id ORDER BY workshops.first_day DESC LIMIT 1) AS institution_#{institution_field}"
