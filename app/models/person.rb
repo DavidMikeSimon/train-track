@@ -50,6 +50,11 @@ class Person < ActiveRecord::Base
   def last_institution
     # TODO Implement; find the institution of the most recent appointment
   end
+
+  # FIXME Ridiculously un-Railsy hack, but can't seem to get eager loading to work on this issue
+  def self.minute_count_select_expr(col_name, training_subject = nil)
+    "(SELECT SUM(workshop_sessions.minutes) FROM appointments LEFT JOIN attendances ON attendances.appointment_id = appointments.id LEFT JOIN workshop_sessions ON workshop_sessions.id = attendances.workshop_session_id WHERE appointments.person_id = people.id) as #{col_name}"
+  end
   
   # --- Permissions --- #
   

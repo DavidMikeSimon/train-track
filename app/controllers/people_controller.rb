@@ -33,18 +33,18 @@ class PeopleController < ApplicationController
     csv_fields = [
       ["Last Name", lambda { |p| p.last_name }],
       ["First Name", lambda { |p| p.first_name }],
-      ["Institution", lambda { |p| p.appointments.last.institution if p.appointments.last }],
-      ["Region", lambda { |p| p.appointments.last.institution.region if p.appointments.last }],
+      #["Institution", lambda { |p| p.appointments.last.institution.name if p.appointments.last }],
+      #["Region", lambda { |p| p.appointments.last.institution.region if p.appointments.last }],
       ["Gender", lambda { |p| p.gender }],
       ["Job", lambda {|p| p.job ? p.job.name : "Other" }],
       ["Job Details", lambda {|p| p.job_details }]
     ]
     
     TrainingSubject.all.each do |ts|
-      csv_fields << ["%s Hours" % ts.name, lambda { |p| p.attendances.select{|a| a.workshop_session.training_subject == ts}.sum{|a| a.workshop_session.minutes}/60.0}]
+      csv_fields << ["%s Hours" % ts.name, lambda { |p| (p.send("#{ts.name}_minutes") || 0)/60.0}]
     end
     
-    csv_fields << ["Total Hours", lambda { |p| p.attendances.all.sum{|a| a.workshop_session.minutes}/60.0}]
+    csv_fields << ["Total Hours", lambda { |p| (p.send("total_minutes") || 0)/60.0}]
    
     render :text => Proc.new { |response, output|
       csv = FasterCSV.new(output, :row_sep => "\r\n")
@@ -52,10 +52,14 @@ class PeopleController < ApplicationController
       # Header
       csv << csv_fields.map {|e| e[0]}
 
+      select_fields = ["people.*"]
+      TrainingSubject.all.each do |ts|
+        select_fields << Person.minute_count_select_expr("%s_minutes" % ts.name, ts)
+      end
+      select_fields << Person.minute_count_select_expr("total_minutes")
+
       # Content
-      Person.all(
-        :order => "last_name, first_name"
-      ).each do |person|
+      Person.all(:select => select_fields.join(","), :order => "last_name, first_name").each do |person|
         csv << csv_fields.map {|e| (e[1].call(person) || "").to_s}
       end
     }
