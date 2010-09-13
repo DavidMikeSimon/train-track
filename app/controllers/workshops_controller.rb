@@ -37,7 +37,7 @@ class WorkshopsController < ApplicationController
         :include => [:institution, :person, :random_identifier, :attendances],
         :order => "institutions.region, institutions.name, people.last_name, people.first_name"
       ).each do |appointment|
-        csv << csv_fields.map {|e| e[1].call(appointment) || ""}
+        csv << csv_fields.map {|e| (e[1].call(appointment) || "").to_s}
       end
     end
     
