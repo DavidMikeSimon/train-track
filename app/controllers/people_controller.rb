@@ -32,17 +32,17 @@ class PeopleController < ApplicationController
     csv_fields = [
       ["Last Name", lambda { |p| p.last_name }],
       ["First Name", lambda { |p| p.first_name }],
-      ["Institution", lambda { |p| p.institution_name }],
-      ["Region", lambda { |p| p.institution_region }],
+      ["Institution", lambda { |p| p["institution_name"] }],
+      ["Region", lambda { |p| p["institution_region"] }],
       ["Gender", lambda { |p| p.gender }],
       ["Job", lambda {|p| p.job ? p.job.name : "Other" }]
     ]
     
     TrainingSubject.all.each do |ts|
-      csv_fields << ["%s Hours" % ts.name, lambda { |p| (p.send("#{ts.name}_minutes") || 0)/60.0}]
+      csv_fields << ["%s Hours" % ts.name, lambda { |p| (p["#{ts.name}_minutes"] || 0)/60.0}]
     end
     
-    csv_fields << ["Total Hours", lambda { |p| (p.send("total_minutes") || 0)/60.0}]
+    csv_fields << ["Total Hours", lambda { |p| (p["total_minutes"] || 0)/60.0}]
    
     render :text => Proc.new { |response, output|
       csv = FasterCSV.new(output, :row_sep => "\r\n")
