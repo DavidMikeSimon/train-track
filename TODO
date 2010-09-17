@@ -3,28 +3,24 @@
   - Some chairmen are attending a workshop for multiple schools
   - Allow non-chairmen to be assoc with multiple schools, but issue a warning (maybe?)
 - Don't use numbers with a '666' or '1313' string (ignoring dashes), just generate another (makes it easier...)
-- Put the name of the institution in charge on the title bar, to differentiate JTC Train Track from BEP Train Track
+- Add a field to show the organization the installation belongs to (so an MoE Train Track can be easily identified vs a BEP installation)
+  - Put the name of the institution in charge on the title bar, to differentiate JTC Train Track from BEP Train Track
 - Add people from institution page, AJAX-style just like on workshop page (for speed entry)
-- Need to generate report like the sheet I was shown: Overall Attendance Tracking Report
 - Should use javascript to set title automatically if gender changes and mismatches
 - Make it more convenient to use only keyboard when entering in large numbers of attendees
 - Remember school when restarting attendee-entry form; will be common to enter in multiple people from the same school
-- Perhaps use universal person train codes (would require changing the train_code plugin)
-- When processing train code, use a replace distance algorithm:
-  - For each quadrant that has all four digits, figure out what the other quadrants should be, then check character similarity vs. actual quadrants
+- When processing train code, use a replace distance algorithm
 - Ignore mostly blank scanned inputs silently (somebody started filling it in, then said forget it)
 - Workshop session needs a "room" field
 - Editing appointment attendance - sort sessions.
 - Can teleform be told that 9's are disallowed? It tends to guess 9 instead of 5.
 - Can teleform be told to turn off insert-style editing in the verif stage?
 - Can teleform auto-commit after verification?
-- Times are shown in UTC, n ot local
+- Times are shown in UTC, not local
 - Use the school code to identify institutions uniquely
 - Look into printing string nametags, to which stickers are attached
 - Figure out why the printer is so slow
 - Rename Appointment model to Participant, come up with a new concept name for what is now Appointment::role
-- Make 'job title' (aka role) part of appointment, not person (as it can change over time)
-- Add a field to show the organization the installation belongs to (so an MoE Train Track can be easily identified vs a BEP installation)
 - Show verification error on uniqueness violations
 - Keep track of what's been printed, allow easy re-printing of a given batch
 - Fill in the bottom part of the form with X's so that people aren't tempted to write "extra" numbers there
@@ -33,8 +29,8 @@
 - Use the index to grab new random identifiers
 - Refactor! Ye gods, refactor! Especially application.dryml and the workshop_sessions/appointments controllers
 - After adding a session, reset focus to session name text box and clear contents
-- Should be possible to alter a session's start time from its edit page
-- Maybe give sessions a show page which lists all the people who attended that session
+- Use a better way of editing attendance data
+  - JSAS prototype table?
 - The attendance editor for appointments should order the sessions by their start time, and use WorkshopSession.to_s
 - Always replace "&" with "and" when inserting/updating/searching institution names
   - Similarly, "PJH" -> "Primary and Junior High", "Inf" -> "Infant", "AA" -> "All Age", "JH" -> "Junior High", etc.
@@ -47,16 +43,8 @@
 - Include numbers on the registration sheet, and include that number in the output XML file if possible
 - Move XML processing to its own page, and allow manual viewing of the processed files log
   - Show files which are matched to a workshop and session but not to an attendee on the workshop's page, with a "resolved" button
-  - However, files where most of the attendee boxes are left blank are not marked in this way
 - Speed up the workshop display page when showing large numbers of attendees
 - Integrate with offline mirror ; keep an online version on heroku, and allow workshop checkout and checkin
-- Allow guessing from a single number in the code (maybe with some way to make sure code matches directly in at least one quadrant?)
-- It would be really really really nice if I could get TeleForm to export the image of the field along with the data
-  - I'm dreaming, aren't I?
-    - Yep, totally dreaming.
-    - If I'm not dreaming, though, allow user to type in correct number within Train Track, and have it re-attempt the match
-- Have a special session which is for registration, with its own form that includes a signature field
-  - Have a toggle button available AJAXily within the appointment card to toggle registration status (with a msg box confirm)
 - When a name is typed in, allow these options:
   - Show similar names (indicating if they're already registered with this workshop or not, and what their last institution was)
   - Allow creating a new person
@@ -75,17 +63,7 @@
   - Can table-plus do AJAX sorting? AJAX pagination? AJAX searching? Most importantly, AJAX insertions and deletions?
 - MoE people aren't all from region 1 - need to re-think relationship between institution and region
 - Allow in-place AJAX editing of appointments, including attendances
-- First row of generated CSV should be a title row
 
-
-For each workshop there are several sessions, each of which can apply their hours to different categories, i.e.:
-	- Leadership
-	- Numeracy
-	- Literacy
-	- etc.
-
-Need to investigate teleform for the quickest possible way to mark attendance. Note that many people will show up late.
-Also needs to be possible to correct attendance information afterwards (maybe as an intermediary check process before commit)
 
 Need to submit information to Trainet:
 	- Automatically if possible
