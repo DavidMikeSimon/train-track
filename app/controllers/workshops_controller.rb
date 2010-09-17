@@ -11,7 +11,6 @@ class WorkshopsController < ApplicationController
     workshop = Workshop.find(params[:id])
     conditions = { :workshop_id => workshop.id, :role => "participant" }
     conditions[:print_needed] = true if params[:limit] == "print"
-    conf_registration_session = workshop.workshop_sessions.find_by_name('Conference Registration')
     
     csv_fields = [
       ["Region", lambda {|a| a.institution.region }],
@@ -23,10 +22,10 @@ class WorkshopsController < ApplicationController
       ["Job Details", lambda {|a| a.person.job_details }],
       ["Gender", lambda {|a| a.person.gender }],
       ["Grade Taught", lambda {|a| a.person.grade_taught }],
-      ["Regular Sessions Attended", lambda {|a| a.non_registration_attendances_count(conf_registration_session) }],
-      ["Registered", lambda {|a| a.attendances.any?{|a| a.workshop_session_id == conf_registration_session.id } }]
+      ["Sessions Attended", lambda {|a| a.attendances.size }],
+      ["Registered", lambda {|a| a.registered }]
     ]
-
+    
     source = Appointment.all(
       :conditions => conditions,
       :include => [:institution, :person, :random_identifier, :attendances],

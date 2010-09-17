@@ -94,7 +94,7 @@
               </ht>
             </h2>
 
-            <record-flags fields="print_needed" param/>
+            <record-flags fields="print_needed, registered" param/>
 
             <a action="edit" if="&can_edit?" param="edit-link">
               <ht key="appointments.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">
