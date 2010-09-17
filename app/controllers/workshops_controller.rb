@@ -6,7 +6,7 @@ class WorkshopsController < ApplicationController
   hobo_model_controller
 
   auto_actions :all
-  
+ 
   show_action :csv_codes do
     workshop = Workshop.find(params[:id])
     conditions = { :workshop_id => workshop.id, :role => "participant" }
@@ -26,31 +26,19 @@ class WorkshopsController < ApplicationController
       ["Regular Sessions Attended", lambda {|a| a.non_registration_attendances_count(conf_registration_session) }],
       ["Registered", lambda {|a| a.attendances.any?{|a| a.workshop_session_id == conf_registration_session.id } }]
     ]
-    
-    csv_data = FasterCSV.generate do |csv|
-      # Header
-      csv << csv_fields.map {|e| e[0]}
-     
-      # Content
-      Appointment.all(
-        :conditions => conditions,
-        :include => [:institution, :person, :random_identifier, :attendances],
-        :order => "institutions.region, institutions.name, people.last_name, people.first_name"
-      ).each do |appointment|
-        csv << csv_fields.map {|e| (e[1].call(appointment) || "").to_s}
-      end
-    end
-    
-    send_data csv_data,
-      :type => 'text/csv; charset=iso-8859-1; header=present',
-      :disposition => "attachment; filename=\"participants-%s.csv\"" % params[:limit]
 
-    # This has to be in the render proc block, otherwise it's executed _before_ the render
+    source = Appointment.all(
+      :conditions => conditions,
+      :include => [:institution, :person, :random_identifier, :attendances],
+      :order => "institutions.region, institutions.name, people.last_name, people.first_name"
+    )
+    render_csv ("participants-%s.csv" % params[:limit]), csv_fields, source
+    
     if params[:limit] == "print"
       workshop.appointments.update_all("print_needed = 'f'")
     end
   end
-  
+
   # FIXME This should be a web_method, implemented in model and accessible only through POST
   show_action :process_xml do
     xml_dir = defined?(TAR2RUBYSCRIPT) ? oldlocation("attendance-xml") : "#{RAILS_ROOT}/attendance-xml"
@@ -60,7 +48,7 @@ class WorkshopsController < ApplicationController
       if filename.downcase.end_with?(".xml") && !already_processed.include?(filename)
         begin
           filepath = "%s/%s" % [xml_dir, filename]
-        
+
           # Stupid hack to work around rubyscript2exe's problems with iconv decoders
           fdata = File.foreach(filepath).reject{ |line| line.start_with? "<?xml" }.join("\n")
           doc = REXML::Document.new(fdata)

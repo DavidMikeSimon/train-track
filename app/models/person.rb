@@ -67,6 +67,8 @@ class Person < ActiveRecord::Base
       }
     ).join(',')
   } }
+
+  named_scope :sorted_by_last_name, :order => "last_name, first_name"
   
   # --- Permissions --- #
   
