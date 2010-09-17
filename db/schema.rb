@@ -9,30 +9,30 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100912215858) do
+ActiveRecord::Schema.define(:version => 20100917171703) do
 
   create_table "appointments", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "workshop_id"
-    t.integer  "person_id"
-    t.string   "role"
-    t.integer  "institution_id"
-    t.integer  "random_identifier_id"
-    t.boolean  "print_needed",         :default => true
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "workshop_id"
+    t.integer   "person_id"
+    t.string    "role"
+    t.integer   "institution_id"
+    t.integer   "random_identifier_id"
+    t.boolean   "print_needed",         :default => true
+    t.boolean   "registered",           :default => false
   end
 
   add_index "appointments", ["institution_id"], :name => "index_appointments_on_institution_id"
   add_index "appointments", ["person_id"], :name => "index_appointments_on_person_id"
   add_index "appointments", ["random_identifier_id"], :name => "index_appointments_on_random_identifier_id"
   add_index "appointments", ["workshop_id", "person_id", "role"], :name => "index_appointments_on_workshop_id_and_person_id_and_role", :unique => true
-  add_index "appointments", ["workshop_id", "person_id"], :name => "index_appointments_on_workshop_id_and_person_id", :unique => true
 
   create_table "attendances", :force => true do |t|
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "appointment_id"
-    t.integer  "workshop_session_id"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "appointment_id"
+    t.integer   "workshop_session_id"
   end
 
   add_index "attendances", ["appointment_id"], :name => "index_attendances_on_appointment_id"
@@ -40,52 +40,51 @@ ActiveRecord::Schema.define(:version => 20100912215858) do
   add_index "attendances", ["workshop_session_id"], :name => "index_attendances_on_workshop_session_id"
 
   create_table "institutions", :force => true do |t|
-    t.string   "name"
-    t.string   "school_code"
-    t.integer  "region"
-    t.text     "address"
-    t.string   "telephone_numbers"
-    t.string   "fax_number"
-    t.string   "email_address"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "parish"
-    t.string   "organization_type",                 :default => "school"
-    t.string   "principal"
-    t.string   "education_officer"
-    t.integer  "female_students_total",             :default => 0
-    t.integer  "male_students_total",               :default => 0
-    t.integer  "female_students_early_grade_total", :default => 0
-    t.integer  "male_students_early_grade_total",   :default => 0
-    t.integer  "female_teachers_total",             :default => 0
-    t.integer  "male_teachers_total",               :default => 0
-    t.integer  "female_teachers_early_grade_total", :default => 0
-    t.integer  "male_teachers_early_grade_total",   :default => 0
+    t.string    "name"
+    t.string    "school_code"
+    t.integer   "region"
+    t.text      "address"
+    t.string    "telephone_numbers"
+    t.string    "fax_number"
+    t.string    "email_address"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "parish"
+    t.string    "organization_type",                 :default => "school"
+    t.string    "principal"
+    t.string    "education_officer"
+    t.integer   "female_students_total",             :default => 0
+    t.integer   "male_students_total",               :default => 0
+    t.integer   "female_students_early_grade_total", :default => 0
+    t.integer   "male_students_early_grade_total",   :default => 0
+    t.integer   "female_teachers_total",             :default => 0
+    t.integer   "male_teachers_total",               :default => 0
+    t.integer   "female_teachers_early_grade_total", :default => 0
+    t.integer   "male_teachers_early_grade_total",   :default => 0
   end
 
   add_index "institutions", ["name", "region"], :name => "index_institutions_on_name_and_region", :unique => true
-  add_index "institutions", ["name"], :name => "index_institutions_on_name", :unique => true
 
   create_table "jobs", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string    "name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "people", :force => true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "title"
-    t.string   "gender"
-    t.string   "cell_number"
-    t.string   "landline_number"
-    t.string   "fax_number"
-    t.string   "email_address"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "job_details"
-    t.integer  "grade_taught"
-    t.integer  "job_id"
+    t.string    "first_name"
+    t.string    "last_name"
+    t.string    "title"
+    t.string    "gender"
+    t.string    "cell_number"
+    t.string    "landline_number"
+    t.string    "fax_number"
+    t.string    "email_address"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "job_details"
+    t.integer   "grade_taught"
+    t.integer   "job_id"
   end
 
   add_index "people", ["job_id"], :name => "index_people_on_job_id"
@@ -99,11 +98,11 @@ ActiveRecord::Schema.define(:version => 20100912215858) do
   add_index "person_trigrams", ["token"], :name => "index_person_trigrams_on_token"
 
   create_table "processed_xml_files", :force => true do |t|
-    t.string   "filename"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.boolean  "accepted"
-    t.boolean  "duplicate_entry"
+    t.string    "filename"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.boolean   "accepted"
+    t.boolean   "duplicate_entry"
   end
 
   create_table "random_identifier_groups", :force => true do |t|
@@ -119,39 +118,39 @@ ActiveRecord::Schema.define(:version => 20100912215858) do
     t.integer "random_identifier_group_id"
   end
 
-  add_index "random_identifiers", ["random_identifier_group_id"], :name => "index_random_identifiers_on_random_identifier_group_id"
+  add_index "random_identifiers", ["random_identifier_group_id", "in_use"], :name => "index_random_identifiers_on_random_identifier_group_id_and_in_u"
 
   create_table "training_subjects", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
+    t.string    "name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
   end
 
   create_table "users", :force => true do |t|
-    t.string   "crypted_password",          :limit => 40
-    t.string   "salt",                      :limit => 40
-    t.string   "remember_token"
-    t.datetime "remember_token_expires_at"
-    t.string   "name"
-    t.string   "email_address"
-    t.boolean  "administrator",                           :default => false
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "state",                                   :default => "active"
-    t.datetime "key_timestamp"
+    t.string    "crypted_password",          :limit => 40
+    t.string    "salt",                      :limit => 40
+    t.string    "remember_token"
+    t.timestamp "remember_token_expires_at"
+    t.string    "name"
+    t.string    "email_address"
+    t.boolean   "administrator",                           :default => false
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "state",                                   :default => "active"
+    t.timestamp "key_timestamp"
   end
 
   add_index "users", ["state"], :name => "index_users_on_state"
 
   create_table "workshop_sessions", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.integer  "workshop_id"
-    t.integer  "random_identifier_id"
-    t.datetime "starts_at"
-    t.integer  "minutes",              :default => 0
-    t.integer  "training_subject_id"
+    t.string    "name"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.integer   "workshop_id"
+    t.integer   "random_identifier_id"
+    t.timestamp "starts_at"
+    t.integer   "minutes",              :default => 0
+    t.integer   "training_subject_id"
   end
 
   add_index "workshop_sessions", ["random_identifier_id"], :name => "index_workshop_sessions_on_random_identifier_id"
@@ -159,18 +158,18 @@ ActiveRecord::Schema.define(:version => 20100912215858) do
   add_index "workshop_sessions", ["workshop_id"], :name => "index_workshop_sessions_on_workshop_id"
 
   create_table "workshops", :force => true do |t|
-    t.string   "title"
-    t.date     "first_day"
-    t.string   "venue"
-    t.integer  "region"
-    t.string   "purpose"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.date     "last_day"
-    t.integer  "random_identifier_id"
-    t.integer  "appointment_identifier_group_id"
-    t.integer  "workshop_session_identifier_group_id"
-    t.integer  "default_training_subject_id"
+    t.string    "title"
+    t.date      "first_day"
+    t.string    "venue"
+    t.integer   "region"
+    t.string    "purpose"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.date      "last_day"
+    t.integer   "random_identifier_id"
+    t.integer   "appointment_identifier_group_id"
+    t.integer   "workshop_session_identifier_group_id"
+    t.integer   "default_training_subject_id"
   end
 
   add_index "workshops", ["appointment_identifier_group_id"], :name => "index_workshops_on_appointment_identifier_group_id"

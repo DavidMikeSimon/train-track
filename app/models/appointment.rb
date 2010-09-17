@@ -5,6 +5,7 @@ class Appointment < ActiveRecord::Base
   
   fields do
     print_needed :boolean, :default => true
+    registered   :boolean, :default => false
     role         Appointment::Role, :required
     timestamps
   end
