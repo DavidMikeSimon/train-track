@@ -1,0 +1,14 @@
+<extend tag="card" for="Person">
+  <old-card merge without-actions>
+    <after-header:>
+    </after-header:>
+  </old-card>
+</extend>
+
+<extend tag="form" for="Person">
+  <old-form merge>
+    <field-list:>
+      <job-view:><select-one include-none="true" blank-message="Other"/></job-view:>
+    </field-list:>
+  </old-form>
+</extend>

@@ -1,0 +1,148 @@
+<extend tag="card" for="Appointment" attrs="conf-registration-session">
+  <div id="#{'appointment-%u' % this.id}" class="card appointment">
+    <div class="header">
+      <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.institution.id, this.institution.long_name] %>
+      <%= this.person.job ? "&nbsp;&nbsp;&nbsp;&nbsp;[#{this.person.job.name}]" : ""%>
+      <%=
+        link_to_remote(
+          "Remove",
+          :url => { :controller => :appointments, :action => :destroy, :id => this.id, :workshop_id => this.workshop_id },
+          :html => { :class => "btn-link card-action-link" },
+          :method => :delete,
+          :confirm => "Really remove this #{this.role == :participant ? "participant and their attendance data" : "presenter"}?",
+          :loading => "Hobo.showSpinner('Please wait...')",
+          :complete => "Hobo.hideSpinner()"
+        )
+      %>
+    </div>
+    <div class="body">
+      <% if this.role == :participant -%>
+		<% registered = false %>
+		<% if conf_registration_session != nil -%>
+			<% registered = conf_registration_session.attendances.any?{|a| a.appointment_id == this.id} %>
+		<% end %>
+        Participant Code: <b><%= this.train_code %></b><br/>
+        <b><%= "<a href=\"/appointments/%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size - (registered ? 1 : 0), "Session")] %></b>
+        
+        <% if conf_registration_session != nil -%>
+          &nbsp;&nbsp;&nbsp;
+          <b><%= registered ? "<font color='darkgreen'>Registered:</font>" : "<font color='darkred'>Not Registered:</font>" %></b>
+          <%=
+          link_to_remote(
+            registered ? "Unregister" : "Register",
+            :url => { :controller => :appointments, :action => :toggle_registration, :id => this.id },
+            :method => :post,
+            :confirm => "Really mark this person as #{registered ? "unregistered" : "registered"}?",
+            :loading => "Hobo.showSpinner('Please wait...')",
+            :complete => "Hobo.hideSpinner()"
+          )
+          %>
+          &nbsp;&nbsp;&nbsp;
+        <% end %>
+        
+        <% if this.print_needed? -%>
+          <b><font color="darkblue">On Print List:</font></b>
+        <% end %>
+        <%=
+        link_to_remote(
+          this.print_needed? ? "Don't Print" : "Print",
+          :url => { :controller => :appointments, :action => :toggle_print_needed, :id => this.id },
+          :method => :post,
+          :loading => "Hobo.showSpinner('Please wait...')",
+          :complete => "Hobo.hideSpinner()"
+        )
+        %>
+      <% end %>
+    </div>
+  </div>
+</extend>
+
+<def tag="appointment-ajax-name-approximation-form"  attrs="role, workshop">
+  <%
+  institution_options = options_for_select(
+    Appointment.possible_institutions(role).collect{ |i| [i.medium_name, i.id]}
+  )
+  form_remote_tag(
+    :html => { :class => "appointment-entry-form" },
+    :url => { :controller => :appointments, :action => :create },
+    :loading => "Hobo.showSpinner('Please wait...')",
+    :complete => "Hobo.hideSpinner()"
+  ) do -%>
+    <%= hidden_field_tag "workshop_id", workshop %>
+    <%= hidden_field_tag "role", role %>
+    <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
+    First Name: <%= text_field_tag "first_name", "", :class => "first-name-searchbox right-pad", :autocomplete => "off" %>
+    Last Name: <%= text_field_tag "last_name", "", :class => "last-name-searchbox right-pad", :autocomplete => "off" %>
+    <%= submit_tag "Add", :class => "button submit-button"%>
+  <% end -%>
+</def>
+
+<def tag="appointment-ajax-with-new-person-form"  attrs="role, workshop, first-name, last-name">
+  <%
+  institution_options = options_for_select(
+    Appointment.possible_institutions(role).collect{ |i| [i.medium_name, i.id]},
+    @institution_id.to_i
+  )
+  form_remote_tag(
+    :html => { :class => "appointment-entry-form new-person-form" },
+    :url => { :controller => :appointments, :action => :create },
+    :loading => "Hobo.showSpinner('Please wait...')",
+    :complete => "Hobo.hideSpinner()"
+  ) do -%>
+    <div id="<%= role %>-error-flash" class="flash error"></div>
+    <h4>
+    Adding New <view with="&role.titleize" />:
+    <span class="right-pad">
+    <view with="&first_name" />
+    <view with="&last_name" />
+    </span>
+    <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
+    Gender: <%= select_tag 'gender', options_for_select(Person::Gender::values.map {|v| [v.titleize, v]}), :class => "right-pad" %>
+    Title: <%= select_tag 'title', options_for_select(Person::Title::values), :class => "right-pad" %>
+    </h4>
+    <%= hidden_field_tag "workshop_id", workshop %>
+    <%= hidden_field_tag "role", role %>
+    <%= hidden_field_tag "create_new_person", true %>
+    <%= hidden_field_tag "first_name", first_name %>
+    <%= hidden_field_tag "last_name", last_name %>
+    Cell #: <%= text_field_tag "cell_number", "", :autocomplete => "off", :class => "right-pad" %>
+    Landline #: <%= text_field_tag "landline_number", "", :autocomplete => "off", :class => "right-pad" %>
+    Fax #: <%= text_field_tag "fax_number", "", :autocomplete => "off", :class => "right-pad" %>
+    Email: <%= text_field_tag "email_address", "", :autocomplete => "off", :class => "right-pad email-input" %>
+    <br />
+    <%= submit_tag "Add Person", :class => "button submit-button" %>
+  <% end -%>
+  <!-- TODO Refactor -->
+  <%
+  form_remote_tag(
+    :url => { :controller => :appointments, :action => :cancel_new_person_creation },
+    :loading => "Hobo.showSpinner('Please wait...')",
+    :complete => "Hobo.hideSpinner()",
+    :html => { :class => "cancel-form" }
+  ) do
+  -%>
+    <%= hidden_field_tag "workshop_id", workshop %>
+    <%= hidden_field_tag "role", role %>
+    <%= submit_tag "Cancel", :class => "button submit-button" %>
+  <% end -%>
+</def>
+
+<def tag="appointment-manager" attrs="role, workshop, header">
+  <% header ||= role.titleize.pluralize %>
+  <section class="appointment-manager collection-section">
+    <h3><view with="&header" param="header"/></h3>
+    <div id="<%= role %>-insertion-form">
+      <appointment-ajax-name-approximation-form role="&role" workshop="&workshop"/>
+    </div>
+    <%
+      appt_source = role == "participant" ? this.participant_appointments : this.trainer_appointments
+      appointments = appt_source.all(:include => [:person, :institution, :attendances, :random_identifier]).sort{|a,b| [a.attendances.size, a.person.last_name, a.person.first_name] <=> [b.attendances.size, b.person.last_name, b.person.first_name]}
+      conf_registration_session = this.workshop_sessions.find_by_name('Conference Registration')
+    %>
+    <div id="<%= role %>-container">
+      <% appointments.each do |appt| -%>
+        <card with="&appt" conf-registration-session="&conf_registration_session" for="Appointment" />
+      <% end %>
+    </div>
+  </section>
+</def>
