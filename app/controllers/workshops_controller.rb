@@ -48,7 +48,7 @@ class WorkshopsController < ApplicationController
         begin
           filepath = "%s/%s" % [xml_dir, filename]
 
-          # Stupid hack to work around rubyscript2exe's problems with iconv decoders
+          # FIXME Stupid hack to work around rubyscript2exe's problems with iconv decoders
           fdata = File.foreach(filepath).reject{ |line| line.start_with? "<?xml" }.join("\n")
           doc = REXML::Document.new(fdata)
           unaccepted = 0
