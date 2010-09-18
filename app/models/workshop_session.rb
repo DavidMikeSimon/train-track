@@ -21,13 +21,13 @@ class WorkshopSession < ActiveRecord::Base
   has_many :attendances, :dependent => :destroy
   has_many :appointments, :through => :attendances, :include => [:person, :institution], :accessible => true, :conditions => 'workshop_id = #{workshop_id}', :order => "people.last_name, people.first_name"
   
-  def train_code
-    "SES-%s" % TrainCode.encode(random_identifier.identifier)
-  end
-  
   def before_create
     self.random_identifier = workshop.workshop_session_identifier_group.grab_identifier
     self.training_subject ||= workshop.default_training_subject
+  end
+  
+  def train_code
+    "SES-%s" % TrainCode.encode(random_identifier.identifier)
   end
   
   def description
@@ -40,6 +40,10 @@ class WorkshopSession < ActiveRecord::Base
   
   def to_s
     description
+  end
+
+  def ends_at
+    return starts_at + (minutes*60)
   end
   
   # --- Permissions --- #
