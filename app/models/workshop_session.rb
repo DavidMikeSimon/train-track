@@ -31,9 +31,9 @@ class WorkshopSession < ActiveRecord::Base
   end
   
   def description
-    s = "%s (%u minutes) - %s" % [self.starts_at.to_formatted_s(:long_ordinal), self.minutes, self.name]
+    s = "%s, %s - %s, %s" % [self.starts_at.strftime("%B %d, %Y"), self.starts_at.strftime("%I:%M %p"), self.ends_at.strftime("%I:%M %p"), self.name]
     if self.training_subject
-      s = "%s - %s" % [self.training_subject.name, s]
+      s += " (%s)" % self.training_subject.name
     end
     return s
   end
