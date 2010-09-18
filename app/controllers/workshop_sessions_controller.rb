@@ -40,6 +40,7 @@ class WorkshopSessionsController < ApplicationController
   end
   
   show_action :attendance_form do
+    @workshop_session = WorkshopSession.find(params[:id], :include => [:workshop])
     prawnto :inline => false, :prawn => {:page_size => 'LEGAL', :margin => 0}
     render "attendance_form.pdf", :layout => false
   end
