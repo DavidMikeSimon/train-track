@@ -38,5 +38,9 @@ class WorkshopSessionsController < ApplicationController
       render nil
     end
   end
+  
+  show_action :attendance_form do
+    render "attendance_form.pdf", :layout => false
+  end
 
 end

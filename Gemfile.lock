@@ -21,6 +21,16 @@ GEM
       hobosupport (= 1.0.1)
       rails (>= 2.2.2)
     hobosupport (1.0.1)
+    prawn (0.8.4)
+      prawn-core (>= 0.8.4, < 0.9)
+      prawn-layout (>= 0.8.4, < 0.9)
+      prawn-security (>= 0.8.4, < 0.9)
+    prawn-core (0.8.4)
+    prawn-layout (0.8.4)
+    prawn-security (0.8.4)
+    prawnto (0.0.3)
+      prawn
+      rails (>= 2.1)
     rack (1.1.0)
     rails (2.3.8)
       actionmailer (= 2.3.8)
@@ -40,6 +50,8 @@ PLATFORMS
 DEPENDENCIES
   fastercsv (= 1.5.3)
   hobo (= 1.0.1)
+  prawn (= 0.8.4)
+  prawnto (= 0.0.3)
   rails (= 2.3.8)
   sqlite3-ruby
   wirble

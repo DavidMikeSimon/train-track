@@ -5,8 +5,9 @@
       <a action="edit" class="btn-link card-action-link">Edit</a>
     </header:>
     <body:>
-      Session Code: <b><view:train_code/></b><br/>
-      <b><size-count:attendances label="Person"/> Attended</b><br/>
+      Session Code: <b><view:train_code/></b>
+      &nbsp;&nbsp;&nbsp;&nbsp;<b><size-count:attendances label="Person"/> Attended</b>
+      &nbsp;&nbsp;&nbsp;&nbsp;<a class="btn-link" action="attendance_form">Print Attendance Form</a>
     </body:>
   </old-card>
 </extend>

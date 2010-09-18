@@ -38,7 +38,7 @@ class WorkshopsController < ApplicationController
     end
   end
 
-  # FIXME This should be a web_method, implemented in model and accessible only through POST
+  # FIXME Do this as a web method even though it's not really instance specific
   show_action :process_xml do
     xml_dir = defined?(TAR2RUBYSCRIPT) ? oldlocation("attendance-xml") : "#{RAILS_ROOT}/attendance-xml"
     already_processed = Set.new(ProcessedXmlFile.connection.select_values("SELECT filename FROM processed_xml_files"))
