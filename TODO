@@ -1,3 +1,6 @@
+- Refactor view stuff:
+  - Nicer CSS
+  - Get rid of all the nbsp junk, use styled ul instead
 - IMPORTANT MODEL ADJUSTMENT:
   - People need to be strongly associated with the last school they attended a wkshop for; make this available even for people with 0 attendances
   - Some chairmen are attending a workshop for multiple schools
