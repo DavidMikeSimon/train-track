@@ -38,6 +38,12 @@ class WorkshopsController < ApplicationController
     end
   end
 
+  show_action :attendee_labels do
+    @workshop = Workshop.find(params[:id], :include => [:appointments])
+    prawnto :prawn => {:page_size => 'LETTER', :margin => 0}
+    render "attendee_labels.pdf", :layout => false
+  end
+
   # FIXME Do this as a web method even though it's not really instance specific
   show_action :process_xml do
     xml_dir = defined?(TAR2RUBYSCRIPT) ? oldlocation("attendance-xml") : "#{RAILS_ROOT}/attendance-xml"
