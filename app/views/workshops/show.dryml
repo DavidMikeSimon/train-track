@@ -4,18 +4,10 @@
   </after-heading:>
   <content-body: replace>
     <section class="content-body">
-      <form action="#{this.id}/csv_codes" method="get">
-        <select name="limit">
-          <option value="print">Participants On Print List</option>
-          <option value="all">All Participants</option>
-        </select>
-        <submit class="btn-link" label="Generate Participant CSV"/>
-      </form>
-      <hr/><br/><br/>
+      <a class="btn-link" action="csv_codes">Generate CSV Report</a>
       <a class="btn-link" action="process_xml">Process Scanned Attendance</a>
       <a class="btn-link" action="attendee_labels">Print ID Labels</a>
-      <hr/><br/><br/>
-      
+      <hr/><br/>
       <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers, appointment_identifier_group, workshop_session_identifier_group, random_identifier, workshop_sessions"/>
       <workshop-session-manager workshop="&this.id" />
       <appointment-manager role="trainer" workshop="&this.id" header="Presenters"/>

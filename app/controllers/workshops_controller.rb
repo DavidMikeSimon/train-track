@@ -8,10 +8,6 @@ class WorkshopsController < ApplicationController
   auto_actions :all
  
   show_action :csv_codes do
-    workshop = Workshop.find(params[:id])
-    conditions = { :workshop_id => workshop.id, :role => "participant" }
-    conditions[:print_needed] = true if params[:limit] == "print"
-    
     csv_fields = [
       ["Region", lambda {|a| a.institution.region }],
       ["Institution", lambda {|a| a.institution.name }],
@@ -26,22 +22,21 @@ class WorkshopsController < ApplicationController
       ["Registered", lambda {|a| a.registered }]
     ]
     
+    workshop = Workshop.find(params[:id])
     source = Appointment.all(
-      :conditions => conditions,
+      :conditions => { :workshop_id => workshop.id, :role => "participant" },
       :include => [:institution, :person, :random_identifier, :attendances],
       :order => "institutions.region, institutions.name, people.last_name, people.first_name"
     )
-    render_csv ("participants-%s.csv" % params[:limit]), csv_fields, source
-    
-    if params[:limit] == "print"
-      workshop.appointments.update_all("print_needed = 'f'")
-    end
+    render_csv ("participants.csv"), csv_fields, source
   end
 
   show_action :attendee_labels do
+    # FIXME - Do a reload of the workshop page after this is done
     @workshop = Workshop.find(params[:id], :include => [:appointments])
-    prawnto :prawn => {:page_size => 'LETTER', :margin => 0}
+    prawnto :inline => false, :prawn => {:page_size => 'LETTER', :margin => 0}
     render "attendee_labels.pdf", :layout => false
+    @workshop.appointments.update_all("print_needed = 'f'")
   end
 
   # FIXME Do this as a web method even though it's not really instance specific
