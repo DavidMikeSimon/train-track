@@ -1,6 +1,9 @@
 - Refactor view stuff:
   - Nicer CSS
   - Get rid of all the nbsp junk, use styled ul instead
+- Add a id printing setup page to choose number of labels per person and page start position
+  - Keep those settings maintained in the workshop model
+  - Test the mid-page start thing so I can come up with some coherent instructions
 - IMPORTANT MODEL ADJUSTMENT:
   - People need to be strongly associated with the last school they attended a wkshop for; make this available even for people with 0 attendances
   - Some chairmen are attending a workshop for multiple schools
