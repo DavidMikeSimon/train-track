@@ -1,3 +1,12 @@
+- Need spreadsheet with BEP schools and codes
+- Add to people report:
+  - Column for each workshop attended, each showing the date of first session attended that workshop, and number of hours
+  - BEP? column and school code
+  - A boolean column showing whether total hours is >= 15 (configurable number) or not
+- Add Save button to top of forms
+- The attendance editor for appointments should order the sessions by their start time, and use WorkshopSession.to_s
+  - Same for the attendance editor for sessions w/ ordered appointments
+
 - Refactor view stuff:
   - Nicer CSS
   - Get rid of all the nbsp junk, use styled ul instead
@@ -37,7 +46,6 @@
 - After adding a session, reset focus to session name text box and clear contents
 - Use a better way of editing attendance data
   - JSAS prototype table?
-- The attendance editor for appointments should order the sessions by their start time, and use WorkshopSession.to_s
 - Always replace "&" with "and" when inserting/updating/searching institution names
   - Similarly, "PJH" -> "Primary and Junior High", "Inf" -> "Infant", "AA" -> "All Age", "JH" -> "Junior High", etc.
   - Possibly remove all these sorts of things from the title entirely, since there seems to be a lot of confusion around this
