@@ -36,7 +36,7 @@ class Appointment < ActiveRecord::Base
 
   def to_s
     # FIXME - This is specific to the workshop session edit page, it belongs in that view
-    "%s from %s (R%u) [Added: %s]" % [person.name, institution.name, institution.region, created_at]
+    "%s from %s (R%u)" % [person.name, institution.name, institution.region]
   end
 
   def self.possible_institutions(role)

@@ -62,7 +62,7 @@
         <select-one limit="9999" />
       </institution-view:>
       <workshop-sessions-view:>
-        <check-many />
+        <check-many options="&WorkshopSession.all(:conditions => {:workshop_id => this_parent.workshop_id}, :order => 'starts_at, name')" />
       </workshop-sessions-view:>
     </field-list>
     <append-actions:>
