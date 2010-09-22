@@ -41,11 +41,13 @@ GEM
       rake (>= 0.8.3)
     rake (0.8.7)
     sqlite3-ruby (1.3.1)
+    sqlite3-ruby (1.3.1-x86-mingw32)
     will_paginate (2.3.15)
     wirble (0.1.3)
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   fastercsv (= 1.5.3)

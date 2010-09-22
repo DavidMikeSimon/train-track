@@ -1,9 +1,15 @@
-# Tar2RubyScript hack to use database from exe directory if app is packaged as an exe
+require 'yaml'
+require 'ftools'
+
+# Hack to use database from exe directory if app is packaged as an exe
 module Rails
   class Configuration
     def database_configuration
       conf = YAML::load(ERB.new(IO.read(database_configuration_file)).result)
-      if defined?(TAR2RUBYSCRIPT)
+      if defined?(TAR2RUBYSCRIPT) || ENV['OCRA_EXECUTABLE']
+        if ENV['OCRA_EXECUTABLE']
+          oldlocation = lambda {|old_path| File.join(File.dirname(ENV['OCRA_EXECUTABLE']), File.basename(old_path))}
+        end
         conf.each do |k, v|
           if v["adapter"] =~ /^sqlite/
             v["database"] = oldlocation(v["database"]) if v.include?("database")
@@ -20,8 +26,6 @@ end
 
 # Specifies gem version of Rails to use when vendor/rails is not present
 RAILS_GEM_VERSION = '2.3.8' unless defined? RAILS_GEM_VERSION
-
-require 'yaml'
 
 # Bootstrap the Rails environment, frameworks, and default configuration
 require File.join(File.dirname(__FILE__), 'boot')
