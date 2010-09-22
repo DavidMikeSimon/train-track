@@ -1,9 +1,7 @@
-- Allow attendance tracking for presenters
 - Need spreadsheet with BEP schools and codes
 - Add to people report:
   - Column for each workshop attended, each showing the date of first session attended that workshop, and number of hours
   - BEP? column and school code
-  - A boolean column showing whether total hours is >= 15 (configurable number) or not
 - Add Save button to top of forms
 - The attendance editor for appointments should order the sessions by their start time, and use WorkshopSession.to_s
   - Same for the attendance editor for sessions w/ ordered appointments
