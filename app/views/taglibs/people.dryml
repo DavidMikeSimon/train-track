@@ -7,6 +7,11 @@
 
 <extend tag="form" for="Person">
   <old-form merge>
+    <before-field-list:>
+      <div class="actions">
+        <submit label="#{ht 'workshop_sessions.actions.save', :default=>['Save']}" param />or <a>Cancel</a>
+      </div>
+    </before-field-list:>
     <field-list:>
       <job-view:><select-one include-none="true" blank-message="Other"/></job-view:>
     </field-list:>

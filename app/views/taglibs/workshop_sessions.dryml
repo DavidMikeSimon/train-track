@@ -12,6 +12,24 @@
   </old-card>
 </extend>
 
+<extend tag="form" for="WorkshopSession">
+  <old-form merge>
+    <before-field-list:>
+      <div class="actions">
+        <submit label="#{ht 'workshop_sessions.actions.save', :default=>['Save']}" param />&nbsp;&nbsp;&nbsp;<a:workshop>Cancel</a>
+      </div>
+    </before-field-list:>
+    <field-list: fields="name, training_subject, starts_at, minutes, appointments">
+      <appointments-view:>
+        <check-many options="&Appointment.all(:conditions => {:workshop_id => this_parent.workshop_id}, :include => [:person, :institution], :order => 'created_at DESC')"/>
+      </appointments-view:>
+    </field-list>
+    <append-actions:>
+      &nbsp;&nbsp;&nbsp;<a:workshop>Cancel</a>
+    </append-actions:>
+  </old-form>
+</extend>
+
 <def tag="workshop-session-manager" attrs="workshop">
   <section class="appointment-manager collection-section">
     <h3>Sessions</h3>

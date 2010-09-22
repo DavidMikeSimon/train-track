@@ -10,6 +10,7 @@
 
 <def tag="app-name">Train Track</def>
 
+<!-- Regular size is unfriendly to counter cache -->
 <def tag="size-count">
   <count label="&this.member_class.view_hints.field_name(this.try.origin_attribute).singularize" with="&this.size" merge />
 </def>
@@ -60,5 +61,8 @@
 </def>
 
 <include src="taglibs/workshop_sessions"/>
+<include src="taglibs/workshops"/>
 <include src="taglibs/appointments"/>
 <include src="taglibs/people"/>
+<include src="taglibs/institutions"/>
+

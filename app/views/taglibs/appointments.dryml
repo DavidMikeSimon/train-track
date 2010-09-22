@@ -49,6 +49,28 @@
   </div>
 </extend>
 
+<extend tag="form" for="Appointment">
+  <old-form merge>
+    <heading:>Edit Sessions Attended By <view:person/></heading:>
+    <before-field-list:>
+      <div class="actions">
+        <submit label="#{ht 'workshop_sessions.actions.save', :default=>['Save']}" param />or <a:workshop>Cancel</a>
+      </div>
+    </before-field-list:>
+    <field-list: fields="institution, workshop_sessions">
+      <institution-view:>
+        <select-one limit="9999" />
+      </institution-view:>
+      <workshop-sessions-view:>
+        <check-many />
+      </workshop-sessions-view:>
+    </field-list>
+    <append-actions:>
+      &nbsp;&nbsp;&nbsp;<a:workshop>Cancel</a>
+    </append-actions:>
+  </old-form>
+</extend>
+
 <def tag="appointment-ajax-name-approximation-form"  attrs="role, workshop">
   <%
   institution_options = options_for_select(
