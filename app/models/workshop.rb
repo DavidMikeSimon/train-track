@@ -14,8 +14,8 @@ class Workshop < ActiveRecord::Base
     title     :string, :required
     first_day :date, :required
     last_day  :date, :required
-    venue     :string, :required
-    region    :integer, :required
+    venue     :string
+    region    :integer
     purpose   :string
     timestamps
   end
