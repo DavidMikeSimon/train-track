@@ -2,8 +2,6 @@
 - Add to people report:
   - Column for each workshop attended, each showing the date of first session attended that workshop, and number of hours
   - BEP? column and school code
-- The attendance editor for appointments should order the sessions by their start time, and use WorkshopSession.to_s
-  - Same for the attendance editor for sessions w/ ordered appointments
 
 - For wide workshops, remove region and venue requirement
 - Make "grade" a text field that allows multiple grades to be entered in
