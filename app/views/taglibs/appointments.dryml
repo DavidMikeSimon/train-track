@@ -1,5 +1,5 @@
 <extend tag="card" for="Appointment">
-  <div id="#{'appointment-%u' % this.id}" class="card appointment">
+  <div id="#{'appointment%u' % this.id}" class="card appointment">
     <div class="header">
       <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.institution.id, this.institution.long_name] %>
       <%= this.person.job ? "&nbsp;&nbsp;&nbsp;&nbsp;[#{this.person.job.name}]" : ""%>
@@ -33,7 +33,7 @@
       %>
       &nbsp;&nbsp;&nbsp;
       
-      <% if this.print_needed? -%>
+      <% if this.print_needed? %>
         <b><font color="darkblue">On Print List:</font></b>
       <% end %>
       <%=
@@ -71,6 +71,37 @@
   </old-form>
 </extend>
 
+<def tag="appointment-ajax-from-several-choices-form" attrs="role,workshop,people">
+  <% @people.each do |person| %>
+    <% form_remote_tag(
+      :html => { :class => "appointment-entry-form" },
+      :url => { :controller => :appointments, :action => :create },
+      :loading => "Hobo.showSpinner('Please wait...')",
+      :complete => "Hobo.hideSpinner()"
+    ) do %>
+      <%= hidden_field_tag "workshop_id", workshop %>
+      <%= hidden_field_tag "institution_id", @institution_id %>
+      <%= hidden_field_tag "role", role %>
+      <%= hidden_field_tag "person_id", person.id %>
+      <%= submit_tag "#{person.first_name} #{person.last_name}", :class => "button submit-button fixed-width-button" %>
+    <% end %>
+  <% end %>
+  <% form_remote_tag(
+    :html => { :class => "appointment-entry-form" },
+    :url => { :controller => :appointments, :action => :create },
+    :loading => "Hobo.showSpinner('Please wait...')",
+    :complete => "Hobo.hideSpinner()"
+  ) do %>
+    <%= hidden_field_tag "workshop_id", workshop %>
+    <%= hidden_field_tag "role", role %>
+    <%= hidden_field_tag "institution_id", @institution_id %>
+    <%= hidden_field_tag "first_name", @first_name %>
+    <%= hidden_field_tag "last_name", @last_name %>
+    <%= hidden_field_tag "search_skipped", true %>
+    <%= submit_tag "None of the above", :class => "button submit-button"%>
+  <% end %>
+</def>
+
 <def tag="appointment-ajax-name-approximation-form"  attrs="role, workshop">
   <%
   institution_options = options_for_select(
@@ -81,14 +112,14 @@
     :url => { :controller => :appointments, :action => :create },
     :loading => "Hobo.showSpinner('Please wait...')",
     :complete => "Hobo.hideSpinner()"
-  ) do -%>
+  ) do %>
     <%= hidden_field_tag "workshop_id", workshop %>
     <%= hidden_field_tag "role", role %>
     <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
     First Name: <%= text_field_tag "first_name", "", :class => "first-name-searchbox right-pad", :autocomplete => "off" %>
     Last Name: <%= text_field_tag "last_name", "", :class => "last-name-searchbox right-pad", :autocomplete => "off" %>
     <%= submit_tag "Add", :class => "button submit-button"%>
-  <% end -%>
+  <% end %>
 </def>
 
 <def tag="appointment-ajax-with-new-person-form"  attrs="role, workshop, first-name, last-name">
@@ -102,7 +133,7 @@
     :url => { :controller => :appointments, :action => :create },
     :loading => "Hobo.showSpinner('Please wait...')",
     :complete => "Hobo.hideSpinner()"
-  ) do -%>
+  ) do %>
     <div id="<%= role %>-error-flash" class="flash error"></div>
     <h4>
     Adding New <view with="&role.titleize" />:
@@ -125,7 +156,7 @@
     Email: <%= text_field_tag "email_address", "", :autocomplete => "off", :class => "right-pad email-input" %>
     <br />
     <%= submit_tag "Add Person", :class => "button submit-button" %>
-  <% end -%>
+  <% end %>
   <!-- TODO Refactor -->
   <%
   form_remote_tag(
@@ -134,11 +165,11 @@
     :complete => "Hobo.hideSpinner()",
     :html => { :class => "cancel-form" }
   ) do
-  -%>
+  %>
     <%= hidden_field_tag "workshop_id", workshop %>
     <%= hidden_field_tag "role", role %>
     <%= submit_tag "Cancel", :class => "button submit-button" %>
-  <% end -%>
+  <% end %>
 </def>
 
 <def tag="appointment-manager" attrs="role, workshop, header">

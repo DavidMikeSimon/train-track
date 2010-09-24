@@ -13,6 +13,10 @@
   border-bottom: none; margin: 5px 3px; font-weight: bold !important; font-size: 13px !important; font-family: sans-serif;
 }
 
+.fixed-width-button {
+  width: 400px;
+}
+
 .card-action-link {
   max-width: 100px; position: absolute; right: 5px; top: 1px;
 }

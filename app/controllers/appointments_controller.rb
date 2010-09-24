@@ -42,17 +42,18 @@ class AppointmentsController < ApplicationController
   
   def destroy
     Appointment.destroy(params[:id])
-    elem_id = "appointment-#{params[:id]}"
+    elem_id = "appointment#{params[:id]}"
     render :update do |page|
       page.visual_effect :fade, elem_id
     end
   end
-  
+ 
+  # FIXME Refactor! And also refactor the corresponding ugly view code in appointments.dryml
   def create
     @role = params[:role]
     @workshop_id = params[:workshop_id]
     @institution_id = params[:institution_id]
-    
+
     people = []
     if params.has_key?(:create_new_person) && params[:create_new_person]
       person = Person.new(Hash[params.select {|key, value| Person.column_names.include?(key.to_s)}])
@@ -69,12 +70,17 @@ class AppointmentsController < ApplicationController
       end
     elsif params.has_key?(:person_id)
       people << Person.find(params[:person_id])
-    elsif params.has_key?(:first_name) && params.has_key?(:last_name)
+    elsif params.has_key?(:search_skipped)
       @first_name = params[:first_name].strip
       @last_name = params[:last_name].strip
-      render(:text => "") if @first_name == "" || @last_name == ""
-      # TODO : Do a fuzzy search; implement it as a Person method
-      people = Person.find(:all, :conditions => { :first_name => @first_name, :last_name => @last_name})
+    elsif params.has_key?(:first_name) && params.has_key?(:last_name) && !params.has_key?(:search_skipped)
+      @first_name = params[:first_name].strip
+      @last_name = params[:last_name].strip
+      if @first_name == "" || @last_name == ""
+        render(:text => "")
+      else
+        people += Person.fuzzy_find_scope("#{@first_name} #{@last_name}").all(:limit => 7)
+      end
     else
       raise "Invalid params to create action"
     end
@@ -98,7 +104,10 @@ class AppointmentsController < ApplicationController
       end
     elsif people.size > 1
       # Got several possible people; allow the user to decide who they intended
-      raise "Not yet implemented"
+      @people = people
+      render :update do |page|
+        page.replace_html "#{@role}-insertion-form", :partial => "new_from_several_choices"
+      end
     else
       # No matches; have the user create a new Person in place
       render :update do |page|
