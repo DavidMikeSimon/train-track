@@ -43,6 +43,7 @@ class Institution < ActiveRecord::Base
     organization_type  Institution::OrganizationType, :default => "school"
     principal          :string
     education_officer  :string
+    bep                :boolean, :default => false
     female_students_total    :integer, :default => 0
     male_students_total      :integer, :default => 0
     female_students_early_grade_total :integer, :default => 0

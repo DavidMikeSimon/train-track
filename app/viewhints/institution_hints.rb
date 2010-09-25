@@ -6,7 +6,8 @@ class InstitutionHints < Hobo::ViewHints
               :female_teachers_total => "Female Teachers (All Grades)",
               :male_teachers_total => "Male Teachers (All Grades)",
               :female_teachers_early_grade_total => "Female Teachers (Grades 1-3)",
-              :male_teachers_early_grade_total => "Male Teachers (Grades 1-3)"
+              :male_teachers_early_grade_total => "Male Teachers (Grades 1-3)",
+              :bep => "BEP School"
   # model_name "My Model"
   # field_names :field1 => "First Field", :field2 => "Second Field"
   # field_help :field1 => "Enter what you want in this field"

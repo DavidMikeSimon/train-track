@@ -214,7 +214,7 @@
               </ht>
             </h2>
 
-            <record-flags fields="" param/>
+            <record-flags fields="bep" param/>
 
             <a action="edit" if="&can_edit?" param="edit-link">
               <ht key="institutions.actions.edit" name="&this.respond_to?(:name) ? this.name : ''">

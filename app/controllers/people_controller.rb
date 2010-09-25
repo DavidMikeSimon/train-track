@@ -14,13 +14,14 @@ class PeopleController < ApplicationController
   	hobo_index Person.fuzzy_find_scope(params[:search])
   end
  
-  # TODO Factor out this streaming-CSV-generation idea and have workshop CSV use it too
   index_action :csv do
     csv_fields = [
       ["Last Name", lambda { |p| p.last_name }],
       ["First Name", lambda { |p| p.first_name }],
       ["Institution", lambda { |p| p["institution_name"] }],
       ["Region", lambda { |p| p["institution_region"] }],
+      ["BEP", lambda { |p| p["institution_bep"] }],
+      ["School Code", lambda { |p| p["institution_school_code"] }],
       ["Gender", lambda { |p| p.gender }],
       ["Job", lambda {|p| p.job ? p.job.name : "Other" }],
       ["Job Details", lambda {|p| p.job_details }]
