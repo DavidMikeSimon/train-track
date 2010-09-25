@@ -11,6 +11,8 @@ class WorkshopsController < ApplicationController
     csv_fields = [
       ["Region", lambda {|a| a.institution.region }],
       ["Institution", lambda {|a| a.institution.name }],
+      ["BEP", lambda {|a| a.institution.bep }],
+      ["School Code", lambda {|a| a.institution.school_code }],
       ["Last Name", lambda {|a| a.person.last_name }],
       ["First Name", lambda {|a| a.person.first_name }],
       ["Code", lambda {|a| a.train_code }],
