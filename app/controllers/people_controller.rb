@@ -18,6 +18,10 @@ class PeopleController < ApplicationController
     csv_fields = [
       ["Last Name", lambda { |p| p.last_name }],
       ["First Name", lambda { |p| p.first_name }],
+      ["Cell", lambda { |p| p.cell_number }],
+      ["Landline", lambda { |p| p.landline_number }],
+      ["Fax", lambda { |p| p.fax_number }],
+      ["Email", lambda { |p| p.email_address }],
       ["Institution", lambda { |p| p["institution_name"] }],
       ["Region", lambda { |p| p["institution_region"] }],
       ["BEP", lambda { |p| p["institution_bep"] }],
