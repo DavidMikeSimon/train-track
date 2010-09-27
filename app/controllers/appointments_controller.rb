@@ -20,15 +20,16 @@ class AppointmentsController < ApplicationController
     @appt.save!
     @appt.reload(:include => :attendances)
     render :update do |page|
-      page.replace "appointment-%u" % @appt.id, :partial => @appt
+      page.replace "appointment%u" % @appt.id, :partial => @appt
     end
   end
   
   # TODO - Make me a web method
   def toggle_registration
-    @appt = Appointment.find(params[:id]).toggle!(:registered)
+    @appt = Appointment.find(params[:id])
+    @appt.toggle!(:registered)
     render :update do |page|
-      page.replace "appointment-%u" % @appt.id, :partial => @appt
+      page.replace "appointment%u" % @appt.id, :partial => @appt
     end
   end
   
@@ -98,7 +99,7 @@ class AppointmentsController < ApplicationController
         page.replace_html "#{@role}-insertion-form", :partial => "new_by_name_approximation"
         # Can't use page.remove because that causes an error if the element isn't already present
         # Desired behavior is to remove if it's there, but not worry if it isn't
-        page.select("#appointment-%u" % @appointment.id).each { |value| value.remove }
+        page.select("#appointment%u" % @appointment.id).each { |value| value.remove }
         page.insert_html :top, "#{@role}-container", :partial => @appointment
         # TODO Fade in the new element
       end

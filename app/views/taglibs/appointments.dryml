@@ -26,7 +26,6 @@
         this.registered ? "Unregister" : "Register",
         :url => { :controller => :appointments, :action => :toggle_registration, :id => this.id },
         :method => :post,
-        :confirm => "Really mark this person as #{this.registered ? "unregistered" : "registered"}?",
         :loading => "Hobo.showSpinner('Please wait...')",
         :complete => "Hobo.hideSpinner()"
       )
