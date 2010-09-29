@@ -13,6 +13,7 @@ class WorkshopsController < ApplicationController
       ["Institution", lambda {|a| a.institution.name }],
       ["BEP", lambda {|a| a.institution.bep }],
       ["School Code", lambda {|a| a.institution.school_code }],
+      ["Role", lambda {|a| a.role }],
       ["Last Name", lambda {|a| a.person.last_name }],
       ["First Name", lambda {|a| a.person.first_name }],
       ["Cell", lambda { |a| a.person.cell_number }],
@@ -30,7 +31,7 @@ class WorkshopsController < ApplicationController
     
     workshop = Workshop.find(params[:id])
     source = Appointment.all(
-      :conditions => { :workshop_id => workshop.id, :role => "participant" },
+      :conditions => { :workshop_id => workshop.id },
       :include => [:institution, :person, :random_identifier, :attendances],
       :order => "institutions.region, institutions.name, people.last_name, people.first_name"
     )
