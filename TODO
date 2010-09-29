@@ -1,3 +1,5 @@
+- Allow appointments not associated with institutions to be displayed and dealt with properly (after an Institution is
+  deleted)
 - Add to people report:
   - Column for each workshop attended, each showing the date of first session attended that workshop, and number of hours
 - Make "grade" a text field that allows multiple grades to be entered in
