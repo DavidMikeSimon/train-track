@@ -179,7 +179,7 @@
       <appointment-ajax-name-approximation-form role="&role" workshop="&workshop"/>
     </div>
     <%
-      appt_source = role == "participant" ? this.participant_appointments : this.trainer_appointments
+      appt_source = role == "participant" ? this.participant_appointments : this.presenter_appointments
       appointments = appt_source.all(:include => [:person, :institution, :attendances, :random_identifier]).sort{|a,b| [a.attendances.size, a.person.last_name, a.person.first_name] <=> [b.attendances.size, b.person.last_name, b.person.first_name]}
     %>
     <div id="<%= role %>-container">

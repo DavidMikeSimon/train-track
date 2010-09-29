@@ -8,9 +8,9 @@
       <a class="btn-link" action="process_xml">Process Scanned Attendance</a>
       <a class="btn-link" action="attendee_labels">Print ID Labels</a>
       <hr/><br/>
-      <field-list skip="appointments, people, participant_appointments, participants, trainer_appointments, trainers, appointment_identifier_group, workshop_session_identifier_group, random_identifier, workshop_sessions"/>
+      <field-list skip="appointments, people, participant_appointments, participants, presenter_appointments, presenters, appointment_identifier_group, workshop_session_identifier_group, random_identifier, workshop_sessions"/>
       <workshop-session-manager workshop="&this.id" />
-      <appointment-manager role="trainer" workshop="&this.id" header="Presenters"/>
+      <appointment-manager role="presenter" workshop="&this.id"/>
       <appointment-manager role="participant" workshop="&this.id"/>
     </section>
   </content-body:>

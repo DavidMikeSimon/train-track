@@ -29,10 +29,9 @@
 - Times are shown in UTC, not local
 - Use the school code to identify institutions uniquely
 - Figure out why the printer is so slow
-- Rename Appointment model to Participant, come up with a new concept name for what is now Appointment::role
+- Rename Appointment model to Attendee, come up with a new concept name for what is now Appointment::role
 - Show verification error on uniqueness violations
 - Reload workshop show page after generating a print list
-- Rename 'trainer' to 'presenter'
 - Refactor! Ye gods, refactor! Especially the workshop_sessions/appointments controllers
 - After adding a session, reset focus to session name text box and clear contents
 - Use a better way of editing attendance data

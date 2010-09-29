@@ -44,12 +44,12 @@ class Workshop < ActiveRecord::Base
   has_many :participants, :through => :participant_appointments, :source => :person
   
   has_many(
-    :trainer_appointments,
+    :presenter_appointments,
     :class_name => "Appointment",
-    :conditions => { :role => "trainer" },
+    :conditions => { :role => "presenter" },
     :include => [:person, :random_identifier, :institution, :attendances]
   )
-  has_many :trainers, :through => :trainer_appointments, :source => :person
+  has_many :presenters, :through => :presenter_appointments, :source => :person
   
   attr_protected :random_identifier, :appointment_identifier_group, :workshop_session_identifier_group
   

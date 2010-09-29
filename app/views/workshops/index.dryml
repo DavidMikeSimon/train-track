@@ -1,6 +1,6 @@
 <index-page for="Workshops">
-  <table-plus: fields="this, first_day, last_day, venue, trainers, participants">
-    <trainers-view:><count label="presenter"/></trainers-view:>
+  <table-plus: fields="this, first_day, last_day, venue, presenters, participants">
+    <presenters-view:><count /></presenters-view:>
     <participants-view:><count /></participants-view:>
   </table-plus:>
 </index-page>

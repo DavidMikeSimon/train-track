@@ -1,7 +1,7 @@
 class Appointment < ActiveRecord::Base
   hobo_model # Don't put anything above this
   
-  Role = HoboFields::EnumString.for(:participant, :trainer)
+  Role = HoboFields::EnumString.for(:participant, :presenter)
   
   fields do
     print_needed :boolean, :default => true
@@ -42,7 +42,7 @@ class Appointment < ActiveRecord::Base
   def self.possible_institutions(role)
     org_type = case role
       when "participant" then "school"
-      when "trainer" then "training_organization"
+      when "presenter" then "training_organization"
       else raise "Invalid role"
     end
     return Institution.find(:all, :conditions => {:organization_type => org_type}, :order => :name)
