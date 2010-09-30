@@ -30,7 +30,7 @@ class Workshop < ActiveRecord::Base
   # Default TrainingSubject for new sessions in this workshop
   belongs_to :default_training_subject, :class_name => "TrainingSubject"
   
-  has_many :workshop_sessions, :dependent => :destroy, :include => [:random_identifier], :order => "starts_at, name"
+  has_many :workshop_sessions, :dependent => :destroy, :order => "starts_at, name"
   
   has_many :appointments, :dependent => :destroy, :include => [:person, :random_identifier, :institution, :attendances]
   has_many :people, :through => :appointments

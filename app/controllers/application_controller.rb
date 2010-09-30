@@ -42,7 +42,8 @@ class ApplicationController < ActionController::Base
     render :text => Proc.new { |response, output|
       csv = FasterCSV.new(output, :row_sep => "\r\n")
       csv << fields.map {|e| e[0]} # Header
-      source.each { |rec| csv << fields.map {|e| (e[1].call(rec) || "").to_s} } # Content
+      #source.each { |rec| csv << fields.map {|e| (e[1].call(rec) || "").to_s} } # Content
+      source.all(:limit => 1).each { |rec| csv << fields.map {|e| (e[1].call(rec) || "").to_s} } # Content
     }
   end
 end

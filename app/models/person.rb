@@ -1,3 +1,5 @@
+require 'set'
+
 class Person < ActiveRecord::Base
 
   hobo_model # Don't put anything above this
@@ -32,13 +34,12 @@ class Person < ActiveRecord::Base
   
   belongs_to :job
   
-  has_many :appointments, :dependent => :destroy, :include => :workshop, :order => "workshops.first_day"
+  has_many :appointments, :dependent => :destroy
   has_many :attendances, :through => :appointments
   
   set_default_order "last_name, first_name"
   
   def after_update
-    # TODO : If title or department ends up on appointment card, check that here too 
     if first_name_changed? || last_name_changed? || job_id_changed? || job_details_changed?
       Appointment.all(:conditions => {:person_id => self.id}).each do |appt|
         appt.print_needed = true
@@ -46,29 +47,36 @@ class Person < ActiveRecord::Base
       end
     end
   end
+
+  def institution
+    appointments.all.sort{|a,b| a.workshop.first_day <=> b.workshop.first_day}.last.try.institution
+  end
+
+  def first_session_attended(ts, workshop)
+    attended_workshop_sessions_for(ts, workshop).sort{|a,b| a.starts_at <=> b.starts_at}.first
+  end
+
+  def hours_attended(ts = nil, workshop = nil)
+    session_ids = Set.new(attended_workshop_sessions_for(ts, workshop).map{|s| s.id})
+    minutes = attendances.select{|a| session_ids.include?(a.workshop_session_id)}.inject(0){|sum, a| sum + a.workshop_session.minutes} || 0
+    return minutes/60.0
+    return 0
+  end
+
+  def attended_workshop_sessions_for(ts = nil, workshop = nil)
+    appts = appointments.all
+    if workshop
+      appts = appts.select{|a| a.workshop_id == workshop.id}
+    end
+    sessions = appts.map{|a| a.workshop_sessions}.flatten
+    if ts
+      sessions = sessions.select{|s| s.training_subject_id == ts.id}
+    end
+    return sessions
+  end
   
-  def last_institution
-    # TODO Implement; find the institution of the most recent appointment
-  end
-
-  # FIXME Ridiculously un-Railsy hack, but can't seem to get eager loading to work on this issue
-  def self.minute_count_select_expr(col_name, training_subject = nil)
-    "(SELECT SUM(workshop_sessions.minutes) FROM appointments LEFT JOIN attendances ON attendances.appointment_id = appointments.id LEFT JOIN workshop_sessions ON workshop_sessions.id = attendances.workshop_session_id WHERE appointments.person_id = people.id #{training_subject ? "AND workshop_sessions.training_subject_id = %u" % training_subject.id : ""}) as #{col_name}"
-  end
-
-  # FIXME This is silly, I should be able to do this with eager-loading, but it isn't working for some reason
-  named_scope :with_minute_count_fields, lambda { { :select =>
-    (
-      ["people.*"] + 
-      TrainingSubject.all.map{|ts| minute_count_select_expr("%s_minutes" % ts.name.gsub(" ", "_").underscore, ts)} +
-      [minute_count_select_expr("total_minutes")] +
-      ["name", "region", "bep", "school_code"].map { |institution_field|
-        "(SELECT institutions.#{institution_field} FROM appointments LEFT JOIN institutions ON institutions.id = appointments.institution_id LEFT JOIN workshops ON workshops.id = appointments.workshop_id WHERE appointments.person_id = people.id ORDER BY workshops.first_day DESC LIMIT 1) AS institution_#{institution_field}"
-      }
-    ).join(',')
-  } }
-
   named_scope :sorted_by_last_name, :order => "last_name, first_name"
+  named_scope :including_all_associations, :include => [:job, {:appointments => [:institution, :attendances, {:workshop => :workshop_sessions}]}]
   
   # --- Permissions --- #
   
