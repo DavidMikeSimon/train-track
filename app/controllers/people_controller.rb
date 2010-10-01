@@ -16,16 +16,16 @@ class PeopleController < ApplicationController
  
   index_action :csv do
     csv_fields = [
+      ["Institution", lambda { |p| p["institution"].try.name }],
+      ["Region", lambda { |p| p["institution"].try.region }],
+      ["BEP", lambda { |p| p["institution"].try.bep || "false" }],
+      ["School Code", lambda { |p| p["institution"].try.school_code }],
       ["Last Name", lambda { |p| p.last_name }],
       ["First Name", lambda { |p| p.first_name }],
       ["Cell", lambda { |p| p.cell_number }],
       ["Landline", lambda { |p| p.landline_number }],
       ["Fax", lambda { |p| p.fax_number }],
       ["Email", lambda { |p| p.email_address }],
-      ["Institution", lambda { |p| p["institution"].try.name }],
-      ["Region", lambda { |p| p["institution"].try.region }],
-      ["BEP", lambda { |p| p["institution"].try.bep || "false" }],
-      ["School Code", lambda { |p| p["institution"].try.school_code }],
       ["Gender", lambda { |p| p.gender }],
       ["Job", lambda {|p| p["job"].try.name || "Other" }],
       ["Job Details", lambda {|p| p.job_details }]

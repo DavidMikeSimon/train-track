@@ -111,7 +111,7 @@ class Person < ActiveRecord::Base
       people.delete(i) if people[i]["total_minutes"] == 0
     end
 
-    return people.values.sort{ |a,b| [a.last_name, a.first_name] <=> [b.last_name, b.first_name] }
+    return people.values.sort{ |a,b| [a["institution"].try.name, a.last_name, a.first_name] <=> [b["institution"].try.name, b.last_name, b.first_name] }
   end
   
   named_scope :sorted_by_last_name, :order => "last_name, first_name"
