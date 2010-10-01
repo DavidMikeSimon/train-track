@@ -39,11 +39,11 @@ class ApplicationController < ActionController::Base
       headers["Content-Disposition"] = "attachment; filename=\"#{filename}\"" 
     end
     
-    render :text => Proc.new { |response, output|
-      csv = FasterCSV.new(output, :row_sep => "\r\n")
-      csv << fields.map {|e| e[0]} # Header
-      #source.each { |rec| csv << fields.map {|e| (e[1].call(rec) || "").to_s} } # Content
-      source.all(:limit => 1).each { |rec| csv << fields.map {|e| (e[1].call(rec) || "").to_s} } # Content
-    }
+    sio = StringIO.new
+    csv = FasterCSV.new(sio, :row_sep => "\r\n")
+    csv << fields.map {|e| e[0]} # Header
+    source = source.all unless source.kind_of? Array
+    source.each { |rec| csv << fields.map {|e| (e[1].call(rec) || "").to_s} } # Content
+    render :text => sio.string
   end
 end

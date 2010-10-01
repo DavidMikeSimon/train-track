@@ -48,35 +48,73 @@ class Person < ActiveRecord::Base
     end
   end
 
-  def institution
-    appointments.all.sort{|a,b| a.workshop.first_day <=> b.workshop.first_day}.last.try.institution
-  end
+  # This is silly, but eager loading didn't cooperate even after hours of hacking about, so this is how it'll be for now
+  def self.attendees_with_report_fields
+    # Preload all the relevant data (argh, can't belive I'm doing this)
+    appointments = {}; Appointment.all.each { |r| appointments[r.id] = r }
+    institutions = {}; Institution.all.each { |r| institutions[r.id] = r }
+    jobs = {}; Job.all.each { |r| jobs[r.id] = r }
+    people = {}; Person.all.each { |r| people[r.id] = r }
+    training_subjects = {}; TrainingSubject.all.each { |r| training_subjects[r.id] = r }
+    workshop_sessions = {}; WorkshopSession.all.each { |r| workshop_sessions[r.id] = r }
+    workshops = {}; Workshop.all.each { |r| workshops[r.id] = r }
 
-  def first_session_attended(ts, workshop)
-    attended_workshop_sessions_for(ts, workshop).sort{|a,b| a.starts_at <=> b.starts_at}.first
-  end
-
-  def hours_attended(ts = nil, workshop = nil)
-    session_ids = Set.new(attended_workshop_sessions_for(ts, workshop).map{|s| s.id})
-    minutes = attendances.select{|a| session_ids.include?(a.workshop_session_id)}.inject(0){|sum, a| sum + a.workshop_session.minutes} || 0
-    return minutes/60.0
-    return 0
-  end
-
-  def attended_workshop_sessions_for(ts = nil, workshop = nil)
-    appts = appointments.all
-    if workshop
-      appts = appts.select{|a| a.workshop_id == workshop.id}
+    # Create report columns in each person record to be filled in as we go
+    people.each do |i, p|
+      p["total_minutes"] = 0
+      p["latest_workshop"] = nil
+      p["institution"] = nil
+      p["job"] = jobs[p.job_id]
     end
-    sessions = appts.map{|a| a.workshop_sessions}.flatten
-    if ts
-      sessions = sessions.select{|s| s.training_subject_id == ts.id}
+    training_subjects.each do |i, ts|
+      workshops.each do |j, w|
+        if w.workshop_sessions.any?{|s| s.training_subject_id == ts.id}
+          people.each do |i, p|
+            p["w#{w.id}_attended"] = nil
+            p["w#{w.id}t#{ts.id}_minutes"] = 0
+          end
+        end
+      end
+      people.each do |i, p|
+        p["t#{ts.id}_minutes"] = 0
+      end
     end
-    return sessions
+
+    # Go through each attendance and use it to fill in the report columns
+    Attendance.find_each do |a|
+      appt = appointments[a.appointment_id]
+      workshop_session = workshop_sessions[a.workshop_session_id]
+      person = people[appt.person_id]
+      workshop = workshops[appt.workshop_id]
+      institution = institutions[appt.institution_id]
+      
+      # Figure out each person's institution: the one associated with the latest workshop they attended
+      if person["latest_workshop"].nil? or person["latest_workshop"].first_day < workshop.first_day
+        person["latest_workshop"] = workshop
+        person["institution"] = institution
+      end
+
+      # Figure out the attendance time for each workshop: the earliest attendance
+      att_key = "w#{workshop.id}_attended"
+      if person[att_key].nil? or person[att_key] > workshop_session.starts_at
+        person[att_key] = workshop_session.starts_at
+      end
+
+      # Add up minutes from this attended session to the appropriate fields
+      person["total_minutes"] += workshop_session.minutes
+      person["t#{workshop_session.training_subject_id}_minutes"] += workshop_session.minutes
+      person["w#{workshop.id}t#{workshop_session.training_subject_id}_minutes"] += workshop_session.minutes
+    end
+
+    # Don't bother reporting people who have no attendance information
+    people.keys.each do |i|
+      people.delete(i) if people[i]["total_minutes"] == 0
+    end
+
+    return people.values.sort{ |a,b| [a.last_name, a.first_name] <=> [b.last_name, b.first_name] }
   end
   
   named_scope :sorted_by_last_name, :order => "last_name, first_name"
-  named_scope :including_all_associations, :include => [:job, {:appointments => [:institution, :attendances, {:workshop => :workshop_sessions}]}]
   
   # --- Permissions --- #
   
