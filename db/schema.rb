@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20100929144659) do
+ActiveRecord::Schema.define(:version => 20101007214025) do
 
   create_table "appointments", :force => true do |t|
     t.timestamp "created_at"
@@ -70,6 +70,7 @@ ActiveRecord::Schema.define(:version => 20100929144659) do
     t.string    "name"
     t.timestamp "created_at"
     t.timestamp "updated_at"
+    t.boolean   "admin",      :default => false
   end
 
   create_table "people", :force => true do |t|

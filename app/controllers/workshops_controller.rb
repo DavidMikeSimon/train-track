@@ -11,7 +11,7 @@ class WorkshopsController < ApplicationController
     csv_fields = [
       ["Region", lambda {|a| a.institution.region }],
       ["Institution", lambda {|a| a.institution.name }],
-      ["BEP", lambda {|a| a.institution.bep }],
+      ["BEP School", lambda {|a| a.institution.bep ? "true" : "false"}],
       ["School Code", lambda {|a| a.institution.school_code }],
       ["Role", lambda {|a| a.role }],
       ["Last Name", lambda {|a| a.person.last_name }],
@@ -22,6 +22,7 @@ class WorkshopsController < ApplicationController
       ["Email", lambda { |a| a.person.email_address }],
       ["Code", lambda {|a| a.train_code }],
       ["Job", lambda {|a| a.person.job ? a.person.job.name : "Other" }],
+      ["Admin", lambda {|a| a.person.job ? a.person.job.admin : "false" }],
       ["Job Details", lambda {|a| a.person.job_details }],
       ["Gender", lambda {|a| a.person.gender }],
       ["Grade Taught", lambda {|a| a.person.grade_taught }],

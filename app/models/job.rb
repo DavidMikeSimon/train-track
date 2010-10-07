@@ -4,6 +4,7 @@ class Job < ActiveRecord::Base
   
   fields do
     name  :string, :required
+    admin :boolean, :default => false
     timestamps
   end
   
