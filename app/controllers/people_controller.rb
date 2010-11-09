@@ -27,6 +27,7 @@ class PeopleController < ApplicationController
       ["Fax", lambda { |p| p.fax_number }],
       ["Email", lambda { |p| p.email_address }],
       ["Gender", lambda { |p| p.gender }],
+      ["Grade Taught", lambda { |p| p.grade_taught }],
       ["Job", lambda {|p| p["job"].try.name || "Other" }],
       ["Admin", lambda { |p| p["job"].try.admin || "false" }],
       ["Job Details", lambda {|p| p.job_details }]
