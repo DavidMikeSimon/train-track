@@ -37,11 +37,11 @@
   width: 100px !important;
 }
 
-.new-person-form .email-input {
+.new-person-form .email-input, .new-person-form .job-details-input {
   width: 200px !important;
 }
 
-.new-person-form,.cancel-form {
+.new-person-form, .cancel-form {
   display: inline;
 }
 
