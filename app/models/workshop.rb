@@ -19,6 +19,8 @@ class Workshop < ActiveRecord::Base
     purpose   :string
     timestamps
   end
+
+  set_default_order "first_day DESC"
   
   # The identifier for the workshop itself, from the "workshops" RandomIdentifierGroup
   belongs_to :random_identifier, :dependent => :destroy
@@ -63,8 +65,6 @@ class Workshop < ActiveRecord::Base
   def train_code
     "WKS-%s" % TrainCode.encode(random_identifier.identifier)
   end
-  
-  set_default_order "title"
   
   # --- Permissions --- #
   
