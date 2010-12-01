@@ -1,5 +1,5 @@
 <index-page for="Workshops">
-  <table-plus: fields="this, first_day, last_day, venue, presenters, participants">
+  <table-plus: fields="this, first_day, last_day, venue, presenters, participants" without-search-form>
     <presenters-view:><count /></presenters-view:>
     <participants-view:><count /></participants-view:>
   </table-plus:>
