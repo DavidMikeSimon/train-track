@@ -160,6 +160,7 @@
     Email: <%= text_field_tag "email_address", "", :autocomplete => "off", :class => "right-pad email-input" %>
     <br />
     Grade Taught: <%= text_field_tag "grade_taught", "", :autocomplete => "off", :class => "right-pad" %>
+    Job: <%= select_tag "job_id", options_for_select([["Other", 0]] + Job.all.to_a.map{|job| [job.name, job.id]}) %>
     Job Details: <%= text_field_tag "job_details", "", :autocomplete => "off", :class => "right-pad job-details-input" %>
     <%= submit_tag "Add Person", :class => "button submit-button" %>
   <% end %>
