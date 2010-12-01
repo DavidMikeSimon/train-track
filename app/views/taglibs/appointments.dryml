@@ -50,7 +50,6 @@
 
 <extend tag="form" for="Appointment">
   <old-form merge>
-    <heading:>Edit Sessions Attended By <view:person/></heading:>
     <before-field-list:>
       <div class="actions">
         <submit label="#{ht 'workshop_sessions.actions.save', :default=>['Save']}" param />or <a:workshop>Cancel</a>
@@ -68,6 +67,12 @@
       &nbsp;&nbsp;&nbsp;<a:workshop>Cancel</a>
     </append-actions:>
   </old-form>
+</extend>
+
+<extend tag="edit-page" for="Appointment">
+  <old-edit-page merge>
+    <heading:>Edit Sessions Attended By <view:person/></heading:>
+  </old-edit-page>
 </extend>
 
 <def tag="appointment-ajax-from-several-choices-form" attrs="role,workshop,people">
