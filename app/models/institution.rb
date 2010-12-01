@@ -99,10 +99,10 @@ class Institution < ActiveRecord::Base
       s.gsub!(/\b(#{short})\b/, long)
     end
     
-    s.gsub!(".", "")
     s.gsub!(/\b&/, " &")
     s.gsub!(/&\b/, "& ")
     s.gsub!("&", "and")
+    s.gsub!("Infant.", "Infant") #Sometimes it's abbreviated "Inf."
     
     s.gsub!(/ {2,}/, " ")
     s.strip!
