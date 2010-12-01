@@ -76,6 +76,7 @@
 </extend>
 
 <def tag="appointment-ajax-from-several-choices-form" attrs="role,workshop,people">
+  <h2>You typed "<%= @first_name %> <%= @last_name %>", perhaps you meant:</h2>
   <% @people.each do |person| %>
     <% form_remote_tag(
       :html => { :class => "appointment-entry-form" },
