@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101007214025) do
+ActiveRecord::Schema.define(:version => 20101201160901) do
 
   create_table "appointments", :force => true do |t|
     t.timestamp "created_at"
@@ -38,6 +38,14 @@ ActiveRecord::Schema.define(:version => 20101007214025) do
   add_index "attendances", ["appointment_id"], :name => "index_attendances_on_appointment_id"
   add_index "attendances", ["workshop_session_id", "appointment_id"], :name => "index_attendances_on_workshop_session_id_and_appointment_id", :unique => true
   add_index "attendances", ["workshop_session_id"], :name => "index_attendances_on_workshop_session_id"
+
+  create_table "institution_trigrams", :force => true do |t|
+    t.string  "token",          :null => false
+    t.integer "institution_id"
+  end
+
+  add_index "institution_trigrams", ["institution_id"], :name => "index_institution_trigrams_on_institution_id"
+  add_index "institution_trigrams", ["token"], :name => "index_institution_trigrams_on_token"
 
   create_table "institutions", :force => true do |t|
     t.string    "name"

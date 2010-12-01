@@ -55,6 +55,9 @@ class Institution < ActiveRecord::Base
     timestamps
   end
   
+  include FuzzySearch
+  fuzzy_search_attributes :name
+
   index [:name, :region], :unique => true
   
   set_default_order "name"

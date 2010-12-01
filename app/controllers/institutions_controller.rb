@@ -5,7 +5,6 @@ class InstitutionsController < ApplicationController
   auto_actions :all
 
   def index
-    permission_denied("Permission Denied") unless current_user.administrator?
-    hobo_index
+    hobo_index Institution.fuzzy_find_scope(params[:search])
   end
 end
