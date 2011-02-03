@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20101201160901) do
+ActiveRecord::Schema.define(:version => 20110203183559) do
 
   create_table "appointments", :force => true do |t|
     t.timestamp "created_at"
@@ -82,19 +82,19 @@ ActiveRecord::Schema.define(:version => 20101201160901) do
   end
 
   create_table "people", :force => true do |t|
-    t.string    "first_name"
-    t.string    "last_name"
-    t.string    "title"
-    t.string    "gender"
-    t.string    "cell_number"
-    t.string    "landline_number"
-    t.string    "fax_number"
-    t.string    "email_address"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.string    "job_details"
-    t.integer   "grade_taught"
-    t.integer   "job_id"
+    t.string   "first_name"
+    t.string   "last_name"
+    t.string   "title"
+    t.string   "gender"
+    t.string   "cell_number"
+    t.string   "landline_number"
+    t.string   "fax_number"
+    t.string   "email_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "job_details"
+    t.string   "grade_taught"
+    t.integer  "job_id"
   end
 
   add_index "people", ["job_id"], :name => "index_people_on_job_id"

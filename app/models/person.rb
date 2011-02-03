@@ -16,11 +16,11 @@ class Person < ActiveRecord::Base
     landline_number :string
     fax_number      :string
     email_address   :email_address
-    grade_taught    :integer # TODO Maybe should use serialize and make this "grades_taught"? Does Hobo work with that?
+    grade_taught    :string
     job_details     :string
     timestamps
   end
-  
+
   def validate
     if ["Ms.", "Mrs.", "Miss", "Sister"].include?(title) && gender == :male
       errors.add_to_base "You cannot use the title \"#{title}\" for a male person."
@@ -28,17 +28,21 @@ class Person < ActiveRecord::Base
       errors.add_to_base "You cannot use the title \"#{title}\" for a female person."
     end
   end
-  
+
   include FuzzySearch
   fuzzy_search_attributes :first_name, :last_name
-  
+
   belongs_to :job
-  
+
   has_many :appointments, :dependent => :destroy
   has_many :attendances, :through => :appointments
-  
+
   set_default_order "last_name, first_name"
-  
+
+  def before_save
+    self.grade_taught = grade_taught.to_s.strip.upcase.split(/[, \/]+/).map{|g| g.scan(/\d+|\D+/).map{|e| e.match(/\d+/) ? e.to_i : e}}.sort.map{|g| g.join}.join(" ")
+  end
+
   def after_update
     if first_name_changed? || last_name_changed? || job_id_changed? || job_details_changed?
       Appointment.all(:conditions => {:person_id => self.id}).each do |appt|
