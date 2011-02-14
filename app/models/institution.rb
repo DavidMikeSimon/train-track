@@ -2,6 +2,7 @@ class Institution < ActiveRecord::Base
   hobo_model # Don't put anything above this
   
   Parish = HoboFields::EnumString.for(
+    "N/A",
     "Clarendon",
     "Hanover",
     "Kingston",
@@ -34,7 +35,7 @@ class Institution < ActiveRecord::Base
   fields do
     name               :string, :required
     school_code        :string
-    region             :integer, :required
+    region             :integer
     address            :text
     parish             Institution::Parish
     telephone_numbers  :string
@@ -65,11 +66,11 @@ class Institution < ActiveRecord::Base
   set_default_order "name"
   
   def medium_name
-    "#{name} (R#{region})"
+    region ? "#{name} (R#{region})" : name
   end
   
   def long_name
-    "#{name}, #{parish}, Region #{region}"
+    (region && parish != "N/A") ? "#{name}, #{parish}, Region #{region}" : name
   end
   
   def before_save

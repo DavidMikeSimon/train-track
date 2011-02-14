@@ -27,7 +27,7 @@
 <def tag="form" for="Person">
   <form merge param="default">
     <error-messages param/>
-    <field-list fields="first_name, last_name, title, gender, cell_number, landline_number, fax_number, email_address, grade_taught, job_details, job" param/>
+    <field-list fields="first_name, last_name, title, gender, cell_number, landline_number, fax_number, email_address, grade_taught, job_details, institution, job" param/>
     <div param="actions">
       <submit label="#{ht 'people.actions.save', :default=>['Save']}" param/><or-cancel param="cancel"/>
     </div>

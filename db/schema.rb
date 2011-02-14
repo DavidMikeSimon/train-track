@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110214162048) do
+ActiveRecord::Schema.define(:version => 20110214172020) do
 
   create_table "appointments", :force => true do |t|
     t.timestamp "created_at"
@@ -48,28 +48,28 @@ ActiveRecord::Schema.define(:version => 20110214162048) do
   add_index "institution_trigrams", ["token"], :name => "index_institution_trigrams_on_token"
 
   create_table "institutions", :force => true do |t|
-    t.string    "name"
-    t.string    "school_code"
-    t.integer   "region"
-    t.text      "address"
-    t.string    "telephone_numbers"
-    t.string    "fax_number"
-    t.string    "email_address"
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.string    "parish"
-    t.string    "organization_type",                 :default => "school"
-    t.string    "principal"
-    t.string    "education_officer"
-    t.integer   "female_students_total",             :default => 0
-    t.integer   "male_students_total",               :default => 0
-    t.integer   "female_students_early_grade_total", :default => 0
-    t.integer   "male_students_early_grade_total",   :default => 0
-    t.integer   "female_teachers_total",             :default => 0
-    t.integer   "male_teachers_total",               :default => 0
-    t.integer   "female_teachers_early_grade_total", :default => 0
-    t.integer   "male_teachers_early_grade_total",   :default => 0
-    t.boolean   "bep",                               :default => false
+    t.string   "name"
+    t.string   "school_code"
+    t.integer  "region"
+    t.text     "address"
+    t.string   "telephone_numbers"
+    t.string   "fax_number"
+    t.string   "email_address"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.string   "parish"
+    t.string   "organization_type",                 :default => "school"
+    t.string   "principal"
+    t.string   "education_officer"
+    t.integer  "female_students_total",             :default => 0
+    t.integer  "male_students_total",               :default => 0
+    t.integer  "female_students_early_grade_total", :default => 0
+    t.integer  "male_students_early_grade_total",   :default => 0
+    t.integer  "female_teachers_total",             :default => 0
+    t.integer  "male_teachers_total",               :default => 0
+    t.integer  "female_teachers_early_grade_total", :default => 0
+    t.integer  "male_teachers_early_grade_total",   :default => 0
+    t.boolean  "bep",                               :default => false
   end
 
   add_index "institutions", ["name", "region"], :name => "index_institutions_on_name_and_region", :unique => true

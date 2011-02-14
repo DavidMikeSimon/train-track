@@ -1,5 +1,6 @@
 <index-page for="Institution">
   <table-plus: fields="this, organization_type, region, parish">
     <organization-type-view:><view with="&this.titleize" /></organization-type-view:>
+    <region-view:><if><view/></if><else>N/A</else></region-view:>
   </table-plus:>
 </index-page>
