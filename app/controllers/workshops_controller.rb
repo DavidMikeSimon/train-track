@@ -9,7 +9,7 @@ class WorkshopsController < ApplicationController
  
   show_action :csv_codes do
     csv_fields = [
-      ["Region", lambda {|a| a.institution.region }],
+      ["Region", lambda {|a| a.institution.region || "" }],
       ["Institution", lambda {|a| a.institution.name }],
       ["BEP School", lambda {|a| a.institution.bep ? "true" : "false"}],
       ["School Code", lambda {|a| a.institution.school_code }],

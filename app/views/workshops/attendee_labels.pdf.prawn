@@ -12,7 +12,7 @@ def draw_label(pdf, idx, appointment)
     [2, lambda {|a| a.train_code}, {:font => "Courier-Bold"}],
     [0.5, lambda {|a| ""}],
     [4, lambda {|a| "#{a.person.first_name} #{a.person.last_name}"}],
-    [2.5, lambda {|a| "#{a.institution.name} (#{a.role == :presenter ? "Pr" : "R#{a.institution.region}"})"}],
+    [2.5, lambda {|a| a.institution.medium_name}],
     [2, lambda {|a| [(a.person.job ? a.person.job.name : nil), (a.person.job_details == "" ? nil : a.person.job_details)].reject(&:nil?).join(" - ")}],
     [0.5, lambda {|a| ""}],
     [2, lambda {|a| a.train_code}, {:font => "Courier-Bold", :rotate => 180, :rotate_around => :center}]

@@ -17,7 +17,7 @@ class PeopleController < ApplicationController
   index_action :csv do
     csv_fields = [
       ["Institution", lambda { |p| p["institution"].try.name }],
-      ["Region", lambda { |p| p["institution"].try.region }],
+      ["Region", lambda { |p| p["institution"].try.region || "" }],
       ["BEP", lambda { |p| p["institution"].try.bep || "false" }],
       ["School Code", lambda { |p| p["institution"].try.school_code }],
       ["Last Name", lambda { |p| p.last_name }],
