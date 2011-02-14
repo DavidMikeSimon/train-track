@@ -37,6 +37,8 @@ class Person < ActiveRecord::Base
   has_many :appointments, :dependent => :destroy
   has_many :attendances, :through => :appointments
 
+  belongs_to :institution
+
   set_default_order "last_name, first_name"
 
   def before_save

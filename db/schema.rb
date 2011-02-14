@@ -9,7 +9,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110203183559) do
+ActiveRecord::Schema.define(:version => 20110214162048) do
 
   create_table "appointments", :force => true do |t|
     t.timestamp "created_at"
@@ -95,8 +95,10 @@ ActiveRecord::Schema.define(:version => 20110203183559) do
     t.string   "job_details"
     t.string   "grade_taught"
     t.integer  "job_id"
+    t.integer  "institution_id"
   end
 
+  add_index "people", ["institution_id"], :name => "index_people_on_institution_id"
   add_index "people", ["job_id"], :name => "index_people_on_job_id"
 
   create_table "person_trigrams", :force => true do |t|

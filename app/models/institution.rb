@@ -59,6 +59,8 @@ class Institution < ActiveRecord::Base
   fuzzy_search_attributes :name
 
   index [:name, :region], :unique => true
+
+  has_many :people, :dependent => :nullify
   
   set_default_order "name"
   
