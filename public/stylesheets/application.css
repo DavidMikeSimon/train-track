@@ -37,8 +37,12 @@
   width: 100px !important;
 }
 
-.new-person-form .email-input, .new-person-form .job-details-input {
+.new-person-form .email-input, .new-person-form .job-details-input, .new-person-form .first-name, .new-person-form .last-name {
   width: 200px !important;
+}
+
+.new-person-form .first-name, .new-person-form .last-name {
+  margin-bottom: 8px;
 }
 
 .new-person-form, .cancel-form {

@@ -133,10 +133,6 @@
     <div id="<%= role %>-error-flash" class="flash error"></div>
     <h4>
     Adding New <view with="&role.titleize" />:
-    <span class="right-pad">
-    <view with="&first_name" />
-    <view with="&last_name" />
-    </span>
     <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
     Gender: <%= select_tag 'gender', options_for_select(Person::Gender::values.map {|v| [v.titleize, v]}), :class => "right-pad" %>
     Title: <%= select_tag 'title', options_for_select(Person::Title::values), :class => "right-pad" %>
@@ -144,8 +140,9 @@
     <%= hidden_field_tag "workshop_id", workshop %>
     <%= hidden_field_tag "role", role %>
     <%= hidden_field_tag "create_new_person", true %>
-    <%= hidden_field_tag "first_name", first_name %>
-    <%= hidden_field_tag "last_name", last_name %>
+    First Name: <%= text_field_tag "first_name", first_name, :autocomplete => "off", :class => "first-name right-pad" %>
+    Last Name: <%= text_field_tag "last_name", last_name, :autocomplete => "off", :class => "last-name right-pad" %>
+    <br />
     Cell #: <%= text_field_tag "cell_number", "", :autocomplete => "off", :class => "right-pad" %>
     Landline #: <%= text_field_tag "landline_number", "", :autocomplete => "off", :class => "right-pad" %>
     Fax #: <%= text_field_tag "fax_number", "", :autocomplete => "off", :class => "right-pad" %>
