@@ -68,6 +68,10 @@ class Institution < ActiveRecord::Base
   def medium_name
     region ? "#{name} (R#{region})" : name
   end
+
+  def to_s
+    medium_name
+  end
   
   def long_name
     (region && parish != "N/A") ? "#{name}, #{parish}, Region #{region}" : name
@@ -81,9 +85,11 @@ class Institution < ActiveRecord::Base
 
   def after_update
     if name_changed? || region_changed?
-      Appointment.all(:conditions => {:institution_id => self.id}).each do |appt|
-        appt.print_needed = true
-        appt.save!
+      people.all do |person|
+        person.appointments.each do |appt|
+          appt.print_needed = true
+          appt.save!
+        end
       end
     end
   end

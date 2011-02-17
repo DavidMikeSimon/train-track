@@ -104,7 +104,7 @@
           </header>
 
           <section param="content-body">
-            <field-list fields="role, institution, person, random_identifier, workshop" param/>
+            <field-list fields="role, person, random_identifier, workshop" param/>
           </section>
     </content:>
 

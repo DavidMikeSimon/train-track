@@ -12,7 +12,7 @@ def draw_label(pdf, idx, appointment)
     [2, lambda {|a| a.train_code}, {:font => "Courier-Bold"}],
     [0.5, lambda {|a| ""}],
     [4, lambda {|a| "#{a.person.first_name} #{a.person.last_name}"}],
-    [2.5, lambda {|a| a.institution.medium_name}],
+    [2.5, lambda {|a| (a.person.institution.try.medium_name).to_s}],
     [2, lambda {|a| [(a.person.job ? a.person.job.name : nil), (a.person.job_details == "" ? nil : a.person.job_details)].reject(&:nil?).join(" - ")}],
     [0.5, lambda {|a| ""}],
     [2, lambda {|a| a.train_code}, {:font => "Courier-Bold", :rotate => 180, :rotate_around => :center}]
@@ -39,7 +39,7 @@ def draw_label(pdf, idx, appointment)
 end
 
 i = 0
-@workshop.appointments.all(:conditions => {:print_needed => true}, :include => [:person, :institution], :order => "people.last_name, people.first_name").each do |appt|
+@workshop.appointments.all(:conditions => {:print_needed => true}, :include => {:person => :institution}, :order => "people.last_name, people.first_name").each do |appt|
   if i == 30
     i = 0
     pdf.start_new_page

@@ -21,7 +21,7 @@
     </before-field-list:>
     <field-list: fields="name, training_subject, starts_at, minutes, appointments">
       <appointments-view:>
-        <check-many options="&Appointment.all(:conditions => {:workshop_id => this_parent.workshop_id}, :include => [:person, :institution], :order => 'people.last_name, people.first_name')"/>
+        <check-many options="&Appointment.all(:conditions => {:workshop_id => this_parent.workshop_id}, :include => :person, :order => 'people.last_name, people.first_name')"/>
       </appointments-view:>
     </field-list>
     <append-actions:>

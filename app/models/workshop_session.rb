@@ -19,7 +19,7 @@ class WorkshopSession < ActiveRecord::Base
   belongs_to :training_subject
   
   has_many :attendances, :dependent => :destroy
-  has_many :appointments, :through => :attendances, :include => [:person, :institution], :accessible => true, :conditions => 'workshop_id = #{workshop_id}', :order => "people.last_name, people.first_name"
+  has_many :appointments, :through => :attendances, :include => :person, :accessible => true, :conditions => 'workshop_id = #{workshop_id}', :order => "people.last_name, people.first_name"
   
   def before_create
     self.random_identifier = workshop.workshop_session_identifier_group.grab_identifier

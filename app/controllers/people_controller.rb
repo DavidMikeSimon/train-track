@@ -16,10 +16,10 @@ class PeopleController < ApplicationController
  
   index_action :csv do
     csv_fields = [
-      ["Institution", lambda { |p| p["institution"].try.name }],
-      ["Region", lambda { |p| p["institution"].try.region || "" }],
-      ["BEP", lambda { |p| p["institution"].try.bep || "false" }],
-      ["School Code", lambda { |p| p["institution"].try.school_code }],
+      ["Institution", lambda { |p| p.institution.try.name.to_s }],
+      ["Region", lambda { |p| p.institution.try.region.to_s }],
+      ["BEP", lambda { |p| p.institution.try.bep || "false" }],
+      ["School Code", lambda { |p| p.institution.try.school_code }],
       ["Last Name", lambda { |p| p.last_name }],
       ["First Name", lambda { |p| p.first_name }],
       ["Cell", lambda { |p| p.cell_number }],
@@ -28,8 +28,8 @@ class PeopleController < ApplicationController
       ["Email", lambda { |p| p.email_address }],
       ["Gender", lambda { |p| p.gender }],
       ["Grade Taught", lambda { |p| p.grade_taught }],
-      ["Job", lambda {|p| p["job"].try.name || "Other" }],
-      ["Admin", lambda { |p| p["job"].try.admin || "false" }],
+      ["Job", lambda {|p| p.job.try.name || "Other" }],
+      ["Admin", lambda { |p| p.job.try.admin || "false" }],
       ["Job Details", lambda {|p| p.job_details }]
     ]
     TrainingSubject.all.each do |ts|

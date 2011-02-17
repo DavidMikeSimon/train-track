@@ -9,24 +9,21 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110214172020) do
+ActiveRecord::Schema.define(:version => 20110217181221) do
 
   create_table "appointments", :force => true do |t|
-    t.timestamp "created_at"
-    t.timestamp "updated_at"
-    t.integer   "workshop_id"
-    t.integer   "person_id"
-    t.string    "role"
-    t.integer   "institution_id"
-    t.integer   "random_identifier_id"
-    t.boolean   "print_needed",         :default => true
-    t.boolean   "registered",           :default => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "workshop_id"
+    t.integer  "person_id"
+    t.string   "role"
+    t.integer  "random_identifier_id"
+    t.boolean  "print_needed",         :default => true
+    t.boolean  "registered",           :default => false
   end
 
-  add_index "appointments", ["institution_id"], :name => "index_appointments_on_institution_id"
   add_index "appointments", ["person_id"], :name => "index_appointments_on_person_id"
   add_index "appointments", ["random_identifier_id"], :name => "index_appointments_on_random_identifier_id"
-  add_index "appointments", ["workshop_id", "person_id", "role"], :name => "index_appointments_on_workshop_id_and_person_id_and_role", :unique => true
 
   create_table "attendances", :force => true do |t|
     t.timestamp "created_at"
@@ -82,20 +79,20 @@ ActiveRecord::Schema.define(:version => 20110214172020) do
   end
 
   create_table "people", :force => true do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "title"
-    t.string   "gender"
-    t.string   "cell_number"
-    t.string   "landline_number"
-    t.string   "fax_number"
-    t.string   "email_address"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-    t.string   "job_details"
-    t.string   "grade_taught"
-    t.integer  "job_id"
-    t.integer  "institution_id"
+    t.string    "first_name"
+    t.string    "last_name"
+    t.string    "title"
+    t.string    "gender"
+    t.string    "cell_number"
+    t.string    "landline_number"
+    t.string    "fax_number"
+    t.string    "email_address"
+    t.timestamp "created_at"
+    t.timestamp "updated_at"
+    t.string    "job_details"
+    t.string    "grade_taught"
+    t.integer   "job_id"
+    t.integer   "institution_id"
   end
 
   add_index "people", ["institution_id"], :name => "index_people_on_institution_id"

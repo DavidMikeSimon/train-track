@@ -1,5 +1,4 @@
 class AppointmentsController < ApplicationController
-  # TODO - When bringing back the name approximation form, show the same institution as before
   # TODO - PERMISSIONS, oi! (Hook into Hobo permissions if it isn't already being done)
   
   hobo_model_controller
@@ -53,7 +52,6 @@ class AppointmentsController < ApplicationController
   def create
     @role = params[:role]
     @workshop_id = params[:workshop_id]
-    @institution_id = params[:institution_id]
 
     people = []
     if params.has_key?(:create_new_person) && params[:create_new_person]
@@ -88,12 +86,10 @@ class AppointmentsController < ApplicationController
     
     if people.size == 1
       # Got one match with a person; create/find the appointment with them
-      # TODO If given institution differs from person's last known institution, ask user if they want to move the person or make new person
-      @appointment = Appointment.find_or_update_or_create_by_ids(
+      @appointment = Appointment.find_or_create_by_workshop_id_and_person_id(
         @workshop_id,
         people[0].id,
-        @institution_id,
-        @role
+        :role => @role
       )
       render :update do |page|
         page.replace_html "#{@role}-insertion-form", :partial => "new_by_name_approximation"

@@ -58,19 +58,13 @@ class Person < ActiveRecord::Base
   def self.attendees_with_report_fields
     # Preload all the relevant data (argh, can't belive I'm doing this)
     appointments = {}; Appointment.all.each { |r| appointments[r.id] = r }
-    institutions = {}; Institution.all.each { |r| institutions[r.id] = r }
-    jobs = {}; Job.all.each { |r| jobs[r.id] = r }
-    people = {}; Person.all.each { |r| people[r.id] = r }
+    people = {}; Person.all(:include => [:institution, :job]).each { |r| people[r.id] = r }
     training_subjects = {}; TrainingSubject.all.each { |r| training_subjects[r.id] = r }
     workshop_sessions = {}; WorkshopSession.all.each { |r| workshop_sessions[r.id] = r }
     workshops = {}; Workshop.all.each { |r| workshops[r.id] = r }
 
-    # Create report columns in each person record to be filled in as we go
     people.each do |i, p|
       p["total_minutes"] = 0
-      p["latest_workshop"] = nil
-      p["institution"] = nil
-      p["job"] = jobs[p.job_id]
     end
     training_subjects.each do |i, ts|
       workshops.each do |j, w|
@@ -92,14 +86,7 @@ class Person < ActiveRecord::Base
       workshop_session = workshop_sessions[a.workshop_session_id]
       person = people[appt.person_id]
       workshop = workshops[appt.workshop_id]
-      institution = institutions[appt.institution_id]
       
-      # Figure out each person's institution: the one associated with the latest workshop they attended
-      if person["latest_workshop"].nil? or person["latest_workshop"].first_day < workshop.first_day
-        person["latest_workshop"] = workshop
-        person["institution"] = institution
-      end
-
       # Figure out the attendance time for each workshop: the earliest attendance
       att_key = "w#{workshop.id}_attended"
       if person[att_key].nil? or person[att_key] > workshop_session.starts_at
@@ -117,7 +104,7 @@ class Person < ActiveRecord::Base
       people.delete(i) if people[i]["total_minutes"] == 0
     end
 
-    return people.values.sort{ |a,b| [a["institution"].try.name, a.last_name, a.first_name] <=> [b["institution"].try.name, b.last_name, b.first_name] }
+    return people.values.sort{ |a,b| [a.institution.try.name || "", a.last_name, a.first_name] <=> [b.institution.try.name || "", b.last_name, b.first_name] }
   end
   
   named_scope :sorted_by_last_name, :order => "last_name, first_name"

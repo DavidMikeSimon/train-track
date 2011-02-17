@@ -1,7 +1,7 @@
 <extend tag="card" for="Appointment">
   <div id="#{'appointment%u' % this.id}" class="card appointment">
     <div class="header">
-      <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.institution.id, this.institution.long_name] %>
+      <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.person.institution ? this.person.institution.id : 0, this.person.institution.try.long_name] %>
       <%= this.person.job ? "&nbsp;&nbsp;&nbsp;&nbsp;[#{this.person.job.name}]" : ""%>
       <%=
         link_to_remote(
@@ -55,10 +55,7 @@
         <submit label="#{ht 'workshop_sessions.actions.save', :default=>['Save']}" param />or <a:workshop>Cancel</a>
       </div>
     </before-field-list:>
-    <field-list: fields="institution, workshop_sessions">
-      <institution-view:>
-        <select-one limit="9999" />
-      </institution-view:>
+    <field-list: fields="workshop_sessions">
       <workshop-sessions-view:>
         <check-many options="&WorkshopSession.all(:conditions => {:workshop_id => this_parent.workshop_id}, :order => 'starts_at, name')" />
       </workshop-sessions-view:>
@@ -85,10 +82,9 @@
       :complete => "Hobo.hideSpinner()"
     ) do %>
       <%= hidden_field_tag "workshop_id", workshop %>
-      <%= hidden_field_tag "institution_id", @institution_id %>
       <%= hidden_field_tag "role", role %>
       <%= hidden_field_tag "person_id", person.id %>
-      <%= submit_tag "#{person.first_name} #{person.last_name}", :class => "button submit-button fixed-width-button" %>
+      <%= submit_tag "#{person.first_name} #{person.last_name} - #{person.institution.try.name || "N/A"}", :class => "button submit-button fixed-width-button" %>
     <% end %>
   <% end %>
   <% form_remote_tag(
@@ -99,7 +95,6 @@
   ) do %>
     <%= hidden_field_tag "workshop_id", workshop %>
     <%= hidden_field_tag "role", role %>
-    <%= hidden_field_tag "institution_id", @institution_id %>
     <%= hidden_field_tag "first_name", @first_name %>
     <%= hidden_field_tag "last_name", @last_name %>
     <%= hidden_field_tag "search_skipped", true %>
@@ -109,9 +104,6 @@
 
 <def tag="appointment-ajax-name-approximation-form"  attrs="role, workshop">
   <%
-  institution_options = options_for_select(
-    Appointment.possible_institutions(role).collect{ |i| [i.medium_name, i.id]}
-  )
   form_remote_tag(
     :html => { :class => "appointment-entry-form" },
     :url => { :controller => :appointments, :action => :create },
@@ -120,7 +112,6 @@
   ) do %>
     <%= hidden_field_tag "workshop_id", workshop %>
     <%= hidden_field_tag "role", role %>
-    <%= select_tag 'institution_id', institution_options, :class => "institution-select right-pad" %>
     First Name: <%= text_field_tag "first_name", "", :class => "first-name-searchbox right-pad", :autocomplete => "off" %>
     Last Name: <%= text_field_tag "last_name", "", :class => "last-name-searchbox right-pad", :autocomplete => "off" %>
     <%= submit_tag "Add", :class => "button submit-button"%>
@@ -130,7 +121,7 @@
 <def tag="appointment-ajax-with-new-person-form"  attrs="role, workshop, first-name, last-name">
   <%
   institution_options = options_for_select(
-    Appointment.possible_institutions(role).collect{ |i| [i.medium_name, i.id]},
+    Institution.all.map{ |i| [i.medium_name, i.id]},
     @institution_id.to_i
   )
   form_remote_tag(
@@ -165,7 +156,7 @@
     Job Details: <%= text_field_tag "job_details", "", :autocomplete => "off", :class => "right-pad job-details-input" %>
     <%= submit_tag "Add Person", :class => "button submit-button" %>
   <% end %>
-  <!-- TODO Refactor -->
+  <!-- TODO Refactor! Yargh! Ergh! REFACTOR! -->
   <%
   form_remote_tag(
     :url => { :controller => :appointments, :action => :cancel_new_person_creation },
@@ -189,7 +180,7 @@
     </div>
     <%
       appt_source = role == "participant" ? this.participant_appointments : this.presenter_appointments
-      appointments = appt_source.all(:include => [:person, :institution, :attendances, :random_identifier]).sort{|a,b| [a.attendances.size, a.person.last_name, a.person.first_name] <=> [b.attendances.size, b.person.last_name, b.person.first_name]}
+      appointments = appt_source.all(:include => [:person, :attendances, :random_identifier]).sort{|a,b| [a.attendances.size, a.person.last_name, a.person.first_name] <=> [b.attendances.size, b.person.last_name, b.person.first_name]}
     %>
     <div id="<%= role %>-container">
       <% appointments.each do |appt| %>

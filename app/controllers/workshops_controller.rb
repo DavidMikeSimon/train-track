@@ -9,10 +9,10 @@ class WorkshopsController < ApplicationController
  
   show_action :csv_codes do
     csv_fields = [
-      ["Region", lambda {|a| a.institution.region || "" }],
-      ["Institution", lambda {|a| a.institution.name }],
-      ["BEP School", lambda {|a| a.institution.bep ? "true" : "false"}],
-      ["School Code", lambda {|a| a.institution.school_code }],
+      ["Region", lambda {|a| a.person.institution.try.region.to_s }],
+      ["Institution", lambda {|a| a.person.institution.try.name.to_s }],
+      ["BEP School", lambda {|a| a.person.institution.try.bep ? "true" : "false"}],
+      ["School Code", lambda {|a| a.person.institution.try.school_code.to_s }],
       ["Role", lambda {|a| a.role }],
       ["Last Name", lambda {|a| a.person.last_name }],
       ["First Name", lambda {|a| a.person.first_name }],
@@ -33,7 +33,7 @@ class WorkshopsController < ApplicationController
     workshop = Workshop.find(params[:id])
     source = Appointment.all(
       :conditions => { :workshop_id => workshop.id },
-      :include => [:institution, :person, :random_identifier, :attendances],
+      :include => [{:person => [:institution]}, :random_identifier, :attendances],
       :order => "institutions.region, institutions.name, people.last_name, people.first_name"
     )
     render_csv ("attendees-of-#{workshop.title.downcase.gsub(" ", "-")}.csv"), csv_fields, source
