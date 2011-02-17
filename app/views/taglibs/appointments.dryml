@@ -84,7 +84,7 @@
       <%= hidden_field_tag "workshop_id", workshop %>
       <%= hidden_field_tag "role", role %>
       <%= hidden_field_tag "person_id", person.id %>
-      <%= submit_tag "#{person.first_name} #{person.last_name} - #{person.institution.try.name || "N/A"}", :class => "button submit-button fixed-width-button" %>
+      <%= submit_tag "#{person.first_name} #{person.last_name} - #{person.institution.try.medium_name || "N/A"}", :class => "button submit-button fixed-width-button" %>
     <% end %>
   <% end %>
   <% form_remote_tag(
