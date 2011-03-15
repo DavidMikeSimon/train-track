@@ -11,6 +11,8 @@ GEM
     activeresource (2.3.8)
       activesupport (= 2.3.8)
     activesupport (2.3.8)
+    ar-extensions (0.9.3)
+      activerecord (~> 2.1)
     fastercsv (1.5.3)
     hobo (1.0.1)
       hobofields (= 1.0.1)
@@ -50,6 +52,7 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
+  ar-extensions
   fastercsv (= 1.5.3)
   hobo (= 1.0.1)
   prawn (= 0.8.4)
