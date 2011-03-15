@@ -11,7 +11,7 @@ class WorkshopSession < ActiveRecord::Base
   
   index [:workshop_id, :name], :unique => true
   
-  belongs_to :workshop
+  belongs_to :workshop, :index => false
   validates_presence_of :workshop
   
   belongs_to :random_identifier, :dependent => :destroy

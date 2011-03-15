@@ -8,7 +8,7 @@ class Attendance < ActiveRecord::Base
   
   belongs_to :appointment
   has_one :person, :through => :appointment
-  belongs_to :workshop_session
+  belongs_to :workshop_session, :index => false
   
   validates_presence_of :appointment, :workshop_session
   
