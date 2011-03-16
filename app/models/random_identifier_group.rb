@@ -12,31 +12,17 @@ class RandomIdentifierGroup < ActiveRecord::Base
   
   has_many :random_identifiers, :dependent => :destroy
   
-  def after_create
-    self.transaction do
-      (1..max_value).sort_by{rand}.each do |i|
-        self.connection.execute("INSERT INTO random_identifiers (random_identifier_group_id, identifier) VALUES(%u, %u)" % [self.id, i])
-      end
-    end
-  end
-  
-  def after_destroy
-    # Using delete instead of destroy because it skips RandomIdentifier's after_destroy (and also is much faster)
-    RandomIdentifier.delete_all(:random_identifier_group_id => self.id)
-  end
-  
   def find_used_identifier(identifier)
-    random_identifiers.first(:conditions => { :in_use => true, :identifier => identifier}) or (
+    random_identifiers.first(:conditions => { :identifier => identifier}) or (
       raise "Unable to resolve identifier %s in group %s" % [identifier, name]
     )
   end
   
   def grab_identifier
-    returning random_identifiers.first(:conditions => { :in_use => false }) do |i|
-      raise "Unable to find an unused random identifier in group %s" % name unless i
-      i.in_use = true
-      i.save!
-    end
+    used = random_identifiers.all.map{|r| r.identifier}
+    possible = (1..max_value).to_a - used
+    raise "No available random identifiers left in group" if possible.size == 0
+    return random_identifiers.create!(:identifier => possible[rand(possible.size)])
   end
   
   # --- Permissions --- #
