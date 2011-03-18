@@ -1,8 +1,9 @@
 require 'set'
 
 class Person < ActiveRecord::Base
-
   hobo_model # Don't put anything above this
+
+  acts_as_offroadable :group_single
   
   Title = HoboFields::EnumString.for("Ms.", "Mrs.", "Miss", "Mr.", "Dr.", "Rev.", "Sister", "Fr.", "Prof.")
   Gender = HoboFields::EnumString.for(:female, :male)

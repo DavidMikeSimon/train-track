@@ -34,7 +34,6 @@ ActiveRecord::Schema.define(:version => 20110316022002) do
 
   add_index "attendances", ["appointment_id"], :name => "index_attendances_on_appointment_id"
   add_index "attendances", ["workshop_session_id", "appointment_id"], :name => "index_attendances_on_workshop_session_id_and_appointment_id", :unique => true
-  add_index "attendances", ["workshop_session_id"], :name => "index_attendances_on_workshop_session_id"
 
   create_table "institution_trigrams", :force => true do |t|
     t.string  "token",          :null => false
@@ -76,6 +75,50 @@ ActiveRecord::Schema.define(:version => 20110316022002) do
     t.timestamp "created_at"
     t.timestamp "updated_at"
     t.boolean   "admin",      :default => false
+  end
+
+  create_table "offroad_group_states", :force => true do |t|
+    t.integer  "app_group_id",                                         :null => false
+    t.boolean  "group_being_destroyed",         :default => false,     :null => false
+    t.boolean  "group_locked",                  :default => false,     :null => false
+    t.integer  "confirmed_group_data_version",                         :null => false
+    t.integer  "confirmed_global_data_version",                        :null => false
+    t.datetime "last_installer_downloaded_at"
+    t.datetime "last_installation_at"
+    t.datetime "last_down_mirror_created_at"
+    t.datetime "last_down_mirror_loaded_at"
+    t.datetime "last_up_mirror_created_at"
+    t.datetime "last_up_mirror_loaded_at"
+    t.integer  "launcher_version"
+    t.integer  "app_version"
+    t.string   "operating_system",              :default => "Unknown", :null => false
+  end
+
+  add_index "offroad_group_states", ["app_group_id"], :name => "index_offroad_group_states_on_app_group_id", :unique => true
+  add_index "offroad_group_states", ["confirmed_global_data_version"], :name => "index_offroad_group_states_on_confirmed_global_data_version"
+
+  create_table "offroad_model_states", :force => true do |t|
+    t.string "app_model_name", :null => false
+  end
+
+  add_index "offroad_model_states", ["app_model_name"], :name => "index_offroad_model_states_on_app_model_name", :unique => true
+
+  create_table "offroad_received_record_states", :force => true do |t|
+    t.integer "model_state_id",                  :null => false
+    t.integer "group_state_id",   :default => 0, :null => false
+    t.integer "local_record_id",                 :null => false
+    t.integer "remote_record_id",                :null => false
+  end
+
+  create_table "offroad_sendable_record_states", :force => true do |t|
+    t.integer "model_state_id",                     :null => false
+    t.integer "local_record_id",                    :null => false
+    t.integer "mirror_version",  :default => 0,     :null => false
+    t.boolean "deleted",         :default => false, :null => false
+  end
+
+  create_table "offroad_system_state", :force => true do |t|
+    t.integer "current_mirror_version"
   end
 
   create_table "people", :force => true do |t|
@@ -163,7 +206,6 @@ ActiveRecord::Schema.define(:version => 20110316022002) do
 
   add_index "workshop_sessions", ["random_identifier_id"], :name => "index_workshop_sessions_on_random_identifier_id"
   add_index "workshop_sessions", ["workshop_id", "name"], :name => "index_workshop_sessions_on_workshop_id_and_name", :unique => true
-  add_index "workshop_sessions", ["workshop_id"], :name => "index_workshop_sessions_on_workshop_id"
 
   create_table "workshops", :force => true do |t|
     t.string    "title"

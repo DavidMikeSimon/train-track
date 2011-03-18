@@ -1,6 +1,12 @@
+# This file defines the offline envrionment
+# "Offline" means that the application is running on a local network, with only a subset of the real online app's data
+# It is implemented by the gem Offroad 
+
 # Settings specified here will take precedence over those in config/environment.rb
 
-# The production environment is meant for finished, "live" apps.
+# Use the offline database configuration file instead of the regular one
+config.database_configuration_file = "config/offline_database.yml"
+
 # Code is not reloaded between requests
 config.cache_classes = true
 
@@ -27,4 +33,4 @@ config.action_view.cache_template_loading            = true
 # Enable threaded mode
 # config.threadsafe!
 
-Offroad::config_app_online(true)
+Offroad::config_app_online(false)

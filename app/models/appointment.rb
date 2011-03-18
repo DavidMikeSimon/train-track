@@ -1,6 +1,6 @@
 class Appointment < ActiveRecord::Base
   hobo_model # Don't put anything above this
-  
+
   Role = HoboFields::EnumString.for(:participant, :presenter)
   
   fields do
@@ -13,6 +13,8 @@ class Appointment < ActiveRecord::Base
   validates_presence_of :workshop, :person
   
   belongs_to :workshop, :index => false # Index would duplicate the multi-column index below
+  acts_as_offroadable :group_owned, :parent => :workshop
+  
   belongs_to :person
   belongs_to :random_identifier, :dependent => :destroy
   

@@ -23,6 +23,8 @@ GEM
       hobosupport (= 1.0.1)
       rails (>= 2.2.2)
     hobosupport (1.0.1)
+    offroad (0.0.1)
+      ar-extensions
     prawn (0.8.4)
       prawn-core (>= 0.8.4, < 0.9)
       prawn-layout (>= 0.8.4, < 0.9)
@@ -52,9 +54,9 @@ PLATFORMS
   x86-mingw32
 
 DEPENDENCIES
-  ar-extensions
   fastercsv (= 1.5.3)
   hobo (= 1.0.1)
+  offroad
   prawn (= 0.8.4)
   prawnto (= 0.0.3)
   rails (= 2.3.8)

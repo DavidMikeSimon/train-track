@@ -34,6 +34,7 @@ Rails::Initializer.run do |config|
   config.gem 'hobo'
   config.gem 'prawn'
   config.gem 'prawnto'
+  config.gem 'offroad'
 
   # Settings in config/environments/* take precedence over those specified here.
   # Application configuration should go into files in config/initializers

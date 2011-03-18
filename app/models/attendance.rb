@@ -1,14 +1,15 @@
 class Attendance < ActiveRecord::Base
-  
   hobo_model # Don't put anything above this
-  
+
   fields do
     timestamps
   end
   
   belongs_to :appointment
   has_one :person, :through => :appointment
+  
   belongs_to :workshop_session, :index => false
+  acts_as_offroadable :group_owned, :parent => :workshop_session
   
   validates_presence_of :appointment, :workshop_session
   

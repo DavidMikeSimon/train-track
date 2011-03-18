@@ -1,6 +1,7 @@
 class TrainingSubject < ActiveRecord::Base
-  
   hobo_model # Don't put anything above this
+
+  acts_as_offroadable :group_single
   
   fields do
     name  :string, :required

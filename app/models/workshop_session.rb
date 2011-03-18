@@ -1,5 +1,4 @@
 class WorkshopSession < ActiveRecord::Base
-
   hobo_model # Don't put anything above this
   
   fields do
@@ -13,6 +12,7 @@ class WorkshopSession < ActiveRecord::Base
   
   belongs_to :workshop, :index => false
   validates_presence_of :workshop
+  acts_as_offroadable :group_owned, :parent => :workshop
   
   belongs_to :random_identifier, :dependent => :destroy
 
