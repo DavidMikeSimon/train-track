@@ -14,15 +14,15 @@ GEM
     ar-extensions (0.9.3)
       activerecord (~> 2.1)
     fastercsv (1.5.3)
-    hobo (1.0.1)
-      hobofields (= 1.0.1)
-      hobosupport (= 1.0.1)
-      rails (>= 2.2.2)
-      will_paginate (>= 2.3.11)
-    hobofields (1.0.1)
-      hobosupport (= 1.0.1)
-      rails (>= 2.2.2)
-    hobosupport (1.0.1)
+    hobo (1.0.3)
+      hobofields (= 1.0.3)
+      hobosupport (= 1.0.3)
+      rails (>= 2.2.2, < 3.0.0)
+      will_paginate (>= 2.3.11, ~> 2)
+    hobofields (1.0.3)
+      hobosupport (= 1.0.3)
+      rails (>= 2.2.2, < 3.0.0)
+    hobosupport (1.0.3)
     offroad (0.0.1)
       ar-extensions
     prawn (0.8.4)
@@ -55,7 +55,7 @@ PLATFORMS
 
 DEPENDENCIES
   fastercsv (= 1.5.3)
-  hobo (= 1.0.1)
+  hobo (= 1.0.3)
   offroad
   prawn (= 0.8.4)
   prawnto (= 0.0.3)
