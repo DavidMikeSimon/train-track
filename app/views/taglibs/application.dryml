@@ -15,8 +15,22 @@
   <count label="&this.member_class.view_hints.field_name(this.try.origin_attribute).singularize" with="&this.size" merge />
 </def>
 
+<def tag="offroad-status">
+  <section class="offroad-status">
+    <if test="&Offroad.app_offline?">
+      OFFLINE
+    </if>
+    <if test="&Offroad.app_online? && Workshop.offline_groups.size > 0">
+      ONLINE AND LOCKED
+    </if>
+  </section>
+</def>
+
 <extend tag="page">
   <old-page merge>
+    <after-header:>
+      <offroad-status/>
+    </after-header:>
     <before-app-name:>
        <img src="/images/train-logo.png" id="train-logo"/>
     </before-app-name:>
