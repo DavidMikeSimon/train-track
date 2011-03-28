@@ -12,7 +12,6 @@ class WorkshopSession < ActiveRecord::Base
   
   belongs_to :workshop, :index => false
   validates_presence_of :workshop
-  acts_as_offroadable :group_owned, :parent => :workshop
   
   belongs_to :random_identifier, :dependent => :destroy
 
@@ -64,4 +63,5 @@ class WorkshopSession < ActiveRecord::Base
     acting_user.signed_up?
   end
 
+  acts_as_offroadable :group_owned, :parent => :workshop
 end

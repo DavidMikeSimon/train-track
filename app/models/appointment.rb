@@ -13,7 +13,6 @@ class Appointment < ActiveRecord::Base
   validates_presence_of :workshop, :person
   
   belongs_to :workshop, :index => false # Index would duplicate the multi-column index below
-  acts_as_offroadable :group_owned, :parent => :workshop
   
   belongs_to :person
   belongs_to :random_identifier, :dependent => :destroy
@@ -54,4 +53,5 @@ class Appointment < ActiveRecord::Base
     acting_user.signed_up?
   end
 
+  acts_as_offroadable :group_owned, :parent => :workshop
 end

@@ -1,8 +1,6 @@
 class RandomIdentifierGroup < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
-  acts_as_offroadable :group_single
-  
   fields do
     name               :string, :required
     max_value          :integer, :required
@@ -45,4 +43,5 @@ class RandomIdentifierGroup < ActiveRecord::Base
     acting_user.administrator?
   end
 
+  acts_as_offroadable :group_single
 end

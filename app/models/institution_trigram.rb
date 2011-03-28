@@ -1,8 +1,6 @@
 class InstitutionTrigram < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
-  acts_as_offroadable :group_single
-
   fields do
     token :string, :null => false
   end
@@ -10,7 +8,6 @@ class InstitutionTrigram < ActiveRecord::Base
   index :token
   
   belongs_to :institution
-
 
   # --- Permissions --- #
 
@@ -30,4 +27,5 @@ class InstitutionTrigram < ActiveRecord::Base
     true
   end
 
+  acts_as_offroadable :group_single
 end

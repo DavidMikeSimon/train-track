@@ -9,7 +9,6 @@ class Attendance < ActiveRecord::Base
   has_one :person, :through => :appointment
   
   belongs_to :workshop_session, :index => false
-  acts_as_offroadable :group_owned, :parent => :workshop_session
   
   validates_presence_of :appointment, :workshop_session
   
@@ -33,4 +32,5 @@ class Attendance < ActiveRecord::Base
     acting_user.signed_up?
   end
 
+  acts_as_offroadable :group_owned, :parent => :workshop_session
 end

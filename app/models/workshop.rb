@@ -1,8 +1,6 @@
 class Workshop < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
-  acts_as_offroadable :group_base
-  
   validates_numericality_of(
     :region,
     :only_integer => true,
@@ -85,4 +83,5 @@ class Workshop < ActiveRecord::Base
     acting_user.signed_up?
   end
 
+  acts_as_offroadable :group_base
 end

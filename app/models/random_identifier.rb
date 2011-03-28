@@ -1,8 +1,6 @@
 class RandomIdentifier < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
-  acts_as_offroadable :group_single
-  
   fields do
     identifier              :integer, :required
   end
@@ -28,4 +26,5 @@ class RandomIdentifier < ActiveRecord::Base
     acting_user.administrator?
   end
 
+  acts_as_offroadable :group_single
 end

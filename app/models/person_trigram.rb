@@ -1,8 +1,6 @@
 class PersonTrigram < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
-  acts_as_offroadable :group_single
-
   fields do
     token :string, :null => false
   end
@@ -30,4 +28,5 @@ class PersonTrigram < ActiveRecord::Base
     true
   end
 
+  acts_as_offroadable :group_single
 end

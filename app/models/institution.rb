@@ -1,8 +1,6 @@
 class Institution < ActiveRecord::Base
   hobo_model # Don't put anything above this
 
-  acts_as_offroadable :group_single
-  
   Parish = HoboFields::EnumString.for(
     "N/A",
     "Clarendon",
@@ -142,4 +140,5 @@ class Institution < ActiveRecord::Base
     acting_user.signed_up?
   end
 
+  acts_as_offroadable :group_single
 end
