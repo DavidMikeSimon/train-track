@@ -4,7 +4,13 @@
   </after-heading:>
   
   <table-plus: fields="this, job, institution">
-    <job-view:><select-one-editor include-none="true" blank-message="Other" sort="true"/></job-view:>
+    <job-view:>
+      <if test="&Person.new.updatable_by?(current_user)">
+        <select-one-editor include-none="true" blank-message="Other" sort="true"/>
+      </if><else>
+        <view/>
+      </else>
+    </job-view:>
     <institution-view:><if><view:medium_name /></if></institution-view:>
   </table-plus:>
 </index-page>
