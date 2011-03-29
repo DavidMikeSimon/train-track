@@ -26,4 +26,8 @@ class ProcessedXmlFile < ActiveRecord::Base
     acting_user.signed_up?
   end
 
+  def edit_permitted?(field)
+    update_permitted?
+  end
+
 end

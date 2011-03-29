@@ -108,6 +108,11 @@ class Person < ActiveRecord::Base
   
   named_scope :sorted_by_last_name, :order => "last_name, first_name"
   
+  def name
+    "#{first_name} #{last_name}"
+  end
+
+  
   # --- Permissions --- #
   
   def create_permitted?
@@ -125,10 +130,10 @@ class Person < ActiveRecord::Base
   def view_permitted?(field)
     acting_user.signed_up?
   end
-  
-  def name
-    "#{first_name} #{last_name}"
-  end
 
+  def edit_permitted?(field)
+    update_permitted?
+  end
+  
   acts_as_offroadable :group_single
 end

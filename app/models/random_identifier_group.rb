@@ -43,5 +43,9 @@ class RandomIdentifierGroup < ActiveRecord::Base
     acting_user.administrator?
   end
 
+  def edit_permitted?(field)
+    update_permitted?
+  end
+
   acts_as_offroadable :group_single
 end
