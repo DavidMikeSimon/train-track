@@ -19,7 +19,7 @@
     </div>
     <div class="body">
       Participant Code: <b><%= this.train_code %></b><br/>
-      <b><%= "<a href=\"/appointments/%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size, "Session")] %></b>
+      <b><%= "<a href=\"/appointments/%u%s\">%s</a> Attended" % [this.id, (this.locked_by_offroad? ? "" : "/edit"), pluralize(this.attendances.size, "Session")] %></b>
       
       &nbsp;&nbsp;&nbsp;
       <b><%= this.registered ? "<font color='darkgreen'>Registered</font>" : "<font color='darkred'>Not Registered</font>" %></b>
@@ -76,6 +76,14 @@
   <old-edit-page merge>
     <heading:>Edit Sessions Attended By <view:person/></heading:>
   </old-edit-page>
+</extend>
+
+<extend tag="show-page" for="Appointment">
+  <old-show-page merge without-record-flags>
+    <field-list: fields="workshop_sessions">
+      <workshop-sessions-label:>Sessions Attended</workshop-sessions-label:>
+    </field-list>
+  </old-show-page>
 </extend>
 
 <def tag="appointment-ajax-from-several-choices-form" attrs="role,workshop,people">

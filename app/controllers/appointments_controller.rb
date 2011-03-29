@@ -3,7 +3,7 @@ class AppointmentsController < ApplicationController
   
   hobo_model_controller
   
-  auto_actions :edit
+  auto_actions :edit, :show
   
   def update
     hobo_update do
