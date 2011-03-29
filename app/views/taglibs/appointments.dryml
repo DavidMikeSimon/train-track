@@ -3,47 +3,53 @@
     <div class="header">
       <%= "<a href=\"/people/%u\">%s</a> <i>from</i> <a href=\"/institutions/%u\">%s</a>" % [this.person.id, this.person.name, this.person.institution ? this.person.institution.id : 0, this.person.institution.try.long_name] %>
       <%= this.person.job ? "&nbsp;&nbsp;&nbsp;&nbsp;[#{this.person.job.name}]" : ""%>
-      <%=
-        link_to_remote(
-          "Remove",
-          :url => { :controller => :appointments, :action => :destroy, :id => this.id, :workshop_id => this.workshop_id },
-          :html => { :class => "btn-link card-action-link" },
-          :method => :delete,
-          :confirm => "Really remove this #{this.role == :participant ? "participant and their attendance data" : "presenter"}?",
-          :loading => "Hobo.showSpinner('Please wait...')",
-          :complete => "Hobo.hideSpinner()"
-        )
-      %>
+      <if test="&this.destroyable_by?(current_user)">
+        <%=
+          link_to_remote(
+            "Remove",
+            :url => { :controller => :appointments, :action => :destroy, :id => this.id, :workshop_id => this.workshop_id },
+            :html => { :class => "btn-link card-action-link" },
+            :method => :delete,
+            :confirm => "Really remove this #{this.role == :participant ? "participant and their attendance data" : "presenter"}?",
+            :loading => "Hobo.showSpinner('Please wait...')",
+            :complete => "Hobo.hideSpinner()"
+          )
+        %>
+      </if>
     </div>
     <div class="body">
       Participant Code: <b><%= this.train_code %></b><br/>
       <b><%= "<a href=\"/appointments/%u/edit\">%s</a> Attended" % [this.id, pluralize(this.attendances.size, "Session")] %></b>
       
       &nbsp;&nbsp;&nbsp;
-      <b><%= this.registered ? "<font color='darkgreen'>Registered:</font>" : "<font color='darkred'>Not Registered:</font>" %></b>
-      <%=
-      link_to_remote(
-        this.registered ? "Unregister" : "Register",
-        :url => { :controller => :appointments, :action => :toggle_registration, :id => this.id },
-        :method => :post,
-        :loading => "Hobo.showSpinner('Please wait...')",
-        :complete => "Hobo.hideSpinner()"
-      )
-      %>
-      &nbsp;&nbsp;&nbsp;
+      <b><%= this.registered ? "<font color='darkgreen'>Registered</font>" : "<font color='darkred'>Not Registered</font>" %></b>
       
-      <% if this.print_needed? %>
-        <b><font color="darkblue">On Print List:</font></b>
-      <% end %>
-      <%=
-      link_to_remote(
-        this.print_needed? ? "Don't Print" : "Print",
-        :url => { :controller => :appointments, :action => :toggle_print_needed, :id => this.id },
-        :method => :post,
-        :loading => "Hobo.showSpinner('Please wait...')",
-        :complete => "Hobo.hideSpinner()"
-      )
-      %>
+      <if test="&this.updatable_by?(current_user)">
+        :
+        <%=
+        link_to_remote(
+          this.registered ? "Unregister" : "Register",
+          :url => { :controller => :appointments, :action => :toggle_registration, :id => this.id },
+          :method => :post,
+          :loading => "Hobo.showSpinner('Please wait...')",
+          :complete => "Hobo.hideSpinner()"
+        )
+        %>
+      
+        &nbsp;&nbsp;&nbsp;
+        <% if this.print_needed? %>
+          <b><font color="darkblue">On Print List:</font></b>
+        <% end %>
+        <%=
+        link_to_remote(
+          this.print_needed? ? "Don't Print" : "Print",
+          :url => { :controller => :appointments, :action => :toggle_print_needed, :id => this.id },
+          :method => :post,
+          :loading => "Hobo.showSpinner('Please wait...')",
+          :complete => "Hobo.hideSpinner()"
+        )
+        %>
+      </if>
     </div>
   </div>
 </extend>
@@ -169,14 +175,16 @@
 </def>
 
 <def tag="appointment-manager" attrs="role, workshop, header">
-  <% header ||= role.titleize.pluralize %>
+  <%
+    header ||= role.titleize.pluralize
+    appt_source = role == "participant" ? this.participant_appointments : this.presenter_appointments
+  %>
   <section class="appointment-manager collection-section">
     <h3><view with="&header" param="header"/></h3>
-    <div id="<%= role %>-insertion-form">
+    <div id="<%= role %>-insertion-form" if="&appt_source.new.creatable_by?(current_user)">
       <appointment-ajax-name-approximation-form role="&role" workshop="&workshop"/>
     </div>
     <%
-      appt_source = role == "participant" ? this.participant_appointments : this.presenter_appointments
       appointments = appt_source.all(:include => [:person, :attendances, :random_identifier]).sort{|a,b| [a.attendances.size, a.person.last_name, a.person.first_name] <=> [b.attendances.size, b.person.last_name, b.person.first_name]}
     %>
     <div id="<%= role %>-container">

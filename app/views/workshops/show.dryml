@@ -5,8 +5,10 @@
   <content-body: replace>
     <section class="content-body">
       <a class="btn-link" action="csv_codes">Generate CSV Report</a>
-      <a class="btn-link" action="process_xml">Process Scanned Attendance</a>
-      <a class="btn-link" action="attendee_labels">Print ID Labels</a>
+      <if test="&Offroad::app_offline? && this.updatable_by?(current_user)">
+        <a class="btn-link" action="process_xml">Process Scanned Attendance</a>
+        <a class="btn-link" action="attendee_labels">Print ID Labels</a>
+      </if>
       <hr/><br/>
       <field-list skip="appointments, people, participant_appointments, participants, presenter_appointments, presenters, appointment_identifier_group, workshop_session_identifier_group, random_identifier, workshop_sessions"/>
       <workshop-session-manager workshop="&this.id" />

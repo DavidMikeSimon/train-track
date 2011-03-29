@@ -2,7 +2,7 @@
   <old-card id="#{'workshop-session-%u' % this.id}" merge>
     <header:>
       <view:description/>
-      <a action="edit" class="btn-link card-action-link">Edit</a>
+      <a action="edit" class="btn-link card-action-link" if="updatable_by?(current_user)">Edit</a>
     </header:>
     <body:>
       Session Code: <b><view:train_code/></b>
@@ -33,7 +33,7 @@
 <def tag="workshop-session-manager" attrs="workshop">
   <section class="appointment-manager collection-section">
     <h3>Sessions</h3>
-    <div id="workshop-session-insertion-form">
+    <div id="workshop-session-insertion-form" if="&@workshop.workshop_sessions.new.creatable_by?(current_user)">
     <%
     # This needs to be refactored
     workshop_instance = Workshop.find(workshop)
