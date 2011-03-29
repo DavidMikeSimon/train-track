@@ -16,14 +16,17 @@
 </def>
 
 <def tag="offroad-status">
-  <section class="offroad-status">
-    <if test="&Offroad.app_offline?">
-      OFFLINE
-    </if>
-    <if test="&Offroad.app_online? && Workshop.offline_groups.size > 0">
-      ONLINE AND LOCKED
-    </if>
-  </section>
+  <% offline_workshop = Workshop.offline_groups.size > 0 ? Workshop.offline_groups.first : nil %>
+  <if test="&Offroad.app_offline?">
+    <section class="offroad-status-offline">
+    </section>
+  </if>
+  <if test="&Offroad.app_online? && offline_workshop">
+    <section class="offroad-status-locked">
+      The workshop <a this="&offline_workshop" /> is currently in standalone mode.<br/>
+      To prevent data conflicts, most records will not be editable until that workshop's data is returned.
+    </section>
+  </if>
 </def>
 
 <extend tag="page">

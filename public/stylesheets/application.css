@@ -4,13 +4,25 @@
   margin-left: 6px;
 }
 
-.offroad-status {
-  background: #824;
+.offroad-status-locked, .offroad-status-offline {
   padding: 15px;
   text-align: center;
   color: white;
   font-weight: bold;
   font-size: 14px;
+}
+
+.offroad-status-locked {
+  background: #824;
+}
+
+.offroad-status-locked a {
+  background: #824;
+  color: lightblue;
+}
+
+.offroad-status-offline {
+  background: #428;
 }
 
 .page-header h1 {
