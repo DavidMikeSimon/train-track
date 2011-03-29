@@ -61,7 +61,7 @@
         <submit label="#{ht 'workshop_sessions.actions.save', :default=>['Save']}" param />or <a:workshop>Cancel</a>
       </div>
     </before-field-list:>
-    <field-list: fields="workshop_sessions">
+    <field-list: fields="workshop_sessions" no-edit="ignore">
       <workshop-sessions-view:>
         <check-many options="&WorkshopSession.all(:conditions => {:workshop_id => this_parent.workshop_id}, :order => 'starts_at, name')" />
       </workshop-sessions-view:>
