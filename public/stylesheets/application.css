@@ -54,6 +54,14 @@
   margin-right: 8px;
 }
 
+.button-to {
+  display: inline;
+}
+
+.button-to div {
+  display: inline;
+}
+
 .new-person-form input {
   width: 100px !important;
 }
