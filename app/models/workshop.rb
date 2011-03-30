@@ -64,6 +64,14 @@ class Workshop < ActiveRecord::Base
   def train_code
     "WKS-%s" % TrainCode.encode(random_identifier.identifier)
   end
+
+  def set_offline
+    self.group_offline = true
+  end
+
+  def force_online
+    self.group_offline = false
+  end
   
   # --- Permissions --- #
   
@@ -85,6 +93,14 @@ class Workshop < ActiveRecord::Base
 
   def edit_permitted?(field)
     update_permitted?
+  end
+
+  def set_offline_permitted?
+    Offroad::app_online? && Workshop.offline_groups.size == 0 && update_permitted?
+  end
+
+  def force_online_permitted?
+    Offroad::app_online? && group_offline? && acting_user.signed_up?
   end
 
   acts_as_offroadable :group_base

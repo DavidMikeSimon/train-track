@@ -7,7 +7,19 @@
       <a class="btn-link" action="csv_codes">Generate CSV Report</a>
       <if test="&Offroad::app_offline? && this.updatable_by?(current_user)">
         <a class="btn-link" action="process_xml">Process Scanned Attendance</a>
+      </if>
+      <if test="&this.updatable_by?(current_user)">
         <a class="btn-link" action="attendee_labels">Print ID Labels</a>
+      </if>
+      <if test="&Offroad::app_online? && Workshop::offline_groups.size == 0">
+        <form web-method="set_offline">
+          <submit class="btn-link" label="Use Offline in Standalone App" confirm="Set workshop to standalone mode? This will make the entire online app read-only!"/>
+        </form>
+      </if>
+      <if test="&Offroad::app_online? && this.group_offline?">
+        <form web-method="force_online">
+          <submit class="btn-link" label="Force Workshop Online" confirm="Set workshop to standalone mode? This will make the entire online app read-only!"/>
+        </form>
       </if>
       <hr/><br/>
       <field-list skip="appointments, people, participant_appointments, participants, presenter_appointments, presenters, appointment_identifier_group, workshop_session_identifier_group, random_identifier, workshop_sessions"/>

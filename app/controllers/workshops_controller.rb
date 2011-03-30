@@ -6,6 +6,16 @@ class WorkshopsController < ApplicationController
   hobo_model_controller
 
   auto_actions :all
+
+  web_method :set_offline do
+   @this.set_offline
+   redirect_to @this
+  end
+
+  web_method :force_online do
+   @this.force_online
+   redirect_to @this
+  end
  
   show_action :csv_codes do
     csv_fields = [
