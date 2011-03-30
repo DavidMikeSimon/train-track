@@ -103,5 +103,9 @@ class Workshop < ActiveRecord::Base
     Offroad::app_online? && group_offline? && acting_user.signed_up?
   end
 
+  def upload_mirror_file_permitted?
+    group_offline? && acting_user.signed_up?
+  end
+
   acts_as_offroadable :group_base
 end
