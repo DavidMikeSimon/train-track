@@ -9,12 +9,19 @@ class WorkshopsController < ApplicationController
 
   web_method :set_offline do
    @this.set_offline
+   flash[:notice] = "Workshop is now in standalone mode"
    redirect_to @this
   end
 
   web_method :force_online do
    @this.force_online
+   flash[:notice] = "Workshop has been forced back to online mode"
    redirect_to @this
+  end
+
+  web_method :upload_mirror_file do
+    flash[:notice] = "Workshop has been updated and brought online"
+    redirect_to @this
   end
  
   show_action :csv_codes do

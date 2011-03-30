@@ -4,6 +4,24 @@
   </after-heading:>
   <content-body: replace>
     <section class="content-body">
+      <if test="&Offroad::app_online? && this.group_offline?">
+        <div class="offline-controls-box">
+        <h2>Workshop in Standalone Mode</h2>
+        <h3>Setting up:</h3>
+        Install the standalone app on the computer with the scanner (if it's not already installed), then download and import the workshop data file.<br/>
+        <a class="btn-link" action="csv_codes">1. Download Standalone App Installer</a>
+        <a class="btn-link" action="csv_codes">2. Download Workshop Data File</a>
+        <h3>Returning the data to Train Track:</h3>
+        When you are finished working with the standalone app, use it to export a workshop changes file, then upload it here.
+        <form web-method="upload_mirror_file" multipart>
+          <input type="file"/>
+          <submit label="Upload"/>
+        </form>
+        <h3>Emergency reset:</h3>
+        If you have lost or damaged the computer with the standalone app, you may need to
+        <remote-method-button method="force_online" class="btn-link" label="Force the Workshop Online" confirm="Really force workshop online? This will prevent you from uploading changes made in the standalone app!"/>
+        </div>
+      </if>
       <a class="btn-link" action="csv_codes">Generate CSV Report</a>
       <if test="&Offroad::app_offline? && this.updatable_by?(current_user)">
         <a class="btn-link" action="process_xml">Process Scanned Attendance</a>
@@ -13,9 +31,6 @@
       </if>
       <if test="&Offroad::app_online? && Workshop::offline_groups.size == 0">
         <remote-method-button method="set_offline" class="btn-link" label="Use Offline in Standalone App" confirm="Set workshop to standalone mode? This will make the entire online app read-only!"/>
-      </if>
-      <if test="&Offroad::app_online? && this.group_offline?">
-        <remote-method-button method="force_online" class="btn-link" label="Force Workshop Online" confirm="Really discard all changes made offline?"/>
       </if>
       <hr/><br/>
       <field-list skip="appointments, people, participant_appointments, participants, presenter_appointments, presenters, appointment_identifier_group, workshop_session_identifier_group, random_identifier, workshop_sessions"/>

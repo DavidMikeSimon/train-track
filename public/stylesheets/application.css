@@ -54,12 +54,21 @@
   margin-right: 8px;
 }
 
-.button-to {
+.button-to, .button-to div, .button-to input {
   display: inline;
 }
 
-.button-to div {
-  display: inline;
+.offline-controls-box {
+  border: 1px solid gray;
+  padding: 6px;
+  background: #ddd;
+  margin-bottom: 25px;
+}
+
+.offline-controls-box h3 {
+  border-top: 1px solid gray;
+  margin-top: 50px;
+  font-weight: bold;
 }
 
 .new-person-form input {
