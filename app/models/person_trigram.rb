@@ -31,6 +31,4 @@ class PersonTrigram < ActiveRecord::Base
   def edit_permitted?(field)
     update_permitted?
   end
-
-  acts_as_offroadable :group_single
 end
