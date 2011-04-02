@@ -10,10 +10,10 @@
         <h3>Setting up:</h3>
         Install the standalone app on the computer with the scanner (if it's not already installed), then download and import the workshop data file.<br/>
         <a class="btn-link" action="csv_codes">1. Download Standalone App Installer</a>
-        <a class="btn-link" action="csv_codes">2. Download Workshop Data File</a>
+        <a class="btn-link" action="down_mirror_file">2. Download Workshop Data File</a>
         <h3>Returning the data to Train Track:</h3>
         When you are finished working with the standalone app, use it to export a workshop changes file, then upload it here.
-        <form web-method="upload_mirror_file" multipart>
+        <form web-method="upload_up_mirror" multipart>
           <input type="file"/>
           <submit label="Upload"/>
         </form>

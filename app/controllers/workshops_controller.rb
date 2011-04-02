@@ -1,7 +1,7 @@
 require 'fastercsv'
 require 'set'
 
-class WorkshopsController < ApplicationController
+class WorkshopsController < Offroad::GroupBaseController
 
   hobo_model_controller
 
@@ -19,9 +19,13 @@ class WorkshopsController < ApplicationController
    redirect_to @this
   end
 
-  web_method :upload_mirror_file do
+  web_method :upload_up_mirror do
     flash[:notice] = "Workshop has been updated and brought online"
     redirect_to @this
+  end
+
+  show_action :down_mirror_file do
+    render_down_mirror_file Workshop.find(params[:id]), "down-mirror-file", :layout => "mirror-file", :initial_mode => true
   end
  
   show_action :csv_codes do
