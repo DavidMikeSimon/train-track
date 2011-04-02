@@ -49,5 +49,4 @@ class User < ActiveRecord::Base
     acting_user.administrator? || acting_user == self
   end
 
-  acts_as_offroadable :group_single
 end
