@@ -3,6 +3,7 @@ require 'set'
 
 class WorkshopsController < ApplicationController
   hobo_model_controller
+  offroad_group_controller
 
   auto_actions :all
   
