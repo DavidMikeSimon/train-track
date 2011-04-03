@@ -1,7 +1,13 @@
-# This database config file is used by the 'offline' environment
+# This database config file is used by the 'offline' environments
 
 offline:
   adapter: sqlite3
   database: db/offline.sqlite3
+  pool: 5
+  timeout: 5000
+
+offline_development:
+  adapter: sqlite3
+  database: db/offline_development.sqlite3
   pool: 5
   timeout: 5000
