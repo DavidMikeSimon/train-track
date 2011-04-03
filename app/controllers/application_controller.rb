@@ -19,12 +19,18 @@ class ApplicationController < ActionController::Base
     end
   end
   
-  before_filter :check_for_login
-  
-  def check_for_login
-    return true if current_user.signed_up?
-    redirect_to :controller => :users, :action => :login
-    return
+  if Offroad::app_online?
+    before_filter :check_for_login
+    def check_for_login
+      return true if current_user.signed_up?
+      redirect_to :controller => :users, :action => :login
+      return
+    end
+  else
+    before_filter :check_for_workshop
+    def check_for_workshop
+      return false
+    end
   end
 
   def render_csv(filename, fields, source)
