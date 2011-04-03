@@ -1,11 +1,16 @@
 require 'fastercsv'
 require 'set'
 
-class WorkshopsController < Offroad::GroupBaseController
-
+class WorkshopsController < ApplicationController
   hobo_model_controller
 
   auto_actions :all
+  
+  if Offroad::app_offline?
+    skip_filter :check_for_workshop, :only => [:manage_offline]
+    index_action :manage_offline do
+    end
+  end
 
   web_method :set_offline do
    @this.set_offline

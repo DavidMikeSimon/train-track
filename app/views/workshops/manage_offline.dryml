@@ -1,0 +1,15 @@
+<page title="Standalone Setup">
+  <body: class="index-page workshop" />
+
+  <content:>
+    <header class="content-header">
+      <h2 class="heading">
+        Standalone Setup
+      </h2>
+    </header>
+
+    <section class="content-body">
+      BAR
+    </section>
+  </content:>
+</page>
