@@ -29,10 +29,9 @@ class ApplicationController < ActionController::Base
   else
     before_filter :check_for_workshop
     def check_for_workshop
-      w = Workshop.first
-      return true if w && !w.locked_by_offroad?
-      redirect_to :controller => :workshops, :action => :manage_offline
-      return
+      if Workshop.empty_offline?
+        redirect_to :controller => :workshops, :action => :manage_offline
+      end
     end
   end
 

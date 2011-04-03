@@ -11,8 +11,14 @@ class WorkshopsController < ApplicationController
     skip_filter :check_for_workshop, :only => [:manage_offline]
     index_action :manage_offline do
     end
-  end
 
+    def create
+      load_down_mirror_file nil, params[:file], :initial_mode => true
+      flash[:notice] = "Workshop has been succesfully imported"
+      redirect_to Workshop.first
+    end
+  end
+    
   web_method :set_offline do
    @this.set_offline
    flash[:notice] = "Workshop is now in standalone mode"

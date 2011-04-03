@@ -76,7 +76,7 @@ class Workshop < ActiveRecord::Base
   # --- Permissions --- #
   
   def create_permitted?
-    acting_user.signed_up?
+    acting_user.signed_up? || Workshop.empty_offline?
   end
   
   def update_permitted?
@@ -105,6 +105,10 @@ class Workshop < ActiveRecord::Base
 
   def upload_mirror_file_permitted?
     group_offline? && acting_user.signed_up?
+  end
+
+  def self.empty_offline?
+    Offroad::app_offline? && (Workshop.first == nil || Workshop.first.locked_by_offroad?)
   end
 
   acts_as_offroadable :group_base
