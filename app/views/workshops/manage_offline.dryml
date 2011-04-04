@@ -12,7 +12,7 @@
       <div class="offline-controls-box">
         <h2>System in Standalone Mode</h2>
         Please supply a workshop data file from the online Train Track app:
-        <form action="create" multipart>
+        <form action="/workshops" method="post" multipart>
           <input name="file" type="file"/>
           <submit label="Import"/>
         </form>

@@ -8,14 +8,18 @@ class WorkshopsController < ApplicationController
   auto_actions :all
   
   if Offroad::app_offline?
-    skip_filter :check_for_workshop, :only => [:manage_offline]
+    skip_filter :check_for_workshop, :only => [:manage_offline, :create]
     index_action :manage_offline do
     end
+  end
 
-    def create
+  def create
+    if Offroad::app_offline?
       load_down_mirror_file nil, params[:file], :initial_mode => true
       flash[:notice] = "Workshop has been succesfully imported"
       redirect_to Workshop.first
+    else
+      hobo_create
     end
   end
     
