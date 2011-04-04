@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   before_filter :require_online
   def require_online
-    return false unless Offroad::app_online?
+    redirect_to(:controller => :workshops) unless Offroad::app_online?
   end
   
   hobo_user_controller
