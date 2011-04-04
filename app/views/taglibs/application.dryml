@@ -37,6 +37,11 @@
     <before-app-name:>
        <img src="/images/train-logo.png" id="train-logo"/>
     </before-app-name:>
+    <account-nav: replace>
+      <if test="&Offroad.app_online?">
+        <account-nav/>
+      </if>
+    </account-nav:>
   </old-page>
 </extend>
 
