@@ -8,7 +8,7 @@
 
 <set-theme name="clean"/>
 
-<def tag="app-name">Train Track</def>
+<def tag="app-name">Train Track<if test="&Offroad.app_offline?"> - Standalone</if></def>
 
 <!-- Regular size is unfriendly to counter cache -->
 <def tag="size-count">
@@ -17,15 +17,19 @@
 
 <def tag="offroad-status">
   <% offline_workshop = Workshop.offline_groups.size > 0 ? Workshop.offline_groups.first : nil %>
-  <if test="&Offroad.app_offline?">
-    <section class="offroad-status-offline">
-    </section>
-  </if>
-  <if test="&Offroad.app_online? && offline_workshop">
-    <section class="offroad-status-locked">
-      The workshop <%= "<a href=\"%s\">%s</a>" % [workshop_path(offline_workshop), offline_workshop.title] %> is currently in standalone mode.<br/>
-      To prevent data conflicts, most records will not be editable until that workshop's data is returned.
-    </section>
+  <if test="&offline_workshop">
+    <% workshop_link = "<a href=\"%s\">%s</a>" % [workshop_path(offline_workshop), offline_workshop.title] %>
+    <if test="&Offroad.app_offline?">
+      <section class="offroad-status-offline">
+        You are working with the workshop <%= workshop_link %> in the Standalone version of Train Track.<br/>
+      </section>
+    </if>
+    <if test="&Offroad.app_online?">
+      <section class="offroad-status-locked">
+        The workshop <%= workshop_link %> is currently in standalone mode.<br/>
+        To prevent data conflicts, most records will not be editable until that workshop's data is returned.
+      </section>
+    </if>
   </if>
 </def>
 

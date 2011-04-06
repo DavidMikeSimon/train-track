@@ -25,6 +25,11 @@
   background: #428;
 }
 
+.offroad-status-offline a {
+  background: #428;
+  color: lightgray;
+}
+
 .page-header h1 {
   margin-left: 50px;
 }
