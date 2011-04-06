@@ -76,13 +76,11 @@
 <def tag="main-nav">
   <navigation class="main-nav" merge-attrs param="default">
     <nav-item name="Workshops" with="&Workshop">Workshops</nav-item>
-    <if test="&current_user.administrator?">
-      <nav-item name="Institutions" with="&Institution">Institutions</nav-item>
-      <nav-item name="People" with="&Person">People</nav-item>
-      <!-- FIXME User management disabled, should have an 'admin' console later possibly.
-      <nav-item name="Users" with="&User">Manage System Users</nav-item>
-      -->
-    </if>
+    <nav-item name="Institutions" with="&Institution">Institutions</nav-item>
+    <nav-item name="People" with="&Person">People</nav-item>
+    <!-- FIXME User management disabled, should have an 'admin' console later possibly.
+    <nav-item name="Users" with="&User">Manage System Users</nav-item>
+    -->
   </navigation>
 </def>
 
