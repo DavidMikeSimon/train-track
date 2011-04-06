@@ -5,4 +5,9 @@ class Guest < Hobo::Guest
   def administrator?
     false
   end
+
+  def signed_up?
+    # If we're offline and there's a workshop, consider guests as normal users
+    Offroad::app_offline? && !Workshop.empty_offline?
+  end
 end
