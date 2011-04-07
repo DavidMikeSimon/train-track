@@ -94,6 +94,10 @@ class Institution < ActiveRecord::Base
     end
   end
   
+  def after_offroad_upload
+    extract_trigrams!
+  end
+  
   NAME_ABBREVIATIONS = {
     "PJH" => "Primary and Junior High",
     "P/JH" => "Primary and Junior High",

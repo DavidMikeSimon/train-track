@@ -53,6 +53,10 @@ class Person < ActiveRecord::Base
     end
   end
 
+  def after_offroad_upload
+    extract_trigrams!
+  end
+
   # This is silly, but eager loading didn't cooperate even after hours of hacking about, so this is how it'll be for now
   def self.attendees_with_report_fields
     # Preload all the relevant data (argh, can't belive I'm doing this)
