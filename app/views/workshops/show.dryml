@@ -15,7 +15,7 @@
         When you are finished working with the standalone app, use it to export a workshop changes file, then upload it here.
         <form web-method="upload_up_mirror" multipart>
           <input type="file"/>
-          <submit label="Upload"/>
+          <submit label="Upload" onClick="Hobo.showSpinner('Processing, this may take a few minutes...')"/>
         </form>
         <h3>Emergency reset:</h3>
         If you have lost or damaged the computer with the standalone app, you may need to

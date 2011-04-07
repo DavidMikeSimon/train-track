@@ -14,7 +14,7 @@
         Please supply a workshop data file from the online Train Track app:
         <form action="/workshops" method="post" multipart>
           <input name="file" type="file"/>
-          <submit label="Import"/>
+          <submit label="Import" onClick="Hobo.showSpinner('Processing, this may take a few minutes...')"/>
         </form>
       </div>
     </section>
