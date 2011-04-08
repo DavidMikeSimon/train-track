@@ -24,15 +24,21 @@ class WorkshopsController < ApplicationController
   end
     
   web_method :set_offline do
-   @this.set_offline
-   flash[:notice] = "Workshop is now in standalone mode"
-   redirect_to @this
+    @this.set_offline
+    flash[:notice] = "Workshop is now in standalone mode"
+    redirect_to @this
   end
 
   web_method :force_online do
-   @this.force_online
-   flash[:notice] = "Workshop has been forced back to online mode"
-   redirect_to @this
+    @this.force_online
+    flash[:notice] = "Workshop has been forced back to online mode"
+    redirect_to @this
+  end
+
+  web_method :offline_lock do
+    @this.offline_lock
+    flash[:notice] = "Workshop has been locked, now ready to generate data file"
+    redirect_to root_path
   end
 
   web_method :upload_up_mirror do

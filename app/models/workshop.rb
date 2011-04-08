@@ -72,6 +72,10 @@ class Workshop < ActiveRecord::Base
   def force_online
     self.group_offline = false
   end
+
+  def offline_lock
+    offroad_group_lock!
+  end
   
   # --- Permissions --- #
   
@@ -105,6 +109,10 @@ class Workshop < ActiveRecord::Base
 
   def upload_mirror_file_permitted?
     group_offline? && acting_user.signed_up?
+  end
+
+  def offline_lock_permitted?
+    Offroad::app_offline? && group_offline? && acting_user.signed_up?
   end
 
   def self.empty_offline?

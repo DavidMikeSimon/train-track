@@ -6,20 +6,28 @@
     <section class="content-body">
       <if test="&Offroad::app_online? && this.group_offline?">
         <div class="offline-controls-box">
-        <h2>Workshop in Standalone Mode</h2>
-        <h3>Setting up:</h3>
-        Install the standalone app on the computer with the scanner (if it's not already installed), then download and import the workshop data file.<br/>
-        <a class="btn-link" action="csv_codes">1. Download Standalone App Installer</a>
-        <a class="btn-link" action="down_mirror_file">2. Download Workshop Data File</a>
-        <h3>Returning the data to Train Track:</h3>
-        When you are finished working with the standalone app, use it to export a workshop changes file, then upload it here.
-        <form web-method="upload_up_mirror" multipart>
-          <input type="file"/>
-          <submit label="Upload" onClick="Hobo.showSpinner('Processing, this may take a few minutes...')"/>
-        </form>
-        <h3>Emergency reset:</h3>
-        If you have lost or damaged the computer with the standalone app, you may need to
-        <remote-method-button method="force_online" class="btn-link" label="Force the Workshop Online" confirm="Really force workshop online? This will prevent you from uploading changes made in the standalone app!"/>
+          <h2>Workshop in Standalone Mode</h2>
+          <h3>Setting up:</h3>
+          Install the standalone app on the computer with the scanner (if it's not already installed), then download and import the workshop data file.<br/>
+          <a class="btn-link" action="csv_codes">1. Download Standalone App Installer</a>
+          <a class="btn-link" action="down_mirror_file">2. Download Workshop Data File</a>
+          <h3>Returning the data to Train Track:</h3>
+          When you are finished working with the standalone app, use it to export a workshop changes file, then upload it here.
+          <form web-method="upload_up_mirror" multipart>
+            <input type="file"/>
+            <submit label="Upload" onClick="Hobo.showSpinner('Processing, this may take a few minutes...')"/>
+          </form>
+          <h3>Emergency reset:</h3>
+          If you have lost or damaged the computer with the standalone app, you may need to
+          <remote-method-button method="force_online" class="btn-link" label="Force the Workshop Online" confirm="Really force workshop online? This will prevent you from uploading changes made in the standalone app!"/>
+        </div>
+      </if>
+      <if test="&Offroad::app_offline?">
+        <div class="offline-controls-box">
+        <h2>Standalone Workshop</h2>
+        <h3>Finished entering data for this workshop?</h3>
+        When you're done with the workshop, you can lock it. You will then be able to push the data back to the online system.<br/>
+        <remote-method-button method="offline_lock" class="btn-link" label="Lock Workshop" confirm="Really lock the workshop? You will not be able to edit the workshop again until it is back in the online app!"/>
         </div>
       </if>
       <a class="btn-link" action="csv_codes">Generate CSV Report</a>
