@@ -8,7 +8,7 @@ class WorkshopsController < ApplicationController
   auto_actions :all
   
   if Offroad::app_offline?
-    skip_filter :check_for_workshop, :only => [:manage_offline, :create]
+    skip_filter :check_for_workshop, :only => [:manage_offline, :create, :up_mirror_file]
     index_action :manage_offline do
     end
   end
@@ -48,6 +48,10 @@ class WorkshopsController < ApplicationController
 
   show_action :down_mirror_file do
     render_down_mirror_file Workshop.find(params[:id]), "down-mirror-file", :layout => "mirror-file", :initial_mode => true
+  end
+
+  show_action :up_mirror_file do
+    render_up_mirror_file Workshop.find(params[:id]), "up-mirror-file", :layout => "mirror-file", :initial_mode => true
   end
  
   show_action :csv_codes do
