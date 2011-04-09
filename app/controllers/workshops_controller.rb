@@ -43,6 +43,7 @@ class WorkshopsController < ApplicationController
 
   web_method :upload_up_mirror do
     flash[:notice] = "Workshop has been updated and brought online"
+    load_up_mirror_file Workshop.find(params[:id]), params[:file]
     redirect_to @this
   end
 

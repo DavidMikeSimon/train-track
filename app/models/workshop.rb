@@ -107,8 +107,8 @@ class Workshop < ActiveRecord::Base
     Offroad::app_online? && group_offline? && acting_user.signed_up?
   end
 
-  def upload_mirror_file_permitted?
-    group_offline? && acting_user.signed_up?
+  def upload_up_mirror_permitted?
+    Offroad::app_online? && group_offline? && acting_user.signed_up?
   end
 
   def offline_lock_permitted?

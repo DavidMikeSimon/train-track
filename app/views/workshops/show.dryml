@@ -14,7 +14,7 @@
           <h3>Returning the data to Train Track:</h3>
           When you are finished working with the standalone app, use it to export a workshop changes file, then upload it here.
           <form web-method="upload_up_mirror" multipart>
-            <input type="file"/>
+            <input type="file" name="file"/>
             <submit label="Upload" onClick="Hobo.showSpinner('Processing, this may take a few minutes...')"/>
           </form>
           <h3>Emergency reset:</h3>
