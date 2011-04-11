@@ -48,13 +48,13 @@ class WorkshopsController < ApplicationController
   end
 
   show_action :down_mirror_file do
-    workshop = Workshop.find(params[:id])
-    render_down_mirror_file workshop, mirror_filename("data", workshop), :layout => "mirror-file", :initial_mode => true
+    @workshop = Workshop.find(params[:id])
+    render_down_mirror_file @workshop, mirror_filename("data", @workshop), :layout => "mirror-file", :initial_mode => true
   end
 
   show_action :up_mirror_file do
-    workshop = Workshop.find(params[:id])
-    render_up_mirror_file workshop, mirror_filename("changes", workshop), :layout => "mirror-file", :initial_mode => true
+    @workshop = Workshop.find(params[:id])
+    render_up_mirror_file @workshop, mirror_filename("changes", @workshop), :layout => "mirror-file"
   end
  
   show_action :csv_codes do

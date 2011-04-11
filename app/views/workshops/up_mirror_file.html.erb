@@ -1,4 +1,6 @@
 <% content_for :title do %>Train Track Workshop Changes Data<% end %>
 
   This file contains all the work done in the Train Track standalone app.<br/>
-  Please take it to your online Train Track system, and upload at the workshop page. 
+  Workshop: <%=h @workshop.title %><br/>
+  As of: <%=h Time.now.to_s %><br/>
+  Please take it to your online Train Track system, and upload at the <%=h @workshop.title %> workshop page. 
