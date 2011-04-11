@@ -48,11 +48,13 @@ class WorkshopsController < ApplicationController
   end
 
   show_action :down_mirror_file do
-    render_down_mirror_file Workshop.find(params[:id]), "down-mirror-file", :layout => "mirror-file", :initial_mode => true
+    workshop = Workshop.find(params[:id])
+    render_down_mirror_file workshop, mirror_filename("data", workshop), :layout => "mirror-file", :initial_mode => true
   end
 
   show_action :up_mirror_file do
-    render_up_mirror_file Workshop.find(params[:id]), "up-mirror-file", :layout => "mirror-file", :initial_mode => true
+    workshop = Workshop.find(params[:id])
+    render_up_mirror_file workshop, mirror_filename("changes", workshop), :layout => "mirror-file", :initial_mode => true
   end
  
   show_action :csv_codes do
@@ -163,4 +165,10 @@ class WorkshopsController < ApplicationController
     redirect_to Workshop.find(params[:id])
   end
 
+  private
+
+  def mirror_filename(prefix, workshop)
+    t = Time.now
+    filename = "workshop-%s-%04u-%02u-%02u-%s.html" % [prefix, t.year, t.month, t.day, workshop.title.parameterize]
+  end
 end
