@@ -55,7 +55,7 @@ class Workshop < ActiveRecord::Base
   attr_protected :random_identifier, :appointment_identifier_group, :workshop_session_identifier_group
   
   def after_create
-    self.random_identifier = RandomIdentifierGroup.find_by_name("workshops").grab_identifier
+    self.random_identifier = RandomIdentifierGroup.find_or_create_by_name("workshops", :max_value => TrainCode::DOMAIN-1).grab_identifier
     self.appointment_identifier_group = RandomIdentifierGroup.create(:name => "appointments-%u" % self.id, :max_value => TrainCode::DOMAIN-1)
     self.workshop_session_identifier_group = RandomIdentifierGroup.create(:name => "workshop-sessions-%u" % self.id, :max_value => TrainCode::DOMAIN-1)
     save!
