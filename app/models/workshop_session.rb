@@ -67,5 +67,5 @@ class WorkshopSession < ActiveRecord::Base
     update_permitted?
   end
 
-  acts_as_offroadable :group_owned, :parent => :workshop
+  #acts_as_offroadable :group_owned, :parent => :workshop
 end

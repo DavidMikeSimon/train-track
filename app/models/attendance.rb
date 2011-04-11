@@ -36,5 +36,5 @@ class Attendance < ActiveRecord::Base
     update_permitted?
   end
 
-  acts_as_offroadable :group_owned, :parent => :workshop_session
+  #acts_as_offroadable :group_owned, :parent => :workshop_session
 end

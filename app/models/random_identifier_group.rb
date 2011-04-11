@@ -47,5 +47,5 @@ class RandomIdentifierGroup < ActiveRecord::Base
     update_permitted?
   end
 
-  acts_as_offroadable :group_single
+  #acts_as_offroadable :group_single
 end

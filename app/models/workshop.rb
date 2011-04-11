@@ -119,5 +119,5 @@ class Workshop < ActiveRecord::Base
     Offroad::app_offline? && (Workshop.first == nil || Workshop.first.locked_by_offroad?)
   end
 
-  acts_as_offroadable :group_base
+  #acts_as_offroadable :group_base
 end
