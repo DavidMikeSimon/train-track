@@ -9,7 +9,7 @@
           <h2>Workshop in Standalone Mode</h2>
           <h3>Setting up:</h3>
           Install the standalone app on the computer with the scanner (if it's not already installed), then download and import the workshop data file.<br/>
-          <a class="btn-link" action="csv_codes">1. Download Standalone App Installer</a>
+          <a class="btn-link" href="/TrainTrackStandaloneInstaller.exe">1. Download Standalone App Installer</a>
           <a class="btn-link" action="down_mirror_file">2. Download Workshop Data File</a>
           <h3>Returning the data to Train Track:</h3>
           When you are finished working with the standalone app, use it to export a workshop changes file, then upload it here.
