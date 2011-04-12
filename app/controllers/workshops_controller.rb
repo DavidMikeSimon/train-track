@@ -99,7 +99,7 @@ class WorkshopsController < ApplicationController
 
   # FIXME Do this as a web method even though it's not really instance specific
   show_action :process_xml do
-    xml_dir = defined?(TAR2RUBYSCRIPT) ? oldlocation("attendance-xml") : "#{RAILS_ROOT}/attendance-xml"
+    xml_dir = "#{RAILS_ROOT}/attendance-xml"
     already_processed = Set.new(ProcessedXmlFile.connection.select_values("SELECT filename FROM processed_xml_files"))
     processed = 0
     Dir.foreach(xml_dir) do |filename|

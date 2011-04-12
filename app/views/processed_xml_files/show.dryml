@@ -1,6 +1,6 @@
 <%
 # FIXME : Copy-and-paste make Dave angry. Rarrgh.
-xml_dir = defined?(TAR2RUBYSCRIPT) ? oldlocation("attendance-xml") : "#{RAILS_ROOT}/attendance-xml"
+xml_dir = "#{RAILS_ROOT}/attendance-xml"
 %>
 
 <show-page>
