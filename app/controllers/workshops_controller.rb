@@ -63,6 +63,7 @@ class WorkshopsController < ApplicationController
       ["Institution", lambda {|a| a.person.institution.try.name.to_s }],
       ["BEP School", lambda {|a| a.person.institution.try.bep ? "true" : "false"}],
       ["School Code", lambda {|a| a.person.institution.try.school_code.to_s }],
+      ["QEC", lambda {|a| a.person.institution.try.qec.to_s }],
       ["Role", lambda {|a| a.role }],
       ["Last Name", lambda {|a| a.person.last_name }],
       ["First Name", lambda {|a| a.person.first_name }],
