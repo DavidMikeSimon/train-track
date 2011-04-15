@@ -58,13 +58,13 @@ class Person < ActiveRecord::Base
   end
 
   # This is silly, but eager loading didn't cooperate even after hours of hacking about, so this is how it'll be for now
-  def self.attendees_with_report_fields
+  def self.attendees_with_report_fields(start_day, end_day)
     # Preload all the relevant data (argh, can't belive I'm doing this)
     appointments = {}; Appointment.all.each { |r| appointments[r.id] = r }
     people = {}; Person.all(:include => [:institution, :job]).each { |r| people[r.id] = r }
     training_subjects = {}; TrainingSubject.all.each { |r| training_subjects[r.id] = r }
-    workshop_sessions = {}; WorkshopSession.all.each { |r| workshop_sessions[r.id] = r }
-    workshops = {}; Workshop.all.each { |r| workshops[r.id] = r }
+    workshop_sessions = {}; WorkshopSession.all(:conditions => {:starts_at => (start_day..end_day)}).each { |r| workshop_sessions[r.id] = r }
+    workshops = {}; Workshop.all(:conditions => ["first_day >= ? AND last_day <= ?", start_day, end_day]).each { |r| workshops[r.id] = r }
 
     people.each do |i, p|
       p["total_minutes"] = 0
@@ -91,15 +91,17 @@ class Person < ActiveRecord::Base
       workshop = workshops[appt.workshop_id]
       
       # Figure out the attendance time for each workshop: the earliest attendance
-      att_key = "w#{workshop.id}_attended"
-      if person[att_key].nil? or person[att_key] > workshop_session.starts_at
-        person[att_key] = workshop_session.starts_at
-      end
+      if workshop_session
+        att_key = "w#{workshop.id}_attended"
+        if person[att_key].nil? or person[att_key] > workshop_session.starts_at
+          person[att_key] = workshop_session.starts_at
+        end
 
-      # Add up minutes from this attended session to the appropriate fields
-      person["total_minutes"] += workshop_session.minutes
-      person["t#{workshop_session.training_subject_id}_minutes"] += workshop_session.minutes
-      person["w#{workshop.id}t#{workshop_session.training_subject_id}_minutes"] += workshop_session.minutes
+        # Add up minutes from this attended session to the appropriate fields
+        person["total_minutes"] += workshop_session.minutes
+        person["t#{workshop_session.training_subject_id}_minutes"] += workshop_session.minutes
+        person["w#{workshop.id}t#{workshop_session.training_subject_id}_minutes"] += workshop_session.minutes
+      end
     end
 
     # Don't bother reporting people who have no attendance information
