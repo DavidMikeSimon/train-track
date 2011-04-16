@@ -63,6 +63,7 @@ class WorkshopsController < ApplicationController
       ["Institution", lambda {|a| a.person.institution.try.name.to_s }],
       ["BEP School", lambda {|a| a.person.institution.try.bep ? "true" : "false"}],
       ["School Code", lambda {|a| a.person.institution.try.school_code.to_s }],
+      ["QEC", lambda {|a| a.person.institution.try.qec.to_s }],
       ["Role", lambda {|a| a.role }],
       ["Last Name", lambda {|a| a.person.last_name }],
       ["First Name", lambda {|a| a.person.first_name }],
@@ -86,7 +87,8 @@ class WorkshopsController < ApplicationController
       :include => [{:person => [:institution]}, :random_identifier, :attendances],
       :order => "institutions.region, institutions.name, people.last_name, people.first_name"
     )
-    render_csv ("attendees-of-#{workshop.title.downcase.gsub(" ", "-")}.csv"), csv_fields, source
+    filename = "attendees-of-#{workshop.first_day.to_s}-#{workshop.title.parameterize}.csv"
+    render_csv filename, csv_fields, source
   end
 
   show_action :attendee_labels do

@@ -1,4 +1,8 @@
 <index-page for="Institution">
+  <after-heading:>
+    <a class="btn-link" href="/institutions/csv">Generate CSV Report</a>
+  </after-heading:>
+
   <table-plus: fields="this, organization_type, region, parish">
     <organization-type-view:><view with="&this.titleize" /></organization-type-view:>
     <region-view:><if><view/></if></region-view:>

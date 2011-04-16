@@ -1,6 +1,11 @@
 <index-page for="People">
   <after-heading:>
-    <a class="btn-link" href="/people/csv">Generate CSV Report</a>
+    <form action="/people/csv" method="get">
+      <submit label="Generate CSV Report"/><br/>
+      On sessions that took place between:<br/>
+      <%= select_date Workshop.first(:order => "first_day").first_day, :prefix => :start_day %> and <%= select_date Workshop.first(:order => "last_day DESC").last_day, :prefix => :end_day %>
+    </form>
+    <br/><br/><br/>
   </after-heading:>
   
   <table-plus: fields="this, job, institution">

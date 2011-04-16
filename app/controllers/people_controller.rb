@@ -19,7 +19,8 @@ class PeopleController < ApplicationController
       ["Institution", lambda { |p| p.institution.try.name.to_s }],
       ["Region", lambda { |p| p.institution.try.region.to_s }],
       ["BEP", lambda { |p| p.institution.try.bep || "false" }],
-      ["School Code", lambda { |p| p.institution.try.school_code }],
+      ["School Code", lambda { |p| p.institution.try.school_code.to_s }],
+      ["QEC", lambda { |p| p.institution.try.qec.to_s }],
       ["Last Name", lambda { |p| p.last_name }],
       ["First Name", lambda { |p| p.first_name }],
       ["Cell", lambda { |p| p.cell_number }],
@@ -32,8 +33,10 @@ class PeopleController < ApplicationController
       ["Admin", lambda { |p| p.job.try.admin || "false" }],
       ["Job Details", lambda {|p| p.job_details }]
     ]
+    start_day = Date.civil(params[:start_day][:year].to_i, params[:start_day][:month].to_i, params[:start_day][:day].to_i)
+    end_day = Date.civil(params[:end_day][:year].to_i, params[:end_day][:month].to_i, params[:end_day][:day].to_i)
     TrainingSubject.all.each do |ts|
-      Workshop.all(:include => :workshop_sessions).each do |w|
+      Workshop.all(:include => :workshop_sessions, :conditions => ["first_day >= ? AND last_day <= ?", start_day, end_day]).each do |w|
         if w.workshop_sessions.all(:include => :training_subject).any?{|s| s.training_subject == ts}
           csv_fields << ["%s Attended" % w.title, lambda { |p| p["w#{w.id}_attended"].try.strftime('%Y-%m-%d') }]
           csv_fields << ["%s %s Hours" % [w.title, ts.name.upcase], lambda { |p| p["w#{w.id}t#{ts.id}_minutes"]/60.0 }] 
@@ -43,7 +46,7 @@ class PeopleController < ApplicationController
     end
     csv_fields << ["Grand Total Hours", lambda { |p| p["total_minutes"]/60.0 }]
     
-    render_csv "people.csv", csv_fields, Person.attendees_with_report_fields
+    render_csv "people.csv", csv_fields, Person.attendees_with_report_fields(start_day, end_day)
   end
 
 end

@@ -35,6 +35,7 @@ class Institution < ActiveRecord::Base
   fields do
     name               :string, :required
     school_code        :string
+    qec                :string
     region             :integer
     address            :text
     parish             Institution::Parish
