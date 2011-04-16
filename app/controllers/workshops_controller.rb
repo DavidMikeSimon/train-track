@@ -87,7 +87,8 @@ class WorkshopsController < ApplicationController
       :include => [{:person => [:institution]}, :random_identifier, :attendances],
       :order => "institutions.region, institutions.name, people.last_name, people.first_name"
     )
-    render_csv ("attendees-of-#{workshop.title.downcase.gsub(" ", "-")}.csv"), csv_fields, source
+    filename = "attendees-of-#{workshop.first_day.to_s}-#{workshop.title.parameterize}.csv"
+    render_csv filename, csv_fields, source
   end
 
   show_action :attendee_labels do
