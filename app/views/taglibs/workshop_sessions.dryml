@@ -55,7 +55,7 @@
       :
       <%= select_tag "start_minute", options_for_select((0..59).to_a.select{|n| n % 5 == 0}.map{|n| "%02u" % n}) %>
       &nbsp;&nbsp;&nbsp;Length:
-      <%= select_tag "minutes", options_for_select((0..240).to_a.select{|n| n % 15 == 0}) %>
+      <%= select_tag "minutes", options_for_select((0..300).to_a.select{|n| n % 15 == 0}) %>
       minutes
       <%= submit_tag "Add Session", :class => "button submit-button"%>
     <% end -%>
