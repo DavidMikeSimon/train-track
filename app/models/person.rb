@@ -64,7 +64,7 @@ class Person < ActiveRecord::Base
     people = {}; Person.all(:include => [:institution, :job]).each { |r| people[r.id] = r }
     training_subjects = {}; TrainingSubject.all.each { |r| training_subjects[r.id] = r }
     workshop_sessions = {}; WorkshopSession.all(:conditions => {:starts_at => (start_day..end_day)}).each { |r| workshop_sessions[r.id] = r }
-    workshops = {}; Workshop.all(:conditions => ["first_day >= ? AND last_day <= ?", start_day, end_day]).each { |r| workshops[r.id] = r }
+    workshops = {}; Workshop.all(:conditions => {:id => workshop_sessions.map{:workshop_id}}).each { |r| workshops[r.id] = r }
 
     people.each do |i, p|
       p["total_minutes"] = 0
