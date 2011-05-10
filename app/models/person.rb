@@ -63,7 +63,7 @@ class Person < ActiveRecord::Base
     appointments = {}; Appointment.all.each { |r| appointments[r.id] = r }
     people = {}; Person.all(:include => [:institution, :job]).each { |r| people[r.id] = r }
     training_subjects = {}; TrainingSubject.all.each { |r| training_subjects[r.id] = r }
-    workshop_sessions = {}; WorkshopSession.all(:conditions => {:starts_at => (start_day..end_day)}).each { |r| workshop_sessions[r.id] = r }
+    workshop_sessions = {}; WorkshopSession.all(:conditions => {:starts_at => (start_day..(end_day+1))}).each { |r| workshop_sessions[r.id] = r }
     workshops = {}; Workshop.all(:conditions => {:id => workshop_sessions.values.map(&:workshop_id)}).each { |r| workshops[r.id] = r }
 
     people.each do |i, p|
