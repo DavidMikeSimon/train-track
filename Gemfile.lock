@@ -23,7 +23,7 @@ GEM
       hobosupport (= 1.0.3)
       rails (>= 2.2.2, < 3.0.0)
     hobosupport (1.0.3)
-    offroad (0.0.2)
+    offroad (0.0.3)
       ar-extensions (= 0.9.4)
     prawn (0.8.4)
       prawn-core (>= 0.8.4, < 0.9)
@@ -56,7 +56,7 @@ PLATFORMS
 DEPENDENCIES
   fastercsv (= 1.5.3)
   hobo (= 1.0.3)
-  offroad (= 0.0.2)
+  offroad (= 0.0.3)
   prawn (= 0.8.4)
   prawnto (= 0.0.3)
   rails (= 2.3.11)
